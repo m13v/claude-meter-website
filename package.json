@@ -9,9 +9,22 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@assistant-ui/react": "^0.12.25",
+    "@google/generative-ai": "^0.24.1",
+    "@m13v/seo-components": "^0.18.0",
+    "@neondatabase/serverless": "^1.1.0",
+    "@phosphor-icons/react": "^2.1.10",
+    "@remotion/player": "^4.0.450",
+    "@seo/components": "npm:@m13v/seo-components@^0.18.0",
+    "@supabase/supabase-js": "^2.104.0",
+    "framer-motion": "^12.38.0",
+    "lottie-react": "^2.4.1",
     "next": "16.2.4",
+    "posthog-js": "^1.369.3",
+    "posthog-node": "^5.21.2",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "remotion": "^4.0.450"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

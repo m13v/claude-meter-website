@@ -1,0 +1,11 @@
+.git
+.github
+.next
+node_modules
+Dockerfile
+README.md
+research/
+.env.local
+.env.development
+*.log
+.DS_Store
