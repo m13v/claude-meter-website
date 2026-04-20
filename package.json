@@ -11,11 +11,11 @@
   "dependencies": {
     "@assistant-ui/react": "^0.12.25",
     "@google/generative-ai": "^0.24.1",
-    "@m13v/seo-components": "^0.18.0",
+    "@m13v/seo-components": "^0.18.1",
     "@neondatabase/serverless": "^1.1.0",
     "@phosphor-icons/react": "^2.1.10",
     "@remotion/player": "^4.0.450",
-    "@seo/components": "npm:@m13v/seo-components@^0.18.0",
+    "@seo/components": "npm:@m13v/seo-components@^0.18.1",
     "@supabase/supabase-js": "^2.104.0",
     "framer-motion": "^12.38.0",
     "lottie-react": "^2.4.1",
