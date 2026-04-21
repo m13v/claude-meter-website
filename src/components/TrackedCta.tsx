@@ -8,6 +8,7 @@ interface TrackedCtaProps {
   location: string;
   label: string;
   external?: boolean;
+  download?: boolean;
   className?: string;
   children: ReactNode;
 }
@@ -30,6 +31,7 @@ export function TrackedCta({
   location,
   label,
   external,
+  download,
   className,
   children,
 }: TrackedCtaProps) {
@@ -39,6 +41,17 @@ export function TrackedCta({
         href={href}
         target="_blank"
         rel="noopener noreferrer"
+        className={className}
+        onClick={() => fire(location, label, href)}
+      >
+        {children}
+      </a>
+    );
+  }
+  if (download) {
+    return (
+      <a
+        href={href}
         className={className}
         onClick={() => fire(location, label, href)}
       >
