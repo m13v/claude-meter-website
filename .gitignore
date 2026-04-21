@@ -51,3 +51,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Claude agent runtime files
+.claude/
+.mcp.json
+
+# Playwright MCP cache
+.playwright-mcp/
+
+# Agent-generated browser snapshots
+*.yml
+!.github/workflows/*.yml
+
+# Root-level stray screenshots
+/*.png
+/*.jpeg
+/*.jpg
