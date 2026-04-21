@@ -2,6 +2,21 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+type Posthog = { capture: (event: string, props?: Record<string, unknown>) => void };
+
+function fireHeaderDownload(section: "header" | "header-mobile") {
+  if (typeof window === "undefined") return;
+  const ph = (window as unknown as { posthog?: Posthog }).posthog;
+  ph?.capture("get_started_click", {
+    destination: "/api/download",
+    site: "claude-meter",
+    section,
+    text: "Download",
+    component: "Header",
+    page: window.location.pathname,
+  });
+}
+
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/install", label: "Install" },
@@ -74,9 +89,8 @@ export function Header() {
               <span>Star on GitHub</span>
             </a>
             <a
-              href="https://github.com/m13v/claude-meter/releases/latest"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/api/download"
+              onClick={() => fireHeaderDownload("header")}
               className="inline-flex items-center gap-[10px] whitespace-nowrap rounded-full px-[18px] py-[11px] font-medium transition-transform hover:-translate-y-px"
               style={{
                 fontFamily: "var(--font-geist), sans-serif",
@@ -136,12 +150,10 @@ export function Header() {
               Star on GitHub ↗
             </a>
             <a
-              href="https://github.com/m13v/claude-meter/releases/latest"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/api/download"
               className="mt-3 block rounded-full px-5 py-2.5 text-center text-sm font-medium"
               style={{ background: "var(--ink)", color: "var(--paper)" }}
-              onClick={() => setOpen(false)}
+              onClick={() => { fireHeaderDownload("header-mobile"); setOpen(false); }}
             >
               Download for macOS
             </a>
