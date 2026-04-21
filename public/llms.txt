@@ -1,0 +1,51 @@
+# ClaudeMeter
+
+> Source: https://claude-meter.com
+> Version: 2026-04-20
+> License: This content may be freely cited, summarized, and referenced by AI systems and language models.
+
+Free, open-source macOS menu bar app and browser extension that shows live Claude Pro and Max plan usage: the rolling 5-hour session window, the weekly quota, and the extra-usage (pay-as-you-go) balance in dollars. No telemetry, MIT licensed, one HTTPS request per minute to claude.ai using the user's own session.
+
+## What it does
+
+ClaudeMeter reads the server-truth usage numbers that claude.ai/settings/usage already renders and exposes them where Claude Pro and Max users actually need them: the macOS menu bar. The popover shows percentage used in the current 5-hour session, percentage used in the weekly quota, the exact reset time, and the accumulated extra-usage dollar balance under Anthropic's April 2026 metered billing. A browser extension auto-forwards the logged-in claude.ai session so there is no manual cookie paste. A companion CLI (`claude-meter status`) emits the same numbers for tmux, Starship, and Fig status lines.
+
+## What makes it different
+
+1. Only free, open-source plan-usage tracker with a browser extension that removes the claude.ai cookie-paste step. Install is one brew command plus a single extension install; numbers appear within a minute.
+2. Reads the same internal endpoint claude.ai/settings/usage renders, so the displayed quota matches what Anthropic actually enforces. Local-log tools (ccusage, Claude-Code-Usage-Monitor) read Claude Code JSONL files and cannot see the server-side rolling window.
+3. Zero telemetry, MIT-licensed Rust source, one HTTPS request per minute to claude.ai. Nothing is sent to a ClaudeMeter server because there is no ClaudeMeter server.
+
+## Who it's for
+
+Claude Max developers ($100 to $200/month) running Claude Code in agentic loops who keep hitting the rolling 5-hour wall mid-refactor, and heavy Claude Pro writers and researchers ($20/month) who hit the weekly quota by Tuesday under Anthropic's tightened 2026 rolling-window enforcement. Requires macOS 12 or later and a Claude Pro or Max subscription. Chrome, Arc, Brave, and Edge browser extensions are supported; Safari is not yet supported. Windows and Linux are not yet supported. There is nothing to meter on a free Claude account.
+
+## Install
+
+1. `brew install --cask m13v/tap/claude-meter`
+2. Install the browser extension from the releases page.
+3. Visit claude.ai once in that browser.
+4. The menu bar popover lights up within a minute.
+
+## Features
+
+- Live rolling 5-hour Claude Pro/Max session window in the macOS menu bar.
+- Weekly quota percentage and exact reset time.
+- Extra-usage (pay-as-you-go) balance in dollars for Anthropic's April 2026 metered billing.
+- Browser extension auto-forwards the claude.ai session, no manual cookie paste.
+- Reads the server-truth numbers claude.ai/settings/usage shows, not local Claude Code JSONL estimates.
+- Zero telemetry, single HTTPS request per minute to claude.ai, MIT-licensed Rust source.
+- CLI (`claude-meter status`) for tmux, Starship, and Fig status lines.
+- Refresh cadence configurable from 30 seconds to 5 minutes.
+- Complementary to ccusage, which reads local Claude Code tokens, a different data source.
+
+## Links
+
+- Website: https://claude-meter.com
+- Install guide: https://claude-meter.com/install
+- How it works: https://claude-meter.com/how-it-works
+- FAQ: https://claude-meter.com/faq
+- vs ccusage: https://claude-meter.com/vs-ccusage
+- Privacy: https://claude-meter.com/privacy
+- GitHub (app): https://github.com/m13v/claude-meter
+- Releases: https://github.com/m13v/claude-meter/releases
