@@ -113,10 +113,10 @@ export default function InstallPage() {
 
           <div className="flex flex-wrap gap-4 pt-4">
             <TrackedCta
-              href="https://github.com/m13v/claude-meter/releases"
+              href="/api/download"
               location="install_page"
-              label="releases"
-              external
+              label="download_latest_dmg"
+              download
               className="inline-flex items-center rounded-md bg-cta px-6 py-3 font-heading text-sm font-semibold uppercase tracking-wider text-white hover:bg-cta-dark transition-colors"
             >
               Download latest release
