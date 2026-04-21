@@ -1,12 +1,26 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
-import { FullSiteAnalytics, HeadingAnchors } from "@m13v/seo-components";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { HeadingAnchors } from "@m13v/seo-components";
 import { SeoComponentsStyles } from "@m13v/seo-components/server";
+import { PostHogProvider } from "@/components/posthog-provider";
 import "./globals.css";
 
-const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
-const spaceGrotesk = Space_Grotesk({ variable: "--font-space-grotesk", subsets: ["latin"] });
-const jetbrainsMono = JetBrains_Mono({ variable: "--font-jetbrains-mono", subsets: ["latin"] });
+const geist = Geist({
+  variable: "--font-geist",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+});
 
 const SITE_URL = "https://claude-meter.com";
 const SITE_NAME = "ClaudeMeter";
@@ -61,7 +75,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${geist.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased`}
     >
       <head>
         <SeoComponentsStyles />
@@ -75,13 +89,10 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col font-sans">
-        <FullSiteAnalytics
-          posthogKey={process.env.NEXT_PUBLIC_POSTHOG_KEY}
-          posthogHost={process.env.NEXT_PUBLIC_POSTHOG_HOST}
-        >
+        <PostHogProvider>
           <HeadingAnchors />
           {children}
-        </FullSiteAnalytics>
+        </PostHogProvider>
       </body>
     </html>
   );

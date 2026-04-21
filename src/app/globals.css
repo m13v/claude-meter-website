@@ -2,15 +2,29 @@
 
 @import "tailwindcss";
 
+@source "../../node_modules/@m13v/seo-components/src";
+
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
-  --primary: #0f172a;
-  --primary-dark: #020617;
-  --cta: #16a34a;
-  --cta-dark: #15803d;
-  --accent: #f59e0b;
-  --accent-light: #fde68a;
+  /* editorial palette */
+  --paper: #F4EEE4;
+  --paper-2: #EFE7D9;
+  --ink: #121110;
+  --ink-2: #2A2824;
+  --muted: #6B655C;
+  --rule: #D9D1C1;
+  --signal: #E8471C;
+  --signal-2: #B2370F;
+  --green: #3F6B3A;
+
+  /* legacy tokens, mapped onto the editorial palette so the other pages stay readable */
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-dark: #000000;
+  --cta: var(--signal);
+  --cta-dark: var(--signal-2);
+  --accent: var(--signal);
+  --accent-light: var(--paper-2);
 }
 
 @theme inline {
@@ -22,17 +36,36 @@
   --color-cta-dark: var(--cta-dark);
   --color-accent: var(--accent);
   --color-accent-light: var(--accent-light);
-  --font-sans: var(--font-inter);
-  --font-heading: var(--font-space-grotesk);
-  --font-mono: var(--font-jetbrains-mono);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-signal: var(--signal);
+  --font-sans: var(--font-geist);
+  --font-heading: var(--font-instrument-serif);
+  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-instrument-serif);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-geist), system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+::selection {
+  background: var(--signal);
+  color: var(--paper);
+}
+
+/* NewsletterSignup bar override to match editorial palette */
+[class*="fixed"][class*="bottom-0"][class*="backdrop-blur-xl"] {
+  background-color: color-mix(in srgb, var(--paper) 92%, transparent) !important;
+  border-top-color: var(--rule) !important;
 }

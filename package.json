@@ -26,6 +26,11 @@
     "react-dom": "19.2.4",
     "remotion": "^4.0.450"
   },
+  "overrides": {
+    "@remotion/player": {
+      "remotion": "4.0.450"
+    }
+  },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",

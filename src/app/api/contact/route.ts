@@ -24,16 +24,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "empty_message" }, { status: 400 });
   }
 
-  try {
-    const sql = getSql();
-    await sql`
-      INSERT INTO contact_submissions (email, name, message, source)
-      VALUES (${email}, ${name}, ${message}, 'claude-meter')
-    `;
-  } catch (err) {
-    console.error("contact db insert failed", err);
-  }
-
+  let resendOk = false;
   try {
     await sendEmail({
       from: FROM,
@@ -45,10 +36,23 @@ export async function POST(req: Request) {
         <pre style="white-space: pre-wrap; font-family: inherit">${message.replace(/[<>&]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[c] || c))}</pre>
       `,
     });
+    resendOk = true;
   } catch (err) {
     console.error("contact forward email failed", err);
-    return NextResponse.json({ error: "send_failed" }, { status: 500 });
   }
 
+  try {
+    const sql = getSql();
+    await sql`
+      INSERT INTO claude_meter_contacts (email, name, message, resend_ok)
+      VALUES (${email}, ${name}, ${message}, ${resendOk})
+    `;
+  } catch (err) {
+    console.error("contact db insert failed", err);
+  }
+
+  if (!resendOk) {
+    return NextResponse.json({ error: "send_failed" }, { status: 500 });
+  }
   return NextResponse.json({ ok: true });
 }
