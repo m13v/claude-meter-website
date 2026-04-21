@@ -4,8 +4,25 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import "./home.css";
 
+// Fires canonical `get_started_click` for the dashboard funnel. When this
+// site bumps to @m13v/seo-components >= 0.19.0, swap the raw
+// posthog.capture below for `trackGetStartedClick` from @seo/components.
+function fireGetStarted(section: string) {
+  if (typeof window === "undefined") return;
+  const w = window as unknown as {
+    posthog?: { capture: (e: string, p?: Record<string, unknown>) => void };
+  };
+  w.posthog?.capture("get_started_click", {
+    destination: "https://claude-meter.com/install",
+    site: "claude-meter",
+    section,
+    text: "Download",
+    component: "HomeClient",
+    page: window.location.pathname,
+  });
+}
+
 const BREW_CMD = "brew install --cask m13v/tap/claude-meter";
-const DOWNLOAD_URL = "https://github.com/m13v/claude-meter/releases/latest";
 
 type TabId = "all" | "quota" | "surface";
 
@@ -93,6 +110,7 @@ export function HomeClient() {
   const [tab, setTab] = useState<TabId>("all");
   const [mbVisible, setMbVisible] = useState(false);
   const [stopIdx, setStopIdx] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const desktopRef = useRef<HTMLDivElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
@@ -222,10 +240,9 @@ export function HomeClient() {
               </p>
 
               <div className="hero-cta reveal-up in d3">
-                <a
-                  href={DOWNLOAD_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  type="button"
+                  onClick={() => { fireGetStarted("hero"); setModalOpen(true); }}
                   className="btn signal big"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -234,7 +251,7 @@ export function HomeClient() {
                     <line x1="12" y1="15" x2="12" y2="3" />
                   </svg>
                   Download
-                </a>
+                </button>
                 <button
                   type="button"
                   className={`install-chip big${copied ? " copied" : ""}`}
@@ -636,15 +653,18 @@ export function HomeClient() {
             ClaudeMeter reads the server-truth numbers Anthropic enforces for Pro and Max: the rolling 5-hour window, the weekly quota, and the extra-usage balance. No cookie pastes. No token guesswork.
           </p>
           <div className="cta-buttons reveal-up d3">
-            <a
-              href={DOWNLOAD_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() => { fireGetStarted("footer-cta"); setModalOpen(true); }}
               className="btn signal"
             >
               Download for macOS
-            </a>
-            <Link href="/install" className="btn ghost">
+            </button>
+            <Link
+              href="/install"
+              className="btn ghost"
+              onClick={() => fireGetStarted("footer-install-guide")}
+            >
               Install guide
             </Link>
           </div>
@@ -663,6 +683,204 @@ export function HomeClient() {
         <span className="val" style={{ color: "var(--signal)" }}>
           {extraFmt}
         </span>
+      </div>
+
+      <DownloadModal open={modalOpen} onClose={() => setModalOpen(false)} />
+    </div>
+  );
+}
+
+function DownloadModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const [email, setEmail] = useState("");
+  const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (state === "sending") return;
+    const trimmed = email.trim();
+    if (!trimmed || !trimmed.includes("@")) {
+      setError("Please enter a valid email");
+      return;
+    }
+    setError(null);
+    setState("sending");
+    try {
+      const res = await fetch("/api/download-link", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: trimmed }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.success) {
+        setError(data.error || "Something went wrong. Please try again.");
+        setState("error");
+        return;
+      }
+      setState("sent");
+      if (typeof window !== "undefined" && (window as unknown as { posthog?: { capture: (n: string, p?: Record<string, unknown>) => void } }).posthog) {
+        const ph = (window as unknown as { posthog: { capture: (n: string, p?: Record<string, unknown>) => void } }).posthog;
+        ph.capture("newsletter_subscribed", {
+          site: "claude-meter",
+          email: trimmed,
+          source: "download_modal",
+        });
+      }
+    } catch {
+      setError("Network error. Please try again.");
+      setState("error");
+    }
+  };
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="download-modal-title"
+      onClick={onClose}
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 100,
+        background: "color-mix(in oklab, #000 62%, transparent)",
+        backdropFilter: "blur(6px)",
+        display: "grid",
+        placeItems: "center",
+        padding: 20,
+      }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          position: "relative",
+          width: "100%",
+          maxWidth: 460,
+          background: "var(--paper)",
+          border: "1px solid var(--rule)",
+          borderRadius: 18,
+          padding: 32,
+          color: "var(--ink)",
+          fontFamily: "var(--font-geist), sans-serif",
+          boxShadow: "0 24px 80px rgba(0,0,0,.35)",
+        }}
+      >
+        <button
+          type="button"
+          aria-label="Close"
+          onClick={onClose}
+          style={{
+            position: "absolute",
+            top: 14,
+            right: 14,
+            width: 32,
+            height: 32,
+            borderRadius: 999,
+            border: "1px solid var(--rule)",
+            background: "var(--paper)",
+            color: "var(--ink-2)",
+            cursor: "pointer",
+            display: "grid",
+            placeItems: "center",
+            fontSize: 18,
+            lineHeight: 1,
+          }}
+        >
+          ×
+        </button>
+
+        {state === "sent" ? (
+          <>
+            <h2
+              id="download-modal-title"
+              style={{
+                fontFamily: "var(--font-instrument-serif), serif",
+                fontSize: 28,
+                letterSpacing: "-0.01em",
+                margin: "0 0 10px",
+              }}
+            >
+              Check your inbox
+            </h2>
+            <p style={{ color: "var(--ink-2)", margin: "0 0 20px", lineHeight: 1.55 }}>
+              We sent the download link to <strong style={{ color: "var(--ink)" }}>{email}</strong>. Click the button in the email to grab the latest ClaudeMeter build.
+            </p>
+            <button
+              type="button"
+              onClick={onClose}
+              className="btn signal"
+              style={{ width: "100%", justifyContent: "center" }}
+            >
+              Got it
+            </button>
+          </>
+        ) : (
+          <>
+            <h2
+              id="download-modal-title"
+              style={{
+                fontFamily: "var(--font-instrument-serif), serif",
+                fontSize: 28,
+                letterSpacing: "-0.01em",
+                margin: "0 0 10px",
+              }}
+            >
+              Email me the download link
+            </h2>
+            <p style={{ color: "var(--ink-2)", margin: "0 0 22px", lineHeight: 1.55, fontSize: 15 }}>
+              Enter your email and we&apos;ll send the latest ClaudeMeter build for macOS straight to your inbox.
+            </p>
+            <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <input
+                type="email"
+                required
+                autoFocus
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={state === "sending"}
+                style={{
+                  width: "100%",
+                  padding: "12px 14px",
+                  borderRadius: 10,
+                  border: "1px solid var(--rule)",
+                  background: "var(--paper)",
+                  color: "var(--ink)",
+                  fontSize: 15,
+                  outline: "none",
+                }}
+              />
+              {error && (
+                <div style={{ color: "#c0392b", fontSize: 13.5 }}>{error}</div>
+              )}
+              <button
+                type="submit"
+                disabled={state === "sending"}
+                className="btn signal"
+                style={{ width: "100%", justifyContent: "center", opacity: state === "sending" ? 0.7 : 1 }}
+              >
+                {state === "sending" ? "Sending…" : "Send download link"}
+              </button>
+            </form>
+            <p style={{ color: "var(--muted)", fontSize: 12.5, margin: "14px 0 0", lineHeight: 1.5 }}>
+              Prefer Homebrew? Run <code style={{ background: "color-mix(in oklab, var(--ink) 8%, transparent)", padding: "2px 6px", borderRadius: 4 }}>{BREW_CMD}</code>
+            </p>
+          </>
+        )}
       </div>
     </div>
   );
