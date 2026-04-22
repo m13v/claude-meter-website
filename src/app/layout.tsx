@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { HeadingAnchors } from "@m13v/seo-components";
-import { SeoComponentsStyles } from "@m13v/seo-components/server";
 import { PostHogProvider } from "@/components/posthog-provider";
 import "./globals.css";
 
@@ -78,7 +77,6 @@ export default function RootLayout({
       className={`${geist.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased`}
     >
       <head>
-        <SeoComponentsStyles />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
