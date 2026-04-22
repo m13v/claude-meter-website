@@ -341,7 +341,7 @@ export default function ClaudeRollingWindowCapPage() {
       />
 
       <div className="py-10">
-        <Breadcrumbs items={breadcrumbs.map((b) => ({ label: b.name, href: b.href ?? b.url }))} />
+        <Breadcrumbs items={breadcrumbs.map((b) => ({ label: b.name, href: b.url }))} />
       </div>
 
       <header className="max-w-4xl mx-auto px-6 pb-6">
