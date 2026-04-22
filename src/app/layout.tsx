@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { HeadingAnchors } from "@m13v/seo-components";
 import { GuideChat } from "@/components/guide-chat";
+import { SiteSidebar } from "@/components/site-sidebar";
 import { PostHogProvider } from "@/components/posthog-provider";
 import "./globals.css";
 
@@ -90,6 +91,7 @@ export default function RootLayout({
       <body className="min-h-full font-sans">
         <PostHogProvider>
           <div className="flex min-h-screen">
+            <SiteSidebar />
             <main className="flex-1 min-w-0 flex flex-col">
               <HeadingAnchors />
               {children}
