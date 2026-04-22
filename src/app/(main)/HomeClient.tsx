@@ -4,19 +4,21 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import "./home.css";
 
+const GITHUB_URL = "https://github.com/m13v/claude-meter";
+
 // Fires canonical `get_started_click` for the dashboard funnel. When this
 // site bumps to @m13v/seo-components >= 0.19.0, swap the raw
 // posthog.capture below for `trackGetStartedClick` from @seo/components.
-function fireGetStarted(section: string) {
+function fireGetStarted(section: string, destination = "https://claude-meter.com/install", text = "Install") {
   if (typeof window === "undefined") return;
   const w = window as unknown as {
     posthog?: { capture: (e: string, p?: Record<string, unknown>) => void };
   };
   w.posthog?.capture("get_started_click", {
-    destination: "https://claude-meter.com/install",
+    destination,
     site: "claude-meter",
     section,
-    text: "Download",
+    text,
     component: "HomeClient",
     page: window.location.pathname,
   });
@@ -110,7 +112,6 @@ export function HomeClient() {
   const [tab, setTab] = useState<TabId>("all");
   const [mbVisible, setMbVisible] = useState(false);
   const [stopIdx, setStopIdx] = useState(0);
-  const [modalOpen, setModalOpen] = useState(false);
 
   const desktopRef = useRef<HTMLDivElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
