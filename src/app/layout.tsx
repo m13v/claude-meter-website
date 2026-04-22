@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { HeadingAnchors } from "@m13v/seo-components";
+import { GuideChat } from "@/components/guide-chat";
 import { PostHogProvider } from "@/components/posthog-provider";
 import "./globals.css";
 
@@ -86,10 +87,15 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col font-sans">
+      <body className="min-h-full font-sans">
         <PostHogProvider>
-          <HeadingAnchors />
-          {children}
+          <div className="flex min-h-screen">
+            <main className="flex-1 min-w-0 flex flex-col">
+              <HeadingAnchors />
+              {children}
+            </main>
+            <GuideChat />
+          </div>
         </PostHogProvider>
       </body>
     </html>
