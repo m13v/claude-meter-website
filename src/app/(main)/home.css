@@ -219,6 +219,39 @@
   .home-root .hero-cta .install-chip.big { flex: 0 1 auto; }
 }
 
+.home-root .hero-trust {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+.home-root .hero-trust .trust-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--ink);
+  border-bottom: 1px solid color-mix(in oklab, var(--ink) 28%, transparent);
+  padding-bottom: 1px;
+  transition: color .18s ease, border-color .18s ease;
+}
+.home-root .hero-trust .trust-link:hover {
+  color: var(--signal);
+  border-bottom-color: var(--signal);
+}
+.home-root .hero-trust .trust-link.muted {
+  color: var(--ink-2);
+  border-bottom-color: color-mix(in oklab, var(--ink) 18%, transparent);
+}
+.home-root .hero-trust .trust-sep { color: var(--muted); opacity: .7; }
+@media (max-width: 520px) {
+  .home-root .hero-trust { gap: 10px; font-size: 13.5px; }
+  .home-root .hero-trust .trust-sep { display: none; }
+}
+
 .home-root .meta-row {
   display: flex;
   gap: 26px;
