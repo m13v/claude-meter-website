@@ -205,72 +205,72 @@ const two47Changes = [
 
 const flowSteps = [
   {
-    title: "1. Claude Code sends an Opus 4.7 request",
-    description:
-      "Through your OAuth-authed session on claude.ai. Request carries your org_uuid so the server knows which bucket set to update.",
+    label: "1. Claude Code sends Opus 4.7 request",
+    detail:
+      "Through your OAuth-authed claude.ai session. The request carries your org_uuid so the server knows which bucket set to update.",
   },
   {
-    title: "2. Tokenizer expands the prompt (1.0x to 1.35x)",
-    description:
+    label: "2. Tokenizer expands prompt 1.0x to 1.35x",
+    detail:
       "The 4.7 tokenizer runs server-side. The same characters produce more tokens than they did on 4.6. That count is what lands in accounting.",
   },
   {
-    title: "3. Adaptive thinking generates thinking tokens",
-    description:
+    label: "3. Adaptive thinking generates thinking tokens",
+    detail:
       "The model chooses its own reasoning depth. Thinking tokens count as output. If you requested summarized display, you see a summary; the full thinking is still billed.",
   },
   {
-    title: "4. Server increments seven_day_opus + five_hour",
-    description:
-      "Both floats move. seven_day_opus is Opus-only (Sonnet traffic does not touch it). five_hour is shared. The weights include peak-hour, attachment cost, tool calls.",
+    label: "4. Server increments seven_day_opus + five_hour",
+    detail:
+      "Both floats move. seven_day_opus is Opus-only (Sonnet traffic does not touch it). five_hour is shared. Weights include peak-hour, attachment cost, tool calls.",
   },
   {
-    title: "5. Rate limiter checks utilization >= 1.0",
-    description:
-      "Trip on EITHER float and the next Claude Code request returns 429. The error does not name the bucket that tripped, so you have to watch both to know which one to worry about.",
+    label: "5. Rate limiter checks utilization >= 1.0",
+    detail:
+      "Trip on EITHER float and the next Claude Code request returns 429. The error does not name the bucket that tripped, so you have to watch both.",
   },
 ];
 
 const comparisonRows = [
   {
-    label: "Reads the server-enforced Opus quota",
-    theirs: false as const,
-    ours: true as const,
+    feature: "Reads the server-enforced Opus quota",
+    competitor: "No, reads local JSONL",
+    ours: "Yes, reads /api/organizations/{org_uuid}/usage",
   },
   {
-    label: "Sees seven_day_opus.utilization",
-    theirs: false as const,
-    ours: true as const,
+    feature: "Sees seven_day_opus.utilization",
+    competitor: "Not available locally",
+    ours: "Yes, surfaced verbatim",
   },
   {
-    label: "Accounts for Opus 4.7's 1.0x-1.35x tokenizer",
-    theirs: false as const,
-    ours: true as const,
+    feature: "Accounts for Opus 4.7's 1.0x to 1.35x tokenizer",
+    competitor: "No, pre-tokenizer counts only",
+    ours: "Yes, the server applies it before counting",
   },
   {
-    label: "Counts adaptive-thinking tokens you cannot see",
-    theirs: false as const,
-    ours: true as const,
+    feature: "Counts adaptive-thinking tokens you cannot see",
+    competitor: "No, omitted thinking is not in your JSONL",
+    ours: "Yes, already baked into utilization",
   },
   {
-    label: "Counts peak-hour weighting",
-    theirs: false as const,
-    ours: true as const,
+    feature: "Counts peak-hour weighting",
+    competitor: "No, multiplier is server-private",
+    ours: "Yes, already baked into utilization",
   },
   {
-    label: "Reads your local ~/.claude/projects JSONL",
-    theirs: true as const,
-    ours: false as const,
+    feature: "Reads your local ~/.claude/projects JSONL",
+    competitor: "Yes, this is its primary source",
+    ours: "No, not the source of truth for quota",
   },
   {
-    label: "Works offline",
-    theirs: true as const,
-    ours: false as const,
+    feature: "Works offline",
+    competitor: "Yes",
+    ours: "No, polls claude.ai",
   },
   {
-    label: "Requires a claude.ai session",
-    theirs: false as const,
-    ours: true as const,
+    feature: "Requires a claude.ai session",
+    competitor: "No",
+    ours: "Yes",
   },
 ];
 
