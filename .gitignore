@@ -67,3 +67,6 @@ next-env.d.ts
 /*.png
 /*.jpeg
 /*.jpg
+
+# Playwright test recordings
+video-*.webm
