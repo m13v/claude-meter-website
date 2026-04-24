@@ -319,7 +319,7 @@ const bento = [
     description:
       "Opus-only weekly float. Opus 4.7 Claude Code sessions land here. Usually the scarcest bucket for heavy coding weeks.",
     size: "1x1" as const,
-    accent: "teal" as const,
+    accent: true,
   },
   {
     title: "seven_day_sonnet",
@@ -338,7 +338,7 @@ const bento = [
     description:
       "Overage dollars burned once the subscription floats hit 1.0. The only field that is genuinely denominated in dollars.",
     size: "1x1" as const,
-    accent: "teal" as const,
+    accent: true,
   },
 ];
 
