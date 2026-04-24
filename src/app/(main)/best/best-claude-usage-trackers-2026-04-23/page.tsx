@@ -1,5 +1,4 @@
-"use client";
-
+import type { Metadata } from "next";
 import {
   Breadcrumbs,
   ArticleMeta,
@@ -17,15 +16,29 @@ import {
   StepTimeline,
   BookCallCTA,
   GetStartedCTA,
-  trackCrossProductClick,
   articleSchema,
   breadcrumbListSchema,
   faqPageSchema,
 } from "@m13v/seo-components";
+import { SiblingCtaLink } from "./SiblingCtaLink";
 
 const PAGE_URL = "https://claude-meter.com/best/best-claude-usage-trackers-2026-04-23";
 const PUBLISHED = "2026-04-23";
 const DATE_LABEL = "April 23, 2026";
+
+export const metadata: Metadata = {
+  title: `Best Claude usage trackers for ${DATE_LABEL}`,
+  description:
+    "Dated roundup, April 23, 2026. Eight tools for the week you are watching your Claude Pro or Max quota. Ranked by whether they read Anthropic's server-enforced utilization floats (one does) or estimate from local logs.",
+  alternates: { canonical: PAGE_URL },
+  openGraph: {
+    title: `Best Claude usage trackers for ${DATE_LABEL}`,
+    description:
+      "Only one tracker on this list reads the server-enforced utilization floats claude.ai/settings/usage renders. Here is the ranking, plus the adjacent tools worth your cap this week.",
+    url: PAGE_URL,
+    type: "article",
+  },
+};
 
 const breadcrumbs = [
   { name: "Home", url: "https://claude-meter.com" },
@@ -384,7 +397,7 @@ export default function BestClaudeUsageTrackers2026Page() {
           {/* Host entry #1 */}
           <GlowCard>
             <div className="p-2">
-              <div className="flex items-center gap-3 mb-3">
+              <div className="flex items-center gap-3 mb-3 flex-wrap">
                 <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-teal-500 text-white text-base font-bold">
                   <NumberTicker value={1} />
                 </span>
@@ -437,7 +450,7 @@ export default function BestClaudeUsageTrackers2026Page() {
           {siblings.map((s, idx) => (
             <GlowCard key={s.slug}>
               <div className="p-2">
-                <div className="flex items-center gap-3 mb-3">
+                <div className="flex items-center gap-3 mb-3 flex-wrap">
                   <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-zinc-900 text-white text-base font-bold">
                     <NumberTicker value={idx + 2} />
                   </span>
@@ -454,25 +467,12 @@ export default function BestClaudeUsageTrackers2026Page() {
                 <p className="text-zinc-700 leading-relaxed text-base mb-4">
                   {s.whyItFits}
                 </p>
-                <a
-                  href={s.destination}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() =>
-                    trackCrossProductClick({
-                      site: "claude-meter",
-                      targetProduct: s.slug,
-                      destination: s.destination,
-                      text: s.ctaText,
-                      component: "CrossRoundupEntry",
-                      section: s.section,
-                    })
-                  }
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-cyan-500 to-teal-500 text-white text-sm font-semibold shadow-md shadow-teal-500/20 hover:shadow-lg hover:shadow-teal-500/30 transition-shadow"
-                >
-                  {s.ctaText}
-                  <span aria-hidden>&rarr;</span>
-                </a>
+                <SiblingCtaLink
+                  slug={s.slug}
+                  destination={s.destination}
+                  text={s.ctaText}
+                  section={s.section}
+                />
               </div>
             </GlowCard>
           ))}
@@ -520,7 +520,7 @@ export default function BestClaudeUsageTrackers2026Page() {
       </section>
 
       <section className="max-w-4xl mx-auto px-6 mt-20">
-        <FaqSection faqs={faqs} />
+        <FaqSection items={faqs} />
       </section>
 
       <section className="max-w-4xl mx-auto px-6 mt-16 mb-24">
