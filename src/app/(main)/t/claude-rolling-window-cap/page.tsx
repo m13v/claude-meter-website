@@ -657,7 +657,7 @@ export default function ClaudeRollingWindowCapPage() {
 
       <div className="max-w-4xl mx-auto px-6 mb-16">
         <BookCallCTA
-          destination="https://cal.com/m13v/claude-meter"
+          destination="https://cal.com/team/mediar/claude-meter"
           appearance="footer"
           heading="Got a weirder bucket name than these seven?"
           description="Send the payload. If your endpoint is returning something we have not seen, we want to map it."
@@ -668,7 +668,7 @@ export default function ClaudeRollingWindowCapPage() {
       </div>
 
       <BookCallCTA
-        destination="https://cal.com/m13v/claude-meter"
+        destination="https://cal.com/team/mediar/claude-meter"
         appearance="sticky"
         text="Book a call"
         description="Questions about the endpoint? 15 min."

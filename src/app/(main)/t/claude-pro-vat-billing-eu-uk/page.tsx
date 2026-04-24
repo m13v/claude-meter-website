@@ -667,7 +667,7 @@ export default function ClaudeProVatBillingEuUkPage() {
 
       <div className="max-w-4xl mx-auto px-6 mb-16">
         <BookCallCTA
-          destination="https://cal.com/m13v/claude-meter"
+          destination="https://cal.com/team/mediar/claude-meter"
           appearance="footer"
           heading="Seeing a country code that does not match your location?"
           description="If subscription_details returns a code that makes Anthropic charge you the wrong VAT, send the sample response (redact the UUID). We are mapping the edge cases that confuse the Stripe Tax lookup."
@@ -678,7 +678,7 @@ export default function ClaudeProVatBillingEuUkPage() {
       </div>
 
       <BookCallCTA
-        destination="https://cal.com/m13v/claude-meter"
+        destination="https://cal.com/team/mediar/claude-meter"
         appearance="sticky"
         text="Book a call about your Claude billing"
         section="vat-billing-sticky"

@@ -745,7 +745,7 @@ export default function ClaudeOpus47RateLimitPage() {
 
       <div className="max-w-4xl mx-auto px-6 mb-16">
         <BookCallCTA
-          destination="https://cal.com/m13v/claude-meter"
+          destination="https://cal.com/team/mediar/claude-meter"
           appearance="footer"
           heading="Got a payload that breaks the three-endpoint model?"
           description="If your account returns an extra Opus-specific field, a different overage shape, or a subscription state the decision tree does not cover, send it over. We patch the struct same day."
@@ -756,7 +756,7 @@ export default function ClaudeOpus47RateLimitPage() {
       </div>
 
       <BookCallCTA
-        destination="https://cal.com/m13v/claude-meter"
+        destination="https://cal.com/team/mediar/claude-meter"
         appearance="sticky"
         text="Book a call"
         description="Questions on the Opus 4.7 rate-limit endpoints? 15 min."

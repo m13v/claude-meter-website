@@ -731,7 +731,7 @@ export default function ClaudeMaxWeeklyQuotaTighteningPage() {
 
       <div className="max-w-4xl mx-auto px-6 mb-16">
         <BookCallCTA
-          destination="https://cal.com/m13v/claude-meter"
+          destination="https://cal.com/team/mediar/claude-meter"
           appearance="footer"
           heading="Seeing a different slope in your own samples?"
           description="If your five_hour curve looks different from what we describe, send the payload. We map edge cases."
@@ -742,7 +742,7 @@ export default function ClaudeMaxWeeklyQuotaTighteningPage() {
       </div>
 
       <BookCallCTA
-        destination="https://cal.com/m13v/claude-meter"
+        destination="https://cal.com/team/mediar/claude-meter"
         appearance="sticky"
         text="Book a call"
         description="Questions about the endpoint? 15 min."

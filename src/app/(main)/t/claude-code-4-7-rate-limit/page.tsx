@@ -833,7 +833,7 @@ export default function ClaudeCode47RateLimitPage() {
 
       <div className="max-w-4xl mx-auto px-6 mb-16">
         <BookCallCTA
-          destination="https://cal.com/m13v/claude-meter"
+          destination="https://cal.com/team/mediar/claude-meter"
           appearance="footer"
           heading="Seeing a float in your payload that is not in the struct?"
           description="If your /usage response returns a weekly bucket we have not named here, or the extra_usage block changes shape on your plan, send the JSON over. We patch the struct same day."
@@ -844,7 +844,7 @@ export default function ClaudeCode47RateLimitPage() {
       </div>
 
       <BookCallCTA
-        destination="https://cal.com/m13v/claude-meter"
+        destination="https://cal.com/team/mediar/claude-meter"
         appearance="sticky"
         text="Book a call"
         description="Questions on the eight-float rate limit? 15 min."

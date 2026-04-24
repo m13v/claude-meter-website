@@ -770,7 +770,7 @@ export default function ClaudeCode47RegressionsPage() {
 
       <div className="max-w-4xl mx-auto px-6 mb-16">
         <BookCallCTA
-          destination="https://cal.com/m13v/claude-meter"
+          destination="https://cal.com/team/mediar/claude-meter"
           appearance="footer"
           heading="Got a 4.7 workload where the quota math doesn't line up?"
           description="If you see a seven_day_opus delta that doesn't match either the 4.6 baseline or the 4.7 tokenizer expansion, send a snapshot over. Easy to diagnose with one JSON."
@@ -781,7 +781,7 @@ export default function ClaudeCode47RegressionsPage() {
       </div>
 
       <BookCallCTA
-        destination="https://cal.com/m13v/claude-meter"
+        destination="https://cal.com/team/mediar/claude-meter"
         appearance="sticky"
         text="Book a call"
         description="Questions on a 4.7 quota regression? 15 min."

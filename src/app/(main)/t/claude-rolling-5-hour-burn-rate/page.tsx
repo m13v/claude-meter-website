@@ -910,7 +910,7 @@ export default function ClaudeRolling5HourBurnRatePage() {
 
       <div className="max-w-4xl mx-auto px-6 mb-16">
         <BookCallCTA
-          destination="https://cal.com/m13v/claude-meter"
+          destination="https://cal.com/team/mediar/claude-meter"
           appearance="footer"
           heading="Need burn rate on a different cadence?"
           description="If 60-second resolution is not enough or you want the computation in a different runtime, send the constraint. Happy to help wire it up."
@@ -921,7 +921,7 @@ export default function ClaudeRolling5HourBurnRatePage() {
       </div>
 
       <BookCallCTA
-        destination="https://cal.com/m13v/claude-meter"
+        destination="https://cal.com/team/mediar/claude-meter"
         appearance="sticky"
         text="Book a call"
         description="Questions on the burn-rate math? 15 min."

@@ -844,7 +844,7 @@ export default function ClaudeCodeSeniorReviewerWorkflowPage() {
 
       <div className="max-w-4xl mx-auto px-6 mb-16">
         <BookCallCTA
-          destination="https://cal.com/m13v/claude-meter"
+          destination="https://cal.com/team/mediar/claude-meter"
           appearance="footer"
           heading="Running the reviewer pattern on a team and want a sanity check?"
           description="If your reviewer wrapper is tripping 429s mid-week and the Settings bar looks ambiguous, send the CLI output over. I will tell you which float is actually pinning your Opus invocations."
@@ -855,7 +855,7 @@ export default function ClaudeCodeSeniorReviewerWorkflowPage() {
       </div>
 
       <BookCallCTA
-        destination="https://cal.com/m13v/claude-meter"
+        destination="https://cal.com/team/mediar/claude-meter"
         appearance="sticky"
         text="Book a call"
         description="Reviewer workflow 429s mid-week? 15 min."

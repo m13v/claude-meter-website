@@ -732,7 +732,7 @@ export default function ClaudeCodeOpus47UsageLimitsPage() {
 
       <div className="max-w-4xl mx-auto px-6 mb-16">
         <BookCallCTA
-          destination="https://cal.com/m13v/claude-meter"
+          destination="https://cal.com/team/mediar/claude-meter"
           appearance="footer"
           heading="Seeing a different shape on seven_day_opus?"
           description="If your payload returns extra Opus-specific fields, a 4.7-only bucket, or a utilization that disagrees with Settings, send it over. We map every variant we see."
@@ -743,7 +743,7 @@ export default function ClaudeCodeOpus47UsageLimitsPage() {
       </div>
 
       <BookCallCTA
-        destination="https://cal.com/m13v/claude-meter"
+        destination="https://cal.com/team/mediar/claude-meter"
         appearance="sticky"
         text="Book a call"
         description="Questions on the Opus 4.7 usage endpoint? 15 min."

@@ -825,7 +825,7 @@ export default function ClaudeCodeCostPerPrPage() {
 
       <div className="max-w-4xl mx-auto px-6 mb-16">
         <BookCallCTA
-          destination="https://cal.com/m13v/claude-meter"
+          destination="https://cal.com/team/mediar/claude-meter"
           appearance="footer"
           heading="Want a cost-per-PR dashboard wired into CI?"
           description="I have built the post-commit hook plus a Grafana panel for teams on Max 20x and Team Premium. 15 minutes to walk through whether it fits."
@@ -836,7 +836,7 @@ export default function ClaudeCodeCostPerPrPage() {
       </div>
 
       <BookCallCTA
-        destination="https://cal.com/m13v/claude-meter"
+        destination="https://cal.com/team/mediar/claude-meter"
         appearance="sticky"
         text="Book a call"
         description="Questions on cost-per-PR on a subscription? 15 min."

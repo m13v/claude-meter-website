@@ -775,7 +775,7 @@ export default function ClaudeCodeScaffoldMismatchPage() {
 
       <div className="max-w-4xl mx-auto px-6 mb-16">
         <BookCallCTA
-          destination="https://cal.com/m13v/claude-meter"
+          destination="https://cal.com/team/mediar/claude-meter"
           appearance="footer"
           heading="Got a Claude Code session where the quota math does not match the work?"
           description="If seven_day_opus jumped a lot more than the feature justified, it was probably scaffold mismatch. Send a snapshot and a diff, happy to look. 15 minutes."
@@ -786,7 +786,7 @@ export default function ClaudeCodeScaffoldMismatchPage() {
       </div>
 
       <BookCallCTA
-        destination="https://cal.com/m13v/claude-meter"
+        destination="https://cal.com/team/mediar/claude-meter"
         appearance="sticky"
         text="Book a call"
         description="Questions on scaffold mismatch quota cost? 15 min."

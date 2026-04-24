@@ -770,7 +770,7 @@ export default function ClaudeCodeDollarsPerPullRequestPage() {
 
       <div className="max-w-4xl mx-auto px-6 mb-16">
         <BookCallCTA
-          destination="https://cal.com/m13v/claude-meter"
+          destination="https://cal.com/team/mediar/claude-meter"
           appearance="footer"
           heading="Want a real-dollars-per-PR alert wired into Slack?"
           description="The overage endpoint is read-only and idempotent, so a 5-line script can post the delta on every merge. 15 minutes to walk through whether it fits your team."
@@ -781,7 +781,7 @@ export default function ClaudeCodeDollarsPerPullRequestPage() {
       </div>
 
       <BookCallCTA
-        destination="https://cal.com/m13v/claude-meter"
+        destination="https://cal.com/team/mediar/claude-meter"
         appearance="sticky"
         text="Book a call"
         description="Questions on real-dollars-per-PR on a subscription? 15 min."

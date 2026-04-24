@@ -823,7 +823,7 @@ export default function Claude5HourServerSideWallPage() {
 
       <div className="max-w-4xl mx-auto px-6 mb-16">
         <BookCallCTA
-          destination="https://cal.com/m13v/claude-meter"
+          destination="https://cal.com/team/mediar/claude-meter"
           appearance="footer"
           heading="Seeing a layer we do not cover?"
           description="If your overage response has a flag we did not name, or disabled_until fires on an event we did not describe, send it. We map every variant we see."
@@ -834,7 +834,7 @@ export default function Claude5HourServerSideWallPage() {
       </div>
 
       <BookCallCTA
-        destination="https://cal.com/m13v/claude-meter"
+        destination="https://cal.com/team/mediar/claude-meter"
         appearance="sticky"
         text="Book a call"
         description="Stuck behind a layer-3 wall? 15 min."

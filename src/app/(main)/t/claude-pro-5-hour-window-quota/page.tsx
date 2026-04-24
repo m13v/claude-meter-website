@@ -720,7 +720,7 @@ export default function ClaudePro5HourWindowQuotaPage() {
 
       <div className="max-w-4xl mx-auto px-6 mb-16">
         <BookCallCTA
-          destination="https://cal.com/m13v/claude-meter"
+          destination="https://cal.com/team/mediar/claude-meter"
           appearance="footer"
           heading="Seeing a different shape on five_hour?"
           description="If your payload returns extra fields, a different scale, or a resets_at that does not slide, send it. We map every variant we see."
@@ -731,7 +731,7 @@ export default function ClaudePro5HourWindowQuotaPage() {
       </div>
 
       <BookCallCTA
-        destination="https://cal.com/m13v/claude-meter"
+        destination="https://cal.com/team/mediar/claude-meter"
         appearance="sticky"
         text="Book a call"
         description="Questions on the 5-hour endpoint? 15 min."

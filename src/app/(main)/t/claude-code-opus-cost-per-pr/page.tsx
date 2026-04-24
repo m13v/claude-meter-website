@@ -867,7 +867,7 @@ export default function ClaudeCodeOpusCostPerPrPage() {
 
       <div className="max-w-4xl mx-auto px-6 mb-16">
         <BookCallCTA
-          destination="https://cal.com/m13v/claude-meter"
+          destination="https://cal.com/team/mediar/claude-meter"
           appearance="footer"
           heading="Want an Opus-first glance layer wired into your menu bar?"
           description="I have a forked background.js that keys the badge off seven_day_opus instead of five_hour, plus a post-commit hook that logs Opus cost per PR to a file. 15 minutes to see if it fits your plan."
@@ -878,7 +878,7 @@ export default function ClaudeCodeOpusCostPerPrPage() {
       </div>
 
       <BookCallCTA
-        destination="https://cal.com/m13v/claude-meter"
+        destination="https://cal.com/team/mediar/claude-meter"
         appearance="sticky"
         text="Book a call"
         description="Questions on Opus-only cost per PR? 15 min."
