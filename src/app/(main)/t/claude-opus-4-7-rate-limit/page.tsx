@@ -369,7 +369,7 @@ export default function ClaudeOpus47RateLimitPage() {
       <div className="pt-2">
         <ArticleMeta
           author="Matthew Diakonov"
-          authorRole="built ClaudeMeter"
+          authorRole="Written with AI"
           datePublished={PUBLISHED}
           readingTime="10 min read"
         />

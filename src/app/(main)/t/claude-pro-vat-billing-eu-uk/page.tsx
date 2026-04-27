@@ -333,7 +333,7 @@ export default function ClaudeProVatBillingEuUkPage() {
       <div className="pt-2">
         <ArticleMeta
           author="Matthew Diakonov"
-          authorRole="built ClaudeMeter"
+          authorRole="Written with AI"
           datePublished={PUBLISHED}
           readingTime="9 min read"
         />
