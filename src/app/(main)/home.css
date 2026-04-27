@@ -54,6 +54,18 @@
   box-shadow: 0 0 0 0 color-mix(in oklab, var(--signal) 60%, transparent);
   animation: home-pulse 2s infinite;
 }
+.home-root .eyebrow .sep {
+  opacity: .45;
+  font-weight: 400;
+}
+.home-root .hero-eye {
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+@media (max-width: 640px) {
+  .home-root .hero-eye { font-size: 11px; gap: 8px; }
+}
 @keyframes home-pulse {
   0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--signal) 70%, transparent); }
   70% { box-shadow: 0 0 0 10px color-mix(in oklab, var(--signal) 0%, transparent); }
