@@ -227,6 +227,18 @@ export function HomeClient() {
         <div className="wrap">
           <div className="hero-stack">
             <div className="hero-copy">
+              <div
+                className="eyebrow hero-eye reveal-up in"
+                aria-label="macOS menu bar app showing live Claude Pro and Max plan usage. Free, MIT, no telemetry."
+              >
+                <span className="dot" aria-hidden="true" />
+                <span>macOS menu bar</span>
+                <span className="sep" aria-hidden="true">·</span>
+                <span>Live Claude Pro &amp; Max plan usage</span>
+                <span className="sep" aria-hidden="true">·</span>
+                <span>Free, MIT, no telemetry</span>
+              </div>
+
               <h1 className="stop-heading reveal-up in d1" aria-label={`Did you get? ${stopMessages[stopIdx]}`}>
                 <span className="stop-prefix">Did you get?</span>
                 <span className="stop-rotator" aria-hidden="true">
@@ -237,7 +249,7 @@ export function HomeClient() {
               </h1>
 
               <p className="lede reveal-up in d2">
-                ClaudeMeter reads the same server quota claude.ai/settings/usage renders, not local token estimates, and puts the rolling 5-hour window, weekly quota, and pay-as-you-go balance in your macOS menu bar. One brew command. No cookie paste. No email required.
+                ClaudeMeter reads the same server quota claude.ai/settings/usage renders (not local token estimates) and puts the rolling 5-hour window, weekly quota, and pay-as-you-go balance in your macOS menu bar. One brew command. The browser extension forwards your existing claude.ai session, so no manual cookie paste.
               </p>
 
               <div className="hero-cta reveal-up in d3">
