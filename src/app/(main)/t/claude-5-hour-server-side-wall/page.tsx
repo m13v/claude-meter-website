@@ -378,7 +378,7 @@ const faqJsonLd = faqPageSchema(faqs);
 
 export default function Claude5HourServerSideWallPage() {
   return (
-    <article className="bg-white text-zinc-900">
+    <article className="text-zinc-900">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

@@ -378,7 +378,7 @@ const bentoCards = [
 
 export default function ClaudeRolling5HourBurnRatePage() {
   return (
-    <article className="bg-white text-zinc-900">
+    <article className="text-zinc-900">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
