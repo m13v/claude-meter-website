@@ -87,6 +87,21 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebPage",
+              url: SITE_URL,
+              name: SITE_NAME,
+              speakable: {
+                "@type": "SpeakableSpecification",
+                cssSelector: ["h1", "#how-it-works", "#features", "#faq"],
+              },
+            }),
+          }}
+        />
       </head>
       <body className="min-h-full font-sans">
         <PostHogProvider>
