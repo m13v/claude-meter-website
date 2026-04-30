@@ -27,6 +27,15 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: "/t/claude-rolling-5h-window-tracker",
+        destination: "/t/claude-pro-5-hour-window-tracker",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default withSeoContent(nextConfig, { contentDir: "src/app/(main)/t" });
