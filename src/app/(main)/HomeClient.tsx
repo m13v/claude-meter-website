@@ -1,7 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  InstallEmailGateModal,
+  hasCapturedInstallEmail,
+} from "@/components/install-email-gate-modal";
 import "./home.css";
 
 const GITHUB_URL = "https://github.com/m13v/claude-meter";
@@ -105,6 +110,7 @@ function jitter(min: number, max: number) {
 }
 
 export function HomeClient() {
+  const router = useRouter();
   const [session, setSession] = useState(62);
   const [weekly, setWeekly] = useState(41);
   const [extra, setExtra] = useState(3.4);
@@ -112,6 +118,53 @@ export function HomeClient() {
   const [tab, setTab] = useState<TabId>("all");
   const [mbVisible, setMbVisible] = useState(false);
   const [stopIdx, setStopIdx] = useState(0);
+  const [installGate, setInstallGate] = useState<{
+    section: string;
+    destination: string;
+    onComplete: () => void;
+  } | null>(null);
+
+  const performBrewCopy = useCallback(() => {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(BREW_CMD).catch(() => {});
+    }
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1400);
+  }, []);
+
+  const gateInstallLink = useCallback(
+    (section: string, destination: string) =>
+      (e: React.MouseEvent<HTMLAnchorElement>) => {
+        fireGetStarted(section, destination, "Install on macOS");
+        if (hasCapturedInstallEmail()) return; // Let the Link navigate.
+        e.preventDefault();
+        setInstallGate({
+          section,
+          destination,
+          onComplete: () => {
+            // Internal route → use router; external → location.
+            if (destination.startsWith("/")) {
+              router.push(destination);
+            } else {
+              window.location.href = destination;
+            }
+          },
+        });
+      },
+    [router]
+  );
+
+  const handleCopyInstall = useCallback(() => {
+    if (hasCapturedInstallEmail()) {
+      performBrewCopy();
+      return;
+    }
+    setInstallGate({
+      section: "hero-brew",
+      destination: BREW_CMD,
+      onComplete: performBrewCopy,
+    });
+  }, [performBrewCopy]);
 
   const desktopRef = useRef<HTMLDivElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
@@ -205,13 +258,7 @@ export function HomeClient() {
     };
   }, []);
 
-  const copyInstall = () => {
-    if (typeof navigator !== "undefined" && navigator.clipboard) {
-      navigator.clipboard.writeText(BREW_CMD).catch(() => {});
-    }
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1400);
-  };
+  const copyInstall = handleCopyInstall;
 
   const sessionPct = Math.round(session);
   const weeklyPct = Math.round(weekly);
@@ -255,7 +302,7 @@ export function HomeClient() {
               <div className="hero-cta reveal-up in d3">
                 <Link
                   href="/install"
-                  onClick={() => fireGetStarted("hero", "/install", "Install on macOS")}
+                  onClick={gateInstallLink("hero", "/install")}
                   className="btn signal big"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -691,7 +738,7 @@ export function HomeClient() {
           <div className="cta-buttons reveal-up d3">
             <Link
               href="/install"
-              onClick={() => fireGetStarted("footer-cta", "/install", "Install on macOS")}
+              onClick={gateInstallLink("footer-cta", "/install")}
               className="btn signal"
             >
               Install on macOS
