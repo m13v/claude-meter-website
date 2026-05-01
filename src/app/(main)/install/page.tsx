@@ -1,7 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { InstallEmailGate } from "@seo/components";
 import { TrackedCta } from "@/components/TrackedCta";
 import { CopyCommand } from "./CopyCommand";
+
+const CLAUDE_METER_STORAGE_KEY = "claude_meter_email_captured";
+const GITHUB_URL = "https://github.com/m13v/claude-meter";
 
 export const metadata: Metadata = {
   title: "Install ClaudeMeter on macOS (60s, brew + browser extension)",
@@ -88,7 +92,18 @@ export default function InstallPage() {
               </a>{" "}
               first. Then run:
             </p>
-            <CopyCommand command={BREW_CMD} label="brew_install" />
+            <InstallEmailGate
+              command={BREW_CMD}
+              site="claude-meter"
+              section="install-page-brew"
+              storageKey={CLAUDE_METER_STORAGE_KEY}
+              githubUrl={GITHUB_URL}
+              modalTitle="Get the install command"
+              modalDescription="Drop your email and we'll show you the brew install plus the occasional release note. No spam."
+              commandTitle="Run this in your terminal"
+              commandDescription="Installs the signed, notarized ClaudeMeter.app into /Applications and a claude-meter CLI alongside it."
+              label="Show install command"
+            />
             <p className="text-sm text-gray-600 mt-3">
               The cask pulls a signed, notarized build, drops <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-xs">ClaudeMeter.app</code> into <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-xs">/Applications</code>, and adds a <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-xs">claude-meter</code> CLI alongside it. Already installed? <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-xs">brew upgrade --cask claude-meter</code> pulls the latest patch.
             </p>
