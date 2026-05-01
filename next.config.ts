@@ -34,6 +34,16 @@ const nextConfig: NextConfig = {
         destination: "/t/claude-pro-5-hour-window-tracker",
         permanent: true,
       },
+      {
+        source: "/t/local-claude-code-count-vs-server-quota",
+        destination: "/t/claude-pro-rate-limit-local-counter-vs-server-quota",
+        permanent: true,
+      },
+      {
+        source: "/alternative/local-claude-code-count-vs-server-quota",
+        destination: "/t/claude-pro-rate-limit-local-counter-vs-server-quota",
+        permanent: true,
+      },
     ];
   },
 };
