@@ -770,6 +770,15 @@ export function HomeClient() {
         </span>
       </div>
 
+      <InstallEmailGateModal
+        open={installGate !== null}
+        onClose={() => setInstallGate(null)}
+        onComplete={() => {
+          installGate?.onComplete();
+        }}
+        section={installGate?.section ?? ""}
+        destination={installGate?.destination ?? ""}
+      />
     </div>
   );
 }
