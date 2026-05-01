@@ -618,6 +618,8 @@ export default function ClaudeExtraUsageBalancePage() {
         <CodeComparison
           leftCode={settingsPageVsCli}
           rightCode={cliOneLiner}
+          leftLines={settingsPageVsCli.split("\n").length}
+          rightLines={cliOneLiner.split("\n").length}
           leftLabel="Healthy: under cap"
           rightLabel="Blocked: at cap"
           title="Same field, two states, two renderings"
