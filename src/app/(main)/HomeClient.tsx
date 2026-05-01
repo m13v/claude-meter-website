@@ -3,11 +3,14 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { InstallEmailGate } from "@seo/components";
 import {
   InstallEmailGateModal,
   hasCapturedInstallEmail,
 } from "@/components/install-email-gate-modal";
 import "./home.css";
+
+const CLAUDE_METER_STORAGE_KEY = "claude_meter_email_captured";
 
 const GITHUB_URL = "https://github.com/m13v/claude-meter";
 
@@ -114,7 +117,6 @@ export function HomeClient() {
   const [session, setSession] = useState(62);
   const [weekly, setWeekly] = useState(41);
   const [extra, setExtra] = useState(3.4);
-  const [copied, setCopied] = useState(false);
   const [tab, setTab] = useState<TabId>("all");
   const [mbVisible, setMbVisible] = useState(false);
   const [stopIdx, setStopIdx] = useState(0);
@@ -123,14 +125,6 @@ export function HomeClient() {
     destination: string;
     onComplete: () => void;
   } | null>(null);
-
-  const performBrewCopy = useCallback(() => {
-    if (typeof navigator !== "undefined" && navigator.clipboard) {
-      navigator.clipboard.writeText(BREW_CMD).catch(() => {});
-    }
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1400);
-  }, []);
 
   const gateInstallLink = useCallback(
     (section: string, destination: string) =>
@@ -153,18 +147,6 @@ export function HomeClient() {
       },
     [router]
   );
-
-  const handleCopyInstall = useCallback(() => {
-    if (hasCapturedInstallEmail()) {
-      performBrewCopy();
-      return;
-    }
-    setInstallGate({
-      section: "hero-brew",
-      destination: BREW_CMD,
-      onComplete: performBrewCopy,
-    });
-  }, [performBrewCopy]);
 
   const desktopRef = useRef<HTMLDivElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
@@ -258,8 +240,6 @@ export function HomeClient() {
     };
   }, []);
 
-  const copyInstall = handleCopyInstall;
-
   const sessionPct = Math.round(session);
   const weeklyPct = Math.round(weekly);
   const extraFmt = `$${extra.toFixed(2)}`;
@@ -312,30 +292,42 @@ export function HomeClient() {
                   </svg>
                   Install on macOS
                 </Link>
-                <button
-                  type="button"
-                  className={`install-chip big${copied ? " copied" : ""}`}
-                  onClick={copyInstall}
-                  aria-label="Copy brew install command"
-                >
-                  <span className="toast">Copied</span>
-                  <span className="chip-cmd">{BREW_CMD}</span>
-                  <span className="copy" aria-hidden="true">
-                    <svg
-                      width="13"
-                      height="13"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
+                <InstallEmailGate
+                  command={BREW_CMD}
+                  site="claude-meter"
+                  section="hero-brew"
+                  storageKey={CLAUDE_METER_STORAGE_KEY}
+                  githubUrl={GITHUB_URL}
+                  modalTitle="Get the install command"
+                  modalDescription="Drop your email and we'll show you the brew install plus the occasional release note. No spam."
+                  commandTitle="Run this in your terminal"
+                  commandDescription="Installs the signed, notarized ClaudeMeter.app into /Applications and a claude-meter CLI alongside it."
+                  renderTrigger={({ onClick }) => (
+                    <button
+                      type="button"
+                      className="install-chip big"
+                      onClick={onClick}
+                      aria-label="Get brew install command"
                     >
-                      <rect x="9" y="9" width="13" height="13" rx="2" />
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                    </svg>
-                  </span>
-                </button>
+                      <span className="chip-cmd">{BREW_CMD}</span>
+                      <span className="copy" aria-hidden="true">
+                        <svg
+                          width="13"
+                          height="13"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <rect x="9" y="9" width="13" height="13" rx="2" />
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                        </svg>
+                      </span>
+                    </button>
+                  )}
+                />
               </div>
 
               <div className="hero-trust reveal-up in d4">
