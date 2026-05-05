@@ -129,14 +129,18 @@ export function HomeClient() {
   const gateInstallLink = useCallback(
     (section: string, destination: string) =>
       (e: React.MouseEvent<HTMLAnchorElement>) => {
-        fireGetStarted(section, destination, "Install on macOS");
-        if (hasCapturedInstallEmail()) return; // Let the Link navigate.
+        if (hasCapturedInstallEmail()) {
+          // Gate already passed: fire canonical event and let Link navigate.
+          fireGetStarted(section, destination, "Install on macOS");
+          return;
+        }
+        // Hard gate: open modal. Modal fires `get_started_click` only after
+        // the email is submitted, then completes the navigation.
         e.preventDefault();
         setInstallGate({
           section,
           destination,
           onComplete: () => {
-            // Internal route → use router; external → location.
             if (destination.startsWith("/")) {
               router.push(destination);
             } else {
@@ -336,7 +340,6 @@ export function HomeClient() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="trust-link"
-                  onClick={() => fireGetStarted("hero-github", GITHUB_URL, "View source on GitHub")}
                 >
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                     <path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.2 11.4.6.1.83-.26.83-.58 0-.28-.01-1.04-.01-2.04-3.34.72-4.04-1.6-4.04-1.6-.55-1.4-1.34-1.77-1.34-1.77-1.09-.75.08-.74.08-.74 1.2.08 1.83 1.24 1.83 1.24 1.07 1.84 2.81 1.31 3.5 1 .1-.77.42-1.31.76-1.62-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.23-3.22-.12-.3-.53-1.52.12-3.17 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23.65 1.65.24 2.87.12 3.17.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.82 1.1.82 2.22 0 1.6-.01 2.9-.01 3.29 0 .32.22.69.83.57A12.01 12.01 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/>
@@ -347,7 +350,6 @@ export function HomeClient() {
                 <Link
                   href="/vs-ccusage"
                   className="trust-link muted"
-                  onClick={() => fireGetStarted("hero-compare", "/vs-ccusage", "How it differs from ccusage")}
                 >
                   How is this different from ccusage?
                 </Link>
@@ -740,7 +742,6 @@ export function HomeClient() {
               target="_blank"
               rel="noopener noreferrer"
               className="btn ghost"
-              onClick={() => fireGetStarted("footer-github", GITHUB_URL, "View source on GitHub")}
             >
               View source on GitHub
             </a>
@@ -770,6 +771,7 @@ export function HomeClient() {
         }}
         section={installGate?.section ?? ""}
         destination={installGate?.destination ?? ""}
+        text="Install on macOS"
       />
     </div>
   );
