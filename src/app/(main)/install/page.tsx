@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { InstallEmailGate } from "@seo/components";
 import { TrackedCta } from "@/components/TrackedCta";
+import { GatedDownloadButton } from "@/components/GatedDownloadButton";
 import { CopyCommand } from "./CopyCommand";
 
 const CLAUDE_METER_STORAGE_KEY = "claude_meter_email_captured";
@@ -285,15 +286,14 @@ export default function InstallPage() {
           </div>
 
           <div className="flex flex-wrap gap-4 pt-2">
-            <TrackedCta
+            <GatedDownloadButton
               href="/api/download"
-              location="install_page"
-              label="download_latest_dmg"
-              download
+              section="install-page-download-dmg"
+              text="Download latest DMG"
               className="inline-flex items-center rounded-md bg-cta px-6 py-3 font-heading text-sm font-semibold uppercase tracking-wider text-white hover:bg-cta-dark transition-colors"
             >
               Download latest DMG
-            </TrackedCta>
+            </GatedDownloadButton>
             <TrackedCta
               href="https://github.com/m13v/claude-meter"
               location="install_page"
