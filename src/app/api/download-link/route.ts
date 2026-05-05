@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { getSql } from "@/lib/db";
+import { buildInstallTokenCookie } from "@/lib/install-gate-token";
 
 const FROM = "ClaudeMeter <hello@claude-meter.com>";
 const AUDIENCE_ID = process.env.RESEND_AUDIENCE_ID || "";
@@ -176,8 +177,13 @@ export async function POST(req: NextRequest) {
     console.error("[download-link] DB log error:", err);
   }
 
+  // Issue the install-gate cookie so the user can also use the in-page
+  // /api/download path on this same browser session without re-submitting.
+  const headers = new Headers({ "content-type": "application/json" });
+  headers.append("Set-Cookie", buildInstallTokenCookie(email));
+
   return new Response(
     JSON.stringify({ success: true }),
-    { status: 200, headers: { "content-type": "application/json" } },
+    { status: 200, headers },
   );
 }
