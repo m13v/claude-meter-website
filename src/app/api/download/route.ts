@@ -39,11 +39,14 @@ export async function GET(req: NextRequest): Promise<Response> {
   const token = req.cookies.get(INSTALL_TOKEN_COOKIE_NAME)?.value;
   const verdict = verifyInstallToken(token);
   if (!verdict.ok) {
-    const origin = new URL(req.url).origin;
+    // Use a relative redirect: behind Cloud Run, `req.url` resolves to the
+    // internal binding (0.0.0.0:8080), so building an absolute URL from it
+    // sends visitors to a broken hostname. Relative redirects are resolved
+    // by the browser against the request URL it actually navigated to.
     return new Response(null, {
       status: 302,
       headers: {
-        Location: `${origin}${GATE_REDIRECT}`,
+        Location: GATE_REDIRECT,
         "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
         "x-install-gate": verdict.reason ?? "missing",
       },
