@@ -1,6 +1,7 @@
 import type { NextRequest } from "next/server";
 import {
   INSTALL_TOKEN_COOKIE_NAME,
+  buildInstallTokenCookie,
   verifyInstallToken,
 } from "@/lib/install-gate-token";
 
@@ -29,15 +30,33 @@ async function resolveLatestDmgUrl(): Promise<string> {
 
 /**
  * Hard-gate the download. Visitors must hand over their email through the
- * install-gate modal before they can hit this endpoint. The newsletter route
- * sets `cm_install_token` (HMAC over email + expiry) on successful capture.
+ * install-gate modal before they can hit this endpoint. There are two
+ * accepted token paths:
  *
- * No token? Bounce to the homepage with `?gate=required` so the modal
+ *   1. `cm_install_token` cookie — set by /api/newsletter on capture in the
+ *      same browser session. This is the in-app modal flow.
+ *   2. `?token=...` URL param — emitted in the welcome email so the user can
+ *      click the install link from their inbox on any device. On success we
+ *      stamp the cookie too so subsequent /install navigations skip the modal.
+ *
+ * Neither token? Bounce to the homepage with `?gate=required` so the modal
  * auto-opens. We do NOT redirect straight to GitHub releases.
  */
 export async function GET(req: NextRequest): Promise<Response> {
-  const token = req.cookies.get(INSTALL_TOKEN_COOKIE_NAME)?.value;
-  const verdict = verifyInstallToken(token);
+  const cookieToken = req.cookies.get(INSTALL_TOKEN_COOKIE_NAME)?.value;
+  const queryToken = req.nextUrl.searchParams.get("token") ?? undefined;
+
+  // Try cookie first (no extra work to set it again), then fall back to URL.
+  let verdict = verifyInstallToken(cookieToken);
+  let acceptedFrom: "cookie" | "query" | null = verdict.ok ? "cookie" : null;
+  if (!verdict.ok && queryToken) {
+    const queryVerdict = verifyInstallToken(queryToken);
+    if (queryVerdict.ok) {
+      verdict = queryVerdict;
+      acceptedFrom = "query";
+    }
+  }
+
   if (!verdict.ok) {
     // Use a relative redirect: behind Cloud Run, `req.url` resolves to the
     // internal binding (0.0.0.0:8080), so building an absolute URL from it
@@ -54,12 +73,16 @@ export async function GET(req: NextRequest): Promise<Response> {
   }
 
   const url = await resolveLatestDmgUrl();
-  return new Response(null, {
-    status: 302,
-    headers: {
-      Location: url,
-      "Cache-Control": "private, max-age=0, s-maxage=0",
-      "x-install-gate": "ok",
-    },
+  const headers = new Headers({
+    Location: url,
+    "Cache-Control": "private, max-age=0, s-maxage=0",
+    "x-install-gate": "ok",
+    "x-install-gate-source": acceptedFrom ?? "unknown",
   });
+  // Promote a query-param token to a cookie so the next install attempt on
+  // this browser does not need to re-validate against the URL.
+  if (acceptedFrom === "query" && verdict.email) {
+    headers.append("Set-Cookie", buildInstallTokenCookie(verdict.email));
+  }
+  return new Response(null, { status: 302, headers });
 }
