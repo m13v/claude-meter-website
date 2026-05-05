@@ -24,19 +24,26 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "empty_message" }, { status: 400 });
   }
 
+  const subject = `ClaudeMeter contact: ${email}`;
+  const html = `
+        <p><strong>From:</strong> ${name ? `${name} ` : ""}&lt;${email}&gt;</p>
+        <pre style="white-space: pre-wrap; font-family: inherit">${message.replace(/[<>&]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[c] || c))}</pre>
+      `;
+
   let resendOk = false;
+  let resendEmailId: string | null = null;
   try {
-    await sendEmail({
+    const result = await sendEmail({
       from: FROM,
       to: INBOX,
       replyTo: email,
-      subject: `ClaudeMeter contact: ${email}`,
-      html: `
-        <p><strong>From:</strong> ${name ? `${name} ` : ""}&lt;${email}&gt;</p>
-        <pre style="white-space: pre-wrap; font-family: inherit">${message.replace(/[<>&]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[c] || c))}</pre>
-      `,
+      subject,
+      html,
     });
     resendOk = true;
+    resendEmailId = (result && typeof result === "object" && "id" in result && typeof (result as { id?: unknown }).id === "string")
+      ? ((result as { id: string }).id)
+      : null;
   } catch (err) {
     console.error("contact forward email failed", err);
   }
@@ -46,6 +53,14 @@ export async function POST(req: Request) {
     await sql`
       INSERT INTO claude_meter_contacts (email, name, message, resend_ok)
       VALUES (${email}, ${name}, ${message}, ${resendOk})
+    `;
+    await sql`
+      INSERT INTO claude_meter_emails
+        (resend_id, direction, from_email, to_email, subject, body_html, status)
+      VALUES
+        (${resendEmailId}, 'outbound', ${FROM}, ${INBOX},
+         ${subject}, ${html}, ${resendOk ? "sent" : "failed"})
+      ON CONFLICT (resend_id) DO NOTHING
     `;
   } catch (err) {
     console.error("contact db insert failed", err);
