@@ -1,21 +1,10 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
-type Posthog = { capture: (event: string, props?: Record<string, unknown>) => void };
-
-function fireHeaderDownload(section: "header" | "header-mobile") {
-  if (typeof window === "undefined") return;
-  const ph = (window as unknown as { posthog?: Posthog }).posthog;
-  ph?.capture("get_started_click", {
-    destination: "/api/download",
-    site: "claude-meter",
-    section,
-    text: "Download",
-    component: "Header",
-    page: window.location.pathname,
-  });
-}
+import {
+  InstallEmailGateModal,
+  hasCapturedInstallEmail,
+} from "@/components/install-email-gate-modal";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -28,6 +17,7 @@ const navLinks = [
 export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [gateOpen, setGateOpen] = useState<{ section: string } | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -35,6 +25,37 @@ export function Header() {
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const navigateToDownload = () => {
+    if (typeof window !== "undefined") {
+      window.location.href = "/api/download";
+    }
+  };
+
+  const handleDownloadClick = (section: "header" | "header-mobile") => {
+    // Already captured email previously: pass straight through.
+    if (hasCapturedInstallEmail()) {
+      // Fire canonical funnel event for the gated-passed click.
+      if (typeof window !== "undefined") {
+        const w = window as unknown as {
+          posthog?: { capture: (e: string, p?: Record<string, unknown>) => void };
+        };
+        w.posthog?.capture("get_started_click", {
+          destination: "/api/download",
+          site: "claude-meter",
+          section,
+          text: "Download",
+          component: "Header",
+          page: window.location.pathname,
+        });
+      }
+      navigateToDownload();
+      return;
+    }
+    // Not captured yet: open the modal. The modal fires get_started_click
+    // ONLY after email is submitted, then completes the navigation.
+    setGateOpen({ section });
+  };
 
   return (
     <header
@@ -88,9 +109,9 @@ export function Header() {
               </svg>
               <span>Star on GitHub</span>
             </a>
-            <a
-              href="/api/download"
-              onClick={() => fireHeaderDownload("header")}
+            <button
+              type="button"
+              onClick={() => handleDownloadClick("header")}
               className="inline-flex items-center gap-[10px] whitespace-nowrap rounded-full px-[18px] py-[11px] font-medium transition-transform hover:-translate-y-px"
               style={{
                 fontFamily: "var(--font-geist), sans-serif",
@@ -106,7 +127,7 @@ export function Header() {
                 <line x1="12" y1="15" x2="12" y2="3" />
               </svg>
               Download
-            </a>
+            </button>
           </nav>
 
           <button
@@ -149,17 +170,26 @@ export function Header() {
             >
               Star on GitHub ↗
             </a>
-            <a
-              href="/api/download"
-              className="mt-3 block rounded-full px-5 py-2.5 text-center text-sm font-medium"
+            <button
+              type="button"
+              className="mt-3 block w-full rounded-full px-5 py-2.5 text-center text-sm font-medium"
               style={{ background: "var(--ink)", color: "var(--paper)" }}
-              onClick={() => { fireHeaderDownload("header-mobile"); setOpen(false); }}
+              onClick={() => { setOpen(false); handleDownloadClick("header-mobile"); }}
             >
               Download for macOS
-            </a>
+            </button>
           </nav>
         )}
       </div>
+
+      <InstallEmailGateModal
+        open={gateOpen !== null}
+        onClose={() => setGateOpen(null)}
+        onComplete={navigateToDownload}
+        section={gateOpen?.section ?? "header"}
+        destination="/api/download"
+        text="Download"
+      />
     </header>
   );
 }
