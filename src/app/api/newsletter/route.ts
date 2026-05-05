@@ -44,11 +44,13 @@ export async function POST(req: NextRequest): Promise<Response> {
 
   const res = await handler(req);
 
-  // Only stamp the cookie when newsletter accepted the submission AND we have
-  // a parseable email. A 5xx on the welcome email path still counts: the user
-  // gave us a real address, that's the gate.
-  const accepted = res.status >= 200 && res.status < 500;
-  if (!accepted || !email || !email.includes("@")) {
+  // Stamp the install-gate cookie whenever the user supplied a parseable
+  // email AND the handler did not reject it as invalid input. 4xx means
+  // the input was malformed, so no cookie. 2xx (subscribed), 3xx (redirect),
+  // and 5xx (Resend transport flake) all count: the email itself is valid,
+  // the user did their part of the gate.
+  const isInputError = res.status >= 400 && res.status < 500;
+  if (isInputError || !email || !email.includes("@") || !email.includes(".")) {
     return res;
   }
 
