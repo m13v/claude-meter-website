@@ -37,14 +37,18 @@ function capturePosthog(event: string, props: Record<string, unknown>) {
 interface Props {
   open: boolean;
   onClose: () => void;
-  /** Fired after the email is captured or skipped. Caller is responsible for
-   * completing the original action (e.g. navigating to /install). */
+  /** Fired ONLY after the email is captured. Caller is responsible for
+   * completing the original action (e.g. navigating to /install). The modal
+   * has no skip path; closing without submitting cancels the action. */
   onComplete: () => void;
   section: string;
   destination: string;
+  /** Visible text of the original CTA (e.g. "Download", "Install on macOS").
+   * Forwarded as `text` on the canonical `get_started_click` event. */
+  text?: string;
 }
 
-export function InstallEmailGateModal({ open, onClose, onComplete, section, destination }: Props) {
+export function InstallEmailGateModal({ open, onClose, onComplete, section, destination, text }: Props) {
   const [email, setEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -112,6 +116,15 @@ export function InstallEmailGateModal({ open, onClose, onComplete, section, dest
         destination,
         page: typeof window !== "undefined" ? window.location.pathname : undefined,
       });
+      // Canonical funnel event: only fire AFTER email is captured.
+      capturePosthog("get_started_click", {
+        component: "InstallEmailGateModal",
+        site: "claude-meter",
+        section,
+        destination,
+        text,
+        page: typeof window !== "undefined" ? window.location.pathname : undefined,
+      });
       markCaptured(trimmed);
       onComplete();
       onClose();
@@ -120,16 +133,6 @@ export function InstallEmailGateModal({ open, onClose, onComplete, section, dest
     } finally {
       setSubmitting(false);
     }
-  };
-
-  const onSkip = () => {
-    capturePosthog("install_gate_modal_skipped", {
-      site: "claude-meter",
-      section,
-      destination,
-    });
-    onComplete();
-    onClose();
   };
 
   return (
@@ -157,11 +160,11 @@ export function InstallEmailGateModal({ open, onClose, onComplete, section, dest
               <div className="mb-5 flex items-start justify-between gap-4">
                 <div>
                   <h2 className="text-xl font-bold tracking-tight text-white">
-                    Quick check before install
+                    One step before install
                   </h2>
                   <p className="mt-1 text-sm leading-relaxed text-zinc-400">
-                    Drop your email so we can ping you when ClaudeMeter ships
-                    new readouts. Skip if you&rsquo;d rather just install.
+                    Drop your email and we&rsquo;ll send the install link plus
+                    occasional release notes. No spam.
                   </p>
                 </div>
                 <button
@@ -188,25 +191,16 @@ export function InstallEmailGateModal({ open, onClose, onComplete, section, dest
                   disabled={submitting}
                 />
                 {error && <p className="text-xs font-medium text-red-400">{error}</p>}
-                <div className="flex items-center gap-2">
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="flex-1 rounded-xl bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-emerald-400 disabled:opacity-60"
-                  >
-                    {submitting ? "Saving\u2026" : "Continue to install"}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={onSkip}
-                    className="rounded-xl px-3 py-2.5 text-sm font-medium text-zinc-400 transition hover:text-white"
-                  >
-                    Skip
-                  </button>
-                </div>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="w-full rounded-xl bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-emerald-400 disabled:opacity-60"
+                >
+                  {submitting ? "Saving\u2026" : "Continue to install"}
+                </button>
               </form>
               <p className="mt-4 text-xs text-zinc-500">
-                Already subscribed? Submit anyway, the install opens either way.
+                Already subscribed? Submit anyway, the install unlocks either way.
               </p>
             </div>
           </motion.div>
