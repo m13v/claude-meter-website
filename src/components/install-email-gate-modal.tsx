@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const STORAGE_KEY = "claude_meter_email_captured";
@@ -52,6 +53,13 @@ export function InstallEmailGateModal({ open, onClose, onComplete, section, dest
   const [email, setEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  // The modal is mounted inside <Header>, which sets `backdrop-filter: blur(...)`.
+  // Any element with backdrop-filter creates a new containing block, so a child
+  // with `position: fixed` gets clipped to the header (~72px tall) instead of
+  // the viewport, which made the dialog jam against the top of the page.
+  // Portal the dialog to document.body so it escapes that containing block.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     if (!open) return;
