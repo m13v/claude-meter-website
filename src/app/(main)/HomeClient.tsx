@@ -225,21 +225,25 @@ export function HomeClient() {
   // Auto-open the install gate when /api/download bounced us back here
   // because the install token cookie was missing or expired. After email
   // capture, complete the original action by navigating to /api/download.
+  // Defer the setState past the initial render to avoid a cascading effect.
   useEffect(() => {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
     if (params.get("gate") !== "required") return;
     const from = params.get("from") === "download" ? "/api/download" : "/install";
-    setInstallGate({
-      section: "download-gate-bounce",
-      destination: from,
-      onComplete: () => {
-        window.location.href = from;
-      },
-    });
-    // Strip the query so a refresh doesn't re-pop the modal.
-    const clean = window.location.pathname + window.location.hash;
-    window.history.replaceState({}, "", clean);
+    const id = window.setTimeout(() => {
+      setInstallGate({
+        section: "download-gate-bounce",
+        destination: from,
+        onComplete: () => {
+          window.location.href = from;
+        },
+      });
+      // Strip the query so a refresh doesn't re-pop the modal.
+      const clean = window.location.pathname + window.location.hash;
+      window.history.replaceState({}, "", clean);
+    }, 0);
+    return () => window.clearTimeout(id);
   }, []);
 
   // Desktop tilt on mousemove
