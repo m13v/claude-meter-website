@@ -143,7 +143,9 @@ export function InstallEmailGateModal({ open, onClose, onComplete, section, dest
     }
   };
 
-  return (
+  if (!mounted || typeof document === "undefined") return null;
+
+  const dialog = (
     <AnimatePresence>
       {open && (
         <motion.div
@@ -216,4 +218,6 @@ export function InstallEmailGateModal({ open, onClose, onComplete, section, dest
       )}
     </AnimatePresence>
   );
+
+  return createPortal(dialog, document.body);
 }
