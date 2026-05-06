@@ -1,36 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { InstallEmailGate } from "@seo/components";
-import {
-  InstallEmailGateModal,
-  hasCapturedInstallEmail,
-} from "@/components/install-email-gate-modal";
+import { InstallEmailGateModal } from "@/components/install-email-gate-modal";
 import "./home.css";
 
 const CLAUDE_METER_STORAGE_KEY = "claude_meter_email_captured";
 
 const GITHUB_URL = "https://github.com/m13v/claude-meter";
-
-// Fires canonical `get_started_click` for the dashboard funnel. When this
-// site bumps to @m13v/seo-components >= 0.19.0, swap the raw
-// posthog.capture below for `trackGetStartedClick` from @seo/components.
-function fireGetStarted(section: string, destination = "https://claude-meter.com/install", text = "Install") {
-  if (typeof window === "undefined") return;
-  const w = window as unknown as {
-    posthog?: { capture: (e: string, p?: Record<string, unknown>) => void };
-  };
-  w.posthog?.capture("get_started_click", {
-    destination,
-    site: "claude-meter",
-    section,
-    text,
-    component: "HomeClient",
-    page: window.location.pathname,
-  });
-}
 
 const BREW_CMD = "brew install --cask m13v/tap/claude-meter";
 
@@ -113,7 +91,6 @@ function jitter(min: number, max: number) {
 }
 
 export function HomeClient() {
-  const router = useRouter();
   const [session, setSession] = useState(62);
   const [weekly, setWeekly] = useState(41);
   const [extra, setExtra] = useState(3.4);
@@ -123,33 +100,18 @@ export function HomeClient() {
   const [installGate, setInstallGate] = useState<{
     section: string;
     destination: string;
-    onComplete: () => void;
   } | null>(null);
 
   const gateInstallLink = useCallback(
     (section: string, destination: string) =>
       (e: React.MouseEvent<HTMLAnchorElement>) => {
-        if (hasCapturedInstallEmail()) {
-          // Gate already passed: fire canonical event and let Link navigate.
-          fireGetStarted(section, destination, "Install on macOS");
-          return;
-        }
-        // Hard gate: open modal. Modal fires `get_started_click` only after
-        // the email is submitted, then completes the navigation.
+        // Email-only install gate: every click opens the modal. There is no
+        // bypass for "previously captured" users; the install link is only
+        // delivered via the welcome email.
         e.preventDefault();
-        setInstallGate({
-          section,
-          destination,
-          onComplete: () => {
-            if (destination.startsWith("/")) {
-              router.push(destination);
-            } else {
-              window.location.href = destination;
-            }
-          },
-        });
+        setInstallGate({ section, destination });
       },
-    [router]
+    []
   );
 
   const desktopRef = useRef<HTMLDivElement | null>(null);
@@ -223,22 +185,15 @@ export function HomeClient() {
   }, []);
 
   // Auto-open the install gate when /api/download bounced us back here
-  // because the install token cookie was missing or expired. After email
-  // capture, complete the original action by navigating to /api/download.
-  // Defer the setState past the initial render to avoid a cascading effect.
+  // because the install token was missing or expired. The modal sends a
+  // fresh install email; the user picks up from there in their inbox.
   useEffect(() => {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
     if (params.get("gate") !== "required") return;
     const from = params.get("from") === "download" ? "/api/download" : "/install";
     const id = window.setTimeout(() => {
-      setInstallGate({
-        section: "download-gate-bounce",
-        destination: from,
-        onComplete: () => {
-          window.location.href = from;
-        },
-      });
+      setInstallGate({ section: "download-gate-bounce", destination: from });
       // Strip the query so a refresh doesn't re-pop the modal.
       const clean = window.location.pathname + window.location.hash;
       window.history.replaceState({}, "", clean);
@@ -790,9 +745,6 @@ export function HomeClient() {
       <InstallEmailGateModal
         open={installGate !== null}
         onClose={() => setInstallGate(null)}
-        onComplete={() => {
-          installGate?.onComplete();
-        }}
         section={installGate?.section ?? ""}
         destination={installGate?.destination ?? ""}
         text="Install on macOS"
