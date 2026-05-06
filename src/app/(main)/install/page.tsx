@@ -88,16 +88,9 @@ export default function InstallPage() {
               emailOnly
               githubUrl={GITHUB_URL}
               modalTitle="One step before install"
-              modalDescription="Drop your email and we'll send the brew install command plus the .dmg link. No spam."
+              modalDescription="Drop your email and we'll send the brew install command plus the .dmg link. No spam. Open the email to grab the brew command and the .dmg installer link."
               submitLabel="Email me the install"
               sentTitle="Check your inbox"
-              sentDescription={(email) => (
-                <>
-                  Sent to <span className="font-medium text-zinc-900">{email}</span>.
-                  Open the email to grab the brew command and the .dmg installer link.
-                  If you don&rsquo;t see it in a minute, check spam or promotions.
-                </>
-              )}
               label="Email me the install"
             />
             <TrackedCta
@@ -316,15 +309,9 @@ export default function InstallPage() {
               emailOnly
               githubUrl={GITHUB_URL}
               modalTitle="One step before install"
-              modalDescription="Drop your email and we'll send the brew install command plus the .dmg link. No spam."
+              modalDescription="Drop your email and we'll send the brew install command plus the .dmg link. No spam. Open the email to grab the brew command and the .dmg installer link."
               submitLabel="Email me the install"
               sentTitle="Check your inbox"
-              sentDescription={(email) => (
-                <>
-                  Sent to <span className="font-medium text-zinc-900">{email}</span>.
-                  Open the email to grab the brew command and the .dmg installer link.
-                </>
-              )}
               label="Email me the install"
             />
             <TrackedCta
