@@ -1,10 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import {
-  InstallEmailGateModal,
-  hasCapturedInstallEmail,
-} from "@/components/install-email-gate-modal";
+import { InstallEmailGateModal } from "@/components/install-email-gate-modal";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -26,34 +23,10 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const navigateToDownload = () => {
-    if (typeof window !== "undefined") {
-      window.location.href = "/api/download";
-    }
-  };
-
   const handleDownloadClick = (section: "header" | "header-mobile") => {
-    // Already captured email previously: pass straight through.
-    if (hasCapturedInstallEmail()) {
-      // Fire canonical funnel event for the gated-passed click.
-      if (typeof window !== "undefined") {
-        const w = window as unknown as {
-          posthog?: { capture: (e: string, p?: Record<string, unknown>) => void };
-        };
-        w.posthog?.capture("get_started_click", {
-          destination: "/api/download",
-          site: "claude-meter",
-          section,
-          text: "Download",
-          component: "Header",
-          page: window.location.pathname,
-        });
-      }
-      navigateToDownload();
-      return;
-    }
-    // Not captured yet: open the modal. The modal fires get_started_click
-    // ONLY after email is submitted, then completes the navigation.
+    // Email-only install gate: every click opens the modal. There is no
+    // bypass for "previously captured" users; the user must click the link
+    // in the email to actually start the download.
     setGateOpen({ section });
   };
 
@@ -185,7 +158,6 @@ export function Header() {
       <InstallEmailGateModal
         open={gateOpen !== null}
         onClose={() => setGateOpen(null)}
-        onComplete={navigateToDownload}
         section={gateOpen?.section ?? "header"}
         destination="/api/download"
         text="Download"
