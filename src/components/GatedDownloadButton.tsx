@@ -1,10 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import {
-  InstallEmailGateModal,
-  hasCapturedInstallEmail,
-} from "@/components/install-email-gate-modal";
+import { InstallEmailGateModal } from "@/components/install-email-gate-modal";
 
 interface Props {
   href: string;
@@ -15,52 +12,26 @@ interface Props {
 }
 
 /**
- * Hard email gate around any download/install action. Opens the email modal
- * before navigating. The canonical `get_started_click` event fires only AFTER
- * a successful email submit (handled inside the modal). If the user has
- * already captured an email previously, the click passes straight through.
+ * Email-only install gate around any download/install action. Every click
+ * opens the modal. The modal accepts the email, fires the canonical
+ * `get_started_click` event, and shows a "check your inbox" success state.
+ * The actual download only starts when the user clicks the tokenized URL in
+ * the welcome email; this component never navigates to `href` itself.
+ *
+ * `href` is retained as a prop for analytics + potential future restoration
+ * of a direct path, but it is intentionally unused at runtime.
  */
 export function GatedDownloadButton({ href, section, text, className, children }: Props) {
   const [open, setOpen] = useState(false);
 
-  const navigate = () => {
-    if (typeof window !== "undefined") {
-      window.location.href = href;
-    }
-  };
-
-  const onClick = () => {
-    if (hasCapturedInstallEmail()) {
-      // Gate already passed previously: fire the canonical funnel event for
-      // this gated-passed click, then navigate.
-      if (typeof window !== "undefined") {
-        const w = window as unknown as {
-          posthog?: { capture: (e: string, p?: Record<string, unknown>) => void };
-        };
-        w.posthog?.capture("get_started_click", {
-          destination: href,
-          site: "claude-meter",
-          section,
-          text,
-          component: "GatedDownloadButton",
-          page: window.location.pathname,
-        });
-      }
-      navigate();
-      return;
-    }
-    setOpen(true);
-  };
-
   return (
     <>
-      <button type="button" onClick={onClick} className={className}>
+      <button type="button" onClick={() => setOpen(true)} className={className}>
         {children}
       </button>
       <InstallEmailGateModal
         open={open}
         onClose={() => setOpen(false)}
-        onComplete={navigate}
         section={section}
         destination={href}
         text={text}
