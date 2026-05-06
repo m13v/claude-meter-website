@@ -94,7 +94,6 @@ export function HomeClient() {
   const [tab, setTab] = useState<TabId>("all");
   const [mbVisible, setMbVisible] = useState(false);
   const [stopIdx, setStopIdx] = useState(0);
-  const [bouncedSection, setBouncedSection] = useState<string | null>(null);
   const bounceGateRef = useRef<HTMLButtonElement | null>(null);
 
   const desktopRef = useRef<HTMLDivElement | null>(null);
@@ -176,7 +175,6 @@ export function HomeClient() {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
     if (params.get("gate") !== "required") return;
-    setBouncedSection("download-gate-bounce");
     // Strip the query so a refresh doesn't re-pop the modal.
     const clean = window.location.pathname + window.location.hash;
     window.history.replaceState({}, "", clean);
@@ -775,7 +773,7 @@ export function HomeClient() {
         <InstallEmailGate
           command={BREW_CMD}
           site="claude-meter"
-          section={bouncedSection ?? "download-gate-bounce"}
+          section="download-gate-bounce"
           emailOnly
           githubUrl={GITHUB_URL}
           modalTitle="One step before install"
