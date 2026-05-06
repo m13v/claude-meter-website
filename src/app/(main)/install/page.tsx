@@ -2,10 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { InstallEmailGate } from "@seo/components";
 import { TrackedCta } from "@/components/TrackedCta";
-import { GatedDownloadButton } from "@/components/GatedDownloadButton";
-import { CopyCommand } from "./CopyCommand";
 
-const CLAUDE_METER_STORAGE_KEY = "claude_meter_email_captured";
 const GITHUB_URL = "https://github.com/m13v/claude-meter";
 
 export const metadata: Metadata = {
@@ -14,8 +11,9 @@ export const metadata: Metadata = {
     "Install ClaudeMeter in under a minute on macOS 12+. One brew cask, then load the unpacked extension in Chrome, Arc, Brave, or Edge. Reads your existing claude.ai session, no cookie paste.",
 };
 
+// Email-only gate: this lives ONLY in the welcome email sent by
+// /api/newsletter, never on the page. The page never renders the brew command.
 const BREW_CMD = "brew install --cask m13v/tap/claude-meter";
-const CLONE_CMD = "git clone https://github.com/m13v/claude-meter";
 
 const howToJsonLd = {
   "@context": "https://schema.org",
