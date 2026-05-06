@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { InstallEmailGate } from "@seo/components";
-import { InstallEmailGateModal } from "@/components/install-email-gate-modal";
 import "./home.css";
 
 const CLAUDE_METER_STORAGE_KEY = "claude_meter_email_captured";
@@ -97,22 +96,8 @@ export function HomeClient() {
   const [tab, setTab] = useState<TabId>("all");
   const [mbVisible, setMbVisible] = useState(false);
   const [stopIdx, setStopIdx] = useState(0);
-  const [installGate, setInstallGate] = useState<{
-    section: string;
-    destination: string;
-  } | null>(null);
-
-  const gateInstallLink = useCallback(
-    (section: string, destination: string) =>
-      (e: React.MouseEvent<HTMLAnchorElement>) => {
-        // Email-only install gate: every click opens the modal. There is no
-        // bypass for "previously captured" users; the install link is only
-        // delivered via the welcome email.
-        e.preventDefault();
-        setInstallGate({ section, destination });
-      },
-    []
-  );
+  const [bouncedSection, setBouncedSection] = useState<string | null>(null);
+  const bounceGateRef = useRef<HTMLButtonElement | null>(null);
 
   const desktopRef = useRef<HTMLDivElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
@@ -185,19 +170,21 @@ export function HomeClient() {
   }, []);
 
   // Auto-open the install gate when /api/download bounced us back here
-  // because the install token was missing or expired. The modal sends a
-  // fresh install email; the user picks up from there in their inbox.
+  // because the install token was missing or expired. The shared
+  // <InstallEmailGate emailOnly> rendered at the bottom of this page accepts
+  // the email and sends a fresh install email; the user picks up from there
+  // in their inbox.
   useEffect(() => {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
     if (params.get("gate") !== "required") return;
-    const from = params.get("from") === "download" ? "/api/download" : "/install";
+    setBouncedSection("download-gate-bounce");
+    // Strip the query so a refresh doesn't re-pop the modal.
+    const clean = window.location.pathname + window.location.hash;
+    window.history.replaceState({}, "", clean);
     const id = window.setTimeout(() => {
-      setInstallGate({ section: "download-gate-bounce", destination: from });
-      // Strip the query so a refresh doesn't re-pop the modal.
-      const clean = window.location.pathname + window.location.hash;
-      window.history.replaceState({}, "", clean);
-    }, 0);
+      bounceGateRef.current?.click();
+    }, 50);
     return () => window.clearTimeout(id);
   }, []);
 
