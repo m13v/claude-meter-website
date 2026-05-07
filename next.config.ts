@@ -55,6 +55,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/alternative/weekly-quota-vs-5-hour-claude-limit",
+        destination: "/alternative/claude-code-rolling-5-hour-vs-weekly-quota",
+        permanent: true,
+      },
+      {
         source: "/t/claude-code-rate-limit-usage-tracker",
         destination: "/t/claude-code-usage-tracker",
         permanent: true,
