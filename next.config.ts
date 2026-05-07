@@ -44,6 +44,11 @@ const nextConfig: NextConfig = {
         destination: "/t/claude-pro-rate-limit-local-counter-vs-server-quota",
         permanent: true,
       },
+      {
+        source: "/alternative/5-hour-bar-vs-weekly-quota-separate-streams",
+        destination: "/alternative/claude-code-rolling-5-hour-vs-weekly-quota",
+        permanent: true,
+      },
     ];
   },
 };
