@@ -49,6 +49,11 @@ const nextConfig: NextConfig = {
         destination: "/alternative/claude-code-rolling-5-hour-vs-weekly-quota",
         permanent: true,
       },
+      {
+        source: "/alternative/claude-code-weekly-vs-5-hour-rate-limit",
+        destination: "/alternative/claude-code-rolling-5-hour-vs-weekly-quota",
+        permanent: true,
+      },
     ];
   },
 };
