@@ -285,11 +285,11 @@ export default function Page() {
 
       <BackgroundGrid pattern="dots" glow>
         <div className="mx-auto max-w-4xl px-6 pt-10 pb-16">
-          <Breadcrumbs items={breadcrumbs} />
+          <Breadcrumbs items={breadcrumbItems} />
 
           <h1 className="mt-6 text-4xl md:text-5xl font-semibold tracking-tight text-zinc-900">
             A Claude Pro usage meter your{" "}
-            <GradientText variant="cyan-teal">browser automation loop</GradientText>{" "}
+            <GradientText variant="teal">browser automation loop</GradientText>{" "}
             can actually read mid-run
           </h1>
 
@@ -653,7 +653,7 @@ export default function Page() {
       <section className="mx-auto max-w-4xl px-6 py-12">
         <h2 className="text-2xl font-semibold text-zinc-900">FAQ</h2>
         <div className="mt-6">
-          <FaqSection faqs={faqs} />
+          <FaqSection items={faqs} heading="" />
         </div>
       </section>
 
