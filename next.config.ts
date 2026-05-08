@@ -40,6 +40,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/t/claude-code-local-token-estimator-vs-server-usage",
+        destination: "/t/claude-pro-rate-limit-local-counter-vs-server-quota",
+        permanent: true,
+      },
+      {
         source: "/alternative/local-claude-code-count-vs-server-quota",
         destination: "/t/claude-pro-rate-limit-local-counter-vs-server-quota",
         permanent: true,
