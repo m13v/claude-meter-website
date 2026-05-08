@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { StripeCheckoutButton } from "@/components/StripeCheckoutButton";
+import { NewsStrip } from "@seo/components";
 import "./home.css";
 
 const GITHUB_URL = "https://github.com/m13v/claude-meter";
@@ -215,18 +216,19 @@ export function HomeClient() {
 
   return (
     <div className="home-root" ref={rootRef}>
-      {/* NEWS STRIP — May 6, 2026 doubling */}
-      <Link href="/t/claude-rate-limits-doubled-weekly-cap-unchanged" className="news-strip" aria-label="Read the May 6, 2026 analysis: Claude Code 5-hour rate limits doubled, the weekly cap is the new wall">
-        <span className="news-pill" aria-hidden="true">
-          <span className="news-pill-dot" />
-          NEW
-        </span>
-        <span className="news-text">
-          <strong>May 6:</strong> Anthropic doubled Claude Code 5-hour limits.
-          <span className="news-wedge"> The weekly cap did not move &mdash; here&rsquo;s why that bar still bites by Tuesday.</span>
-        </span>
-        <span className="news-arrow" aria-hidden="true">Read the breakdown &rarr;</span>
-      </Link>
+      {/* NEWS STRIP — managed by run_top_posts_pipeline.sh; remove or
+          repoint when the underlying news cycle expires. */}
+      <NewsStrip
+        href="/t/claude-rate-limits-doubled-weekly-cap-unchanged"
+        pillText="MAY 6"
+        lead="Anthropic doubled Claude Code 5-hour limits."
+        wedge="The weekly cap did not move &mdash; here&rsquo;s why that bar still bites by Tuesday."
+        ctaLabel="Read the breakdown"
+        tone="amber"
+        site="claude-meter"
+        section="homepage-news-strip"
+        datePublished="2026-05-07"
+      />
 
       {/* HERO */}
       <header className="hero" ref={heroRef}>
