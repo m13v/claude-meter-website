@@ -30,7 +30,6 @@ export async function POST(req: NextRequest) {
       cancel_url: `${origin}/`,
       allow_promotion_codes: false,
       billing_address_collection: "auto",
-      customer_creation: "always",
       metadata: { app: "claude-meter", section },
       subscription_data: {
         metadata: { app: "claude-meter", section },
