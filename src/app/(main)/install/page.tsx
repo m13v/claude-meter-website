@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { TrackedCta } from "@/components/TrackedCta";
-import { StripeCheckoutButton } from "@/components/StripeCheckoutButton";
+import { InstallCta } from "./InstallCta";
 
 const GITHUB_URL = "https://github.com/m13v/claude-meter";
 
@@ -76,20 +76,7 @@ export default function InstallPage() {
             Subscribe for $5/month to unlock the install. You get the brew command, the .dmg download, and the browser extension. The browser extension forwards your existing claude.ai session so there is no cookie paste and no new login.
           </p>
           <div className="flex flex-wrap gap-3">
-            <StripeCheckoutButton
-              section="install-page-hero"
-              renderTrigger={({ onClick, loading }) => (
-                <button
-                  type="button"
-                  onClick={onClick}
-                  disabled={loading}
-                  className="inline-flex items-center rounded-md bg-white px-6 py-3 font-heading text-sm font-semibold uppercase tracking-wider text-gray-900 hover:bg-gray-100 transition-colors"
-                  style={{ opacity: loading ? 0.7 : undefined }}
-                >
-                  {loading ? "Loading…" : "Get Started — $5/mo"}
-                </button>
-              )}
-            />
+            <InstallCta section="install-page-hero" variant="light" />
             <TrackedCta
               href={GITHUB_URL}
               location="install_page_hero"
@@ -299,20 +286,7 @@ export default function InstallPage() {
           </div>
 
           <div className="flex flex-wrap gap-4 pt-2">
-            <StripeCheckoutButton
-              section="install-page-final"
-              renderTrigger={({ onClick, loading }) => (
-                <button
-                  type="button"
-                  onClick={onClick}
-                  disabled={loading}
-                  className="inline-flex items-center rounded-md bg-black px-6 py-3 font-heading text-sm font-semibold uppercase tracking-wider text-white hover:bg-gray-900 transition-colors"
-                  style={{ opacity: loading ? 0.7 : undefined }}
-                >
-                  {loading ? "Loading…" : "Get Started — $5/mo"}
-                </button>
-              )}
-            />
+            <InstallCta section="install-page-final" variant="dark" />
             <TrackedCta
               href={GITHUB_URL}
               location="install_page"
