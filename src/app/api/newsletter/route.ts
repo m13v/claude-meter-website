@@ -1,4 +1,5 @@
 import type { NextRequest } from "next/server";
+import { capturePostHogServer } from "@seo/components/server";
 import { getSql } from "@/lib/db";
 import { signInstallToken } from "@/lib/install-gate-token";
 
@@ -296,6 +297,27 @@ export async function POST(req: NextRequest): Promise<Response> {
   } catch (err) {
     console.error("[newsletter] DB log error:", err);
   }
+
+  // Server-side PostHog capture so the dashboard "Email Signups" column
+  // reflects ground truth instead of ad-blocker-eaten client events.
+  let host: string | undefined;
+  try {
+    host = req.headers.get("host") || "claude-meter.com";
+  } catch {
+    host = "claude-meter.com";
+  }
+  void capturePostHogServer({
+    event: "newsletter_subscribed_server",
+    distinctId: email,
+    host,
+    properties: {
+      email,
+      site: "claude-meter",
+      brand: "Claude Meter",
+      resend_email_id: resendEmailId,
+      component: "claude-meter/api/newsletter",
+    },
+  });
 
   return new Response(
     JSON.stringify({ success: true }),
