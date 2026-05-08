@@ -219,15 +219,15 @@ export function HomeClient() {
       {/* NEWS STRIP — managed by run_top_posts_pipeline.sh; remove or
           repoint when the underlying news cycle expires. */}
       <NewsStrip
-        href="/t/claude-rate-limits-doubled-weekly-cap-unchanged"
-        pillText="MAY 6"
-        lead="Anthropic doubled Claude Code 5-hour limits."
-        wedge="The weekly cap did not move; here&rsquo;s why that bar still bites by Tuesday."
+        href="/t/claude-opus-71-percent-weekly-monday-refactor"
+        pillText="APR 27"
+        lead="71% weekly quota burned by Monday on one Opus refactor."
+        wedge="Local token estimators were off by 30%+. The metered billing split is why."
         ctaLabel="Read the breakdown"
         tone="amber"
         site="claude-meter"
         section="homepage-news-strip"
-        datePublished="2026-05-07"
+        datePublished="2026-04-27"
       />
 
       {/* PRO LAUNCH STRIP — points at /pro waitlist; teal tone for "soft
