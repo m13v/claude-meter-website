@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { InstallEmailGate } from "@seo/components";
+import { StripeCheckoutButton } from "@/components/StripeCheckoutButton";
 import "./home.css";
 
 const GITHUB_URL = "https://github.com/m13v/claude-meter";
@@ -259,77 +259,22 @@ export function HomeClient() {
               </p>
 
               <div className="hero-cta reveal-up in d3">
-                <InstallEmailGate
-                  command={BREW_CMD}
-                  site="claude-meter"
+                <StripeCheckoutButton
                   section="hero"
-                  emailOnly
-                  githubUrl={GITHUB_URL}
-                  modalTitle="One step before install"
-                  modalDescription="Drop your email and we'll send the install link plus the brew command. No spam."
-                  submitLabel="Email me the install"
-                  sentTitle="Check your inbox"
-                  sentDescription={(email) => (
-                    <>
-                      Sent to <span className="font-medium text-zinc-900">{email}</span>.
-                      Open the email to grab the brew command and the .dmg installer link.
-                      If you don&rsquo;t see it in a minute, check spam or promotions.
-                    </>
-                  )}
-                  renderTrigger={({ onClick }) => (
+                  renderTrigger={({ onClick, loading }) => (
                     <button
                       type="button"
                       onClick={onClick}
+                      disabled={loading}
                       className="btn signal big"
+                      style={{ opacity: loading ? 0.7 : undefined }}
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                         <polyline points="7 10 12 15 17 10" />
                         <line x1="12" y1="15" x2="12" y2="3" />
                       </svg>
-                      Install on macOS
-                    </button>
-                  )}
-                />
-                <InstallEmailGate
-                  command={BREW_CMD}
-                  site="claude-meter"
-                  section="hero-brew"
-                  emailOnly
-                  githubUrl={GITHUB_URL}
-                  modalTitle="One step before install"
-                  modalDescription="Drop your email and we'll send the brew install command plus the .dmg link. No spam."
-                  submitLabel="Email me the install"
-                  sentTitle="Check your inbox"
-                  sentDescription={(email) => (
-                    <>
-                      Sent to <span className="font-medium text-zinc-900">{email}</span>.
-                      Open the email to grab the brew command and the .dmg installer link.
-                      If you don&rsquo;t see it in a minute, check spam or promotions.
-                    </>
-                  )}
-                  renderTrigger={({ onClick }) => (
-                    <button
-                      type="button"
-                      className="install-chip big"
-                      onClick={onClick}
-                      aria-label="Email me the brew install command"
-                    >
-                      <span className="chip-cmd">Email me the brew command</span>
-                      <span className="copy" aria-hidden="true">
-                        <svg
-                          width="13"
-                          height="13"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M3 8l7.5 5.25a3 3 0 003 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                      </span>
+                      {loading ? "Loading…" : "Get Started — $5/mo"}
                     </button>
                   )}
                 />
@@ -731,25 +676,17 @@ export function HomeClient() {
             ClaudeMeter reads the server-truth numbers Anthropic enforces for Pro and Max: the rolling 5-hour window, the weekly quota, and the extra-usage balance. No cookie pastes. No token guesswork.
           </p>
           <div className="cta-buttons reveal-up d3">
-            <InstallEmailGate
-              command={BREW_CMD}
-              site="claude-meter"
+            <StripeCheckoutButton
               section="footer-cta"
-              emailOnly
-              githubUrl={GITHUB_URL}
-              modalTitle="One step before install"
-              modalDescription="Drop your email and we'll send the install link plus the brew command. No spam."
-              submitLabel="Email me the install"
-              sentTitle="Check your inbox"
-              sentDescription={(email) => (
-                <>
-                  Sent to <span className="font-medium text-zinc-900">{email}</span>.
-                  Open the email to grab the brew command and the .dmg installer link.
-                </>
-              )}
-              renderTrigger={({ onClick }) => (
-                <button type="button" onClick={onClick} className="btn signal">
-                  Install on macOS
+              renderTrigger={({ onClick, loading }) => (
+                <button
+                  type="button"
+                  onClick={onClick}
+                  disabled={loading}
+                  className="btn signal"
+                  style={{ opacity: loading ? 0.7 : undefined }}
+                >
+                  {loading ? "Loading…" : "Get Started — $5/mo"}
                 </button>
               )}
             />
@@ -780,37 +717,13 @@ export function HomeClient() {
       </div>
 
       {/* Hidden gate triggered programmatically when /api/download bounces a
-          visitor back here with ?gate=required. Renders an offscreen button
-          which the auto-open useEffect clicks to pop the shared modal. */}
-      <div style={{ position: "absolute", left: -9999, top: -9999, width: 1, height: 1, overflow: "hidden" }} aria-hidden="true">
-        <InstallEmailGate
-          command={BREW_CMD}
-          site="claude-meter"
-          section="download-gate-bounce"
-          emailOnly
-          githubUrl={GITHUB_URL}
-          modalTitle="One step before install"
-          modalDescription="The install link expired or was missing. Drop your email and we'll resend the brew command plus the .dmg link."
-          submitLabel="Email me the install"
-          sentTitle="Check your inbox"
-          sentDescription={(email) => (
-            <>
-              Sent to <span className="font-medium text-zinc-900">{email}</span>.
-              Open the email to grab the brew command and the .dmg installer link.
-            </>
-          )}
-          renderTrigger={({ onClick }) => (
-            <button
-              type="button"
-              ref={bounceGateRef}
-              onClick={onClick}
-              tabIndex={-1}
-            >
-              open install gate
-            </button>
-          )}
-        />
-      </div>
+          visitor back here with ?gate=required. The sentinel button is clicked
+          by the useEffect above, which kicks off the Stripe checkout flow. */}
+      <StripeCheckoutButton
+        section="download-gate-bounce"
+        triggerRef={bounceGateRef}
+        renderTrigger={() => null}
+      />
     </div>
   );
 }
