@@ -1,9 +1,30 @@
-import type { NextRequest } from "next/server";
-import { capturePostHogServer } from "@seo/components/server";
+import { createNewsletterHandler } from "@seo/components/server";
 import { getSql } from "@/lib/db";
 import { signInstallToken } from "@/lib/install-gate-token";
 
+/*
+ * Newsletter handler for Claude Meter's email install gate.
+ *
+ * Uses the shared `createNewsletterHandler` factory from
+ * @m13v/seo-components v0.38+, which now supports the `welcomeText` plain-
+ * text MIME part this route needs (without it, Resend auto-extracts text
+ * from HTML and collapses install commands onto a single line). The factory
+ * also fires the canonical `newsletter_subscribed_server` PostHog event so
+ * the dashboard's "Email Signups" column reflects ground truth instead of
+ * ad-blocker lossy client events.
+ *
+ * The welcome email contains a per-subscriber HMAC install token baked into
+ * the .dmg download URL. The factory passes `email` into both `welcomeHtml`
+ * and `welcomeText`, so we can call `signInstallToken(email)` inline. The
+ * install-gate cookie is NOT stamped here; only `/api/download` stamps it
+ * when the user clicks the tokenized link, so submitting the form alone
+ * does not unlock the DMG even from the same browser.
+ *
+ * No em or en dashes anywhere (UTF-8 corruption in subjects).
+ */
+
 const FROM = "Matt from Claude Meter <matt@claude-meter.com>";
+const BRAND = "Claude Meter";
 const SITE_URL = "https://claude-meter.com";
 const BREW_CMD = "brew install --cask m13v/tap/claude-meter";
 const BREW_UPGRADE_CMD = "brew upgrade --cask claude-meter";
@@ -19,17 +40,7 @@ function codeBlock(code: string): string {
   return `<div style="font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:13px;color:#0f172a;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px;line-height:1.5;white-space:pre;overflow-x:auto;">${escapeHtml(code)}</div>`;
 }
 
-/**
- * Welcome email body. The page never renders these commands; this email is
- * the single source of truth. Includes:
- *   1. The Homebrew install command (menu bar app + CLI).
- *   2. A tokenized .dmg installer link, valid for 30 days, usable on any
- *      device. The token in the URL is the same HMAC the cookie carries;
- *      /api/download accepts either.
- *   3. The git clone URL for the unpacked browser extension.
- *   4. The brew upgrade command and the menu bar CLI command, for later use.
- */
-function buildWelcomeEmailHtml(email: string): string {
+function buildWelcomeHtml(email: string): string {
   const installToken = signInstallToken(email);
   const dmgUrl = `${SITE_URL}/api/download?token=${encodeURIComponent(installToken)}`;
   return `<!DOCTYPE html>
@@ -48,7 +59,7 @@ function buildWelcomeEmailHtml(email: string): string {
           </tr>
           <tr>
             <td style="padding:32px 32px 0;">
-              <span style="font-size:22px;font-weight:bold;color:#0f172a;">Claude Meter</span>
+              <span style="font-size:22px;font-weight:bold;color:#0f172a;">${BRAND}</span>
             </td>
           </tr>
           <tr>
@@ -141,7 +152,7 @@ function buildWelcomeEmailHtml(email: string): string {
           </tr>
           <tr>
             <td style="border-top:1px solid #e2e8f0;padding:20px 32px;color:#94a3b8;font-size:12px;line-height:1.5;">
-              You're receiving this because you signed up at <a href="${SITE_URL}" style="color:#14b8a6;text-decoration:none;">claude-meter.com</a>. The .dmg link is valid for 30 days.
+              You&rsquo;re receiving this because you signed up at <a href="${SITE_URL}" style="color:#14b8a6;text-decoration:none;">claude-meter.com</a>. The .dmg link is valid for 30 days.
             </td>
           </tr>
         </table>
@@ -152,13 +163,7 @@ function buildWelcomeEmailHtml(email: string): string {
 </html>`;
 }
 
-/**
- * Plain-text alternative for clients that strip HTML. Each command lands on
- * its own line so they can be copied directly. Resend uses this verbatim
- * instead of auto-extracting from the HTML (which collapses whitespace and
- * runs commands together).
- */
-function buildWelcomeEmailText(email: string): string {
+function buildWelcomeText(email: string): string {
   const installToken = signInstallToken(email);
   const dmgUrl = `${SITE_URL}/api/download?token=${encodeURIComponent(installToken)}`;
   return [
@@ -198,129 +203,27 @@ function buildWelcomeEmailText(email: string): string {
   ].join("\n");
 }
 
-/**
- * Email-only install gate. Mirrors the shape of
- * `createNewsletterHandler` from @m13v/seo-components/server but sends the
- * welcome email with both `html` AND `text` MIME parts. Resend's
- * auto-extracted plain text collapses whitespace and runs shell commands
- * onto a single line, which is unusable for an install email; passing
- * an explicit `text` body keeps every command on its own line.
- *
- * The endpoint does NOT set the install-gate cookie. The cookie is only
- * stamped by /api/download when the user clicks the tokenized link in the
- * welcome email, so submitting the form alone is not enough to unlock the
- * DMG, even from the same browser.
- */
-export async function POST(req: NextRequest): Promise<Response> {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    return new Response(
-      JSON.stringify({ error: "Server configuration error" }),
-      { status: 500, headers: { "content-type": "application/json" } },
-    );
-  }
-
-  let body: { email?: string };
-  try {
-    body = await req.json();
-  } catch {
-    return new Response(
-      JSON.stringify({ error: "Invalid request body" }),
-      { status: 400, headers: { "content-type": "application/json" } },
-    );
-  }
-
-  const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
-  if (!email || !email.includes("@")) {
-    return new Response(
-      JSON.stringify({ error: "A valid email address is required" }),
-      { status: 400, headers: { "content-type": "application/json" } },
-    );
-  }
-
-  const audienceId = process.env.RESEND_AUDIENCE_ID || "";
-  if (audienceId) {
-    const contactRes = await fetch(
-      `https://api.resend.com/audiences/${audienceId}/contacts`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, unsubscribed: false }),
-      },
-    );
-    if (!contactRes.ok) {
-      const detail = await contactRes.text().catch(() => "");
-      console.error("[newsletter] Failed to add contact:", detail);
-      return new Response(
-        JSON.stringify({ error: "Failed to subscribe. Please try again." }),
-        { status: 502, headers: { "content-type": "application/json" } },
-      );
+export const POST = createNewsletterHandler({
+  audienceId: process.env.RESEND_AUDIENCE_ID || "",
+  fromEmail: FROM,
+  brand: BRAND,
+  site: "claude-meter",
+  siteUrl: SITE_URL,
+  welcomeSubject: WELCOME_SUBJECT,
+  welcomeHtml: (email) => buildWelcomeHtml(email),
+  welcomeText: (email) => buildWelcomeText(email),
+  onSignup: async (email, resendEmailId) => {
+    try {
+      const sql = getSql();
+      await sql`
+        INSERT INTO claude_meter_emails
+          (resend_id, direction, from_email, to_email, subject, status)
+        VALUES
+          (${resendEmailId}, 'outbound', ${FROM}, ${email},
+           ${WELCOME_SUBJECT}, ${resendEmailId ? "sent" : "failed"})
+      `;
+    } catch (err) {
+      console.error("[newsletter] DB log error:", err);
     }
-  }
-
-  let resendEmailId: string | null = null;
-  const emailRes = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: FROM,
-      to: email,
-      subject: WELCOME_SUBJECT,
-      html: buildWelcomeEmailHtml(email),
-      text: buildWelcomeEmailText(email),
-    }),
-  });
-
-  if (emailRes.ok) {
-    const data = await emailRes.json().catch(() => ({}));
-    resendEmailId = data.id || null;
-  } else {
-    const detail = await emailRes.text().catch(() => "");
-    console.error("[newsletter] Failed to send welcome email:", detail);
-  }
-
-  try {
-    const sql = getSql();
-    await sql`
-      INSERT INTO claude_meter_emails
-        (resend_id, direction, from_email, to_email, subject, status)
-      VALUES
-        (${resendEmailId}, 'outbound', ${FROM}, ${email},
-         ${WELCOME_SUBJECT}, ${resendEmailId ? "sent" : "failed"})
-    `;
-  } catch (err) {
-    console.error("[newsletter] DB log error:", err);
-  }
-
-  // Server-side PostHog capture so the dashboard "Email Signups" column
-  // reflects ground truth instead of ad-blocker-eaten client events.
-  let host: string | undefined;
-  try {
-    host = req.headers.get("host") || "claude-meter.com";
-  } catch {
-    host = "claude-meter.com";
-  }
-  void capturePostHogServer({
-    event: "newsletter_subscribed_server",
-    distinctId: email,
-    host,
-    properties: {
-      email,
-      site: "claude-meter",
-      brand: "Claude Meter",
-      resend_email_id: resendEmailId,
-      component: "claude-meter/api/newsletter",
-    },
-  });
-
-  return new Response(
-    JSON.stringify({ success: true }),
-    { status: 200, headers: { "content-type": "application/json" } },
-  );
-}
+  },
+});
