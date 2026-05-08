@@ -222,7 +222,7 @@ export function HomeClient() {
         href="/t/claude-rate-limits-doubled-weekly-cap-unchanged"
         pillText="MAY 6"
         lead="Anthropic doubled Claude Code 5-hour limits."
-        wedge="The weekly cap did not move &mdash; here&rsquo;s why that bar still bites by Tuesday."
+        wedge="The weekly cap did not move; here&rsquo;s why that bar still bites by Tuesday."
         ctaLabel="Read the breakdown"
         tone="amber"
         site="claude-meter"
