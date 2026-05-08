@@ -1,9 +1,8 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { InstallEmailGate } from "@seo/components";
+import { StripeCheckoutButton } from "@/components/StripeCheckoutButton";
 
-const BREW_CMD = "brew install --cask m13v/tap/claude-meter";
 const GITHUB_URL = "https://github.com/m13v/claude-meter";
 
 const navLinks = [
@@ -77,26 +76,13 @@ export function Header() {
               </svg>
               <span>Star on GitHub</span>
             </a>
-            <InstallEmailGate
-              command={BREW_CMD}
-              site="claude-meter"
+            <StripeCheckoutButton
               section="header"
-              emailOnly
-              githubUrl={GITHUB_URL}
-              modalTitle="One step before install"
-              modalDescription="Drop your email and we'll send the install link plus the brew command. No spam."
-              submitLabel="Email me the install"
-              sentTitle="Check your inbox"
-              sentDescription={(email) => (
-                <>
-                  Sent to <span className="font-medium text-zinc-900">{email}</span>.
-                  Open the email to grab the brew command and the .dmg installer link.
-                </>
-              )}
-              renderTrigger={({ onClick }) => (
+              renderTrigger={({ onClick, loading }) => (
                 <button
                   type="button"
                   onClick={onClick}
+                  disabled={loading}
                   className="inline-flex items-center gap-[10px] whitespace-nowrap rounded-full px-[18px] py-[11px] font-medium transition-transform hover:-translate-y-px"
                   style={{
                     fontFamily: "var(--font-geist), sans-serif",
@@ -104,6 +90,7 @@ export function Header() {
                     background: "var(--ink)",
                     color: "var(--paper)",
                     border: "1px solid var(--ink)",
+                    opacity: loading ? 0.7 : 1,
                   }}
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -111,7 +98,7 @@ export function Header() {
                     <polyline points="7 10 12 15 17 10" />
                     <line x1="12" y1="15" x2="12" y2="3" />
                   </svg>
-                  Download
+                  {loading ? "Loading…" : "Get Started — $5/mo"}
                 </button>
               )}
             />
@@ -158,30 +145,17 @@ export function Header() {
               Star on GitHub ↗
             </a>
             <div className="mt-3">
-              <InstallEmailGate
-                command={BREW_CMD}
-                site="claude-meter"
+              <StripeCheckoutButton
                 section="header-mobile"
-                emailOnly
-                githubUrl={GITHUB_URL}
-                modalTitle="One step before install"
-                modalDescription="Drop your email and we'll send the install link plus the brew command. No spam."
-                submitLabel="Email me the install"
-                sentTitle="Check your inbox"
-                sentDescription={(email) => (
-                  <>
-                    Sent to <span className="font-medium text-zinc-900">{email}</span>.
-                    Open the email to grab the brew command and the .dmg installer link.
-                  </>
-                )}
-                renderTrigger={({ onClick }) => (
+                renderTrigger={({ onClick, loading }) => (
                   <button
                     type="button"
+                    disabled={loading}
                     className="block w-full rounded-full px-5 py-2.5 text-center text-sm font-medium"
-                    style={{ background: "var(--ink)", color: "var(--paper)" }}
+                    style={{ background: "var(--ink)", color: "var(--paper)", opacity: loading ? 0.7 : 1 }}
                     onClick={() => { setOpen(false); onClick(); }}
                   >
-                    Download for macOS
+                    {loading ? "Loading…" : "Get Started — $5/mo"}
                   </button>
                 )}
               />
