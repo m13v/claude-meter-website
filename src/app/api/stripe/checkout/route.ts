@@ -9,14 +9,8 @@ function getStripe() {
   return new Stripe(key, { apiVersion: "2026-04-22.dahlia" });
 }
 
-function getOrigin(req: NextRequest): string {
-  const forwarded = req.headers.get("x-forwarded-host");
-  const host = forwarded ?? req.headers.get("host");
-  if (host && !host.startsWith("0.0.0.0") && !host.startsWith("127.0.0.1") && !host.startsWith("localhost")) {
-    const proto = process.env.NODE_ENV === "production" ? "https" : "http";
-    return `${proto}://${host}`;
-  }
-  return "https://claude-meter.com";
+function getOrigin(_req: NextRequest): string {
+  return process.env.APP_URL ?? "https://claude-meter.com";
 }
 
 export async function POST(req: NextRequest) {
