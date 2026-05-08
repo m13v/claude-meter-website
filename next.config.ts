@@ -69,6 +69,11 @@ const nextConfig: NextConfig = {
         destination: "/t/claude-code-usage-tracker",
         permanent: true,
       },
+      {
+        source: "/t/track-claude-code-parallel-sessions-usage",
+        destination: "/t/claude-usage-meter-parallel-agents",
+        permanent: true,
+      },
     ];
   },
 };

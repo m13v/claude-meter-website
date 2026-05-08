@@ -54,6 +54,10 @@ const breadcrumbItems = [
 
 const faqs = [
   {
+    q: "Is tracking parallel Claude Code sessions any different from tracking parallel agents?",
+    a: "It is the same problem under two names. People say 'parallel sessions' when they mean N concurrent Claude Code processes (tmux panes, git worktrees, IDE plugins, MCP host loops) running against the same Claude account, and 'parallel agents' when those processes are wired into agentic loops. Either way the meter you want is the per-account server-side fraction, not a sum of per-process token counts. ClaudeMeter's dedupe_by_account in src/lib.rs collapses all those parallel session surfaces into one row keyed by account_email or org_uuid, and claude-meter --json prints the usage.five_hour.utilization every parallel session is racing to fill.",
+  },
+  {
     q: "If I run five parallel Claude Code agents, do I get five separate 5-hour quotas?",
     a: "No. The rolling 5-hour window is one bucket per Claude account. Anthropic computes utilization on the server against your org_uuid, and every OAuth-authenticated client signed into that account adds to the same fraction. Five Claude Code agents in five tmux panes, three git worktrees, two browser tabs, the IDE plugin, and a Computer Use loop all stack into one five_hour.utilization number. You will hit the rolling wall at the same wall-clock minute regardless of how many parallel agents are racing toward it.",
   },
