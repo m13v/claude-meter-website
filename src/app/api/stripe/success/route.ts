@@ -5,7 +5,7 @@ import { buildInstallTokenCookie } from "@/lib/install-gate-token";
 function getStripe() {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) throw new Error("STRIPE_SECRET_KEY is not set");
-  return new Stripe(key, { apiVersion: "2025-04-30.basil" });
+  return new Stripe(key, { apiVersion: "2026-04-22.dahlia" });
 }
 
 function getOrigin(req: NextRequest): string {
