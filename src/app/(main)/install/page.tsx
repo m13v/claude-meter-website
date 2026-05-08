@@ -1,14 +1,9 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { InstallEmailGate } from "@seo/components";
 import { TrackedCta } from "@/components/TrackedCta";
+import { StripeCheckoutButton } from "@/components/StripeCheckoutButton";
 
 const GITHUB_URL = "https://github.com/m13v/claude-meter";
-
-// Email-only install gate: the actual brew command, .dmg link, and clone URL
-// live ONLY in the welcome email sent by /api/newsletter. No install command
-// is ever rendered on this page.
-const BREW_CMD = "brew install --cask m13v/tap/claude-meter";
 
 export const metadata: Metadata = {
   title: "Install ClaudeMeter on macOS (60s, brew + browser extension)",
@@ -78,20 +73,22 @@ export default function InstallPage() {
             Install ClaudeMeter
           </h1>
           <p className="text-lg text-gray-300 max-w-2xl mb-8">
-            Drop your email below. We send the brew install command and a tokenized .dmg link to your inbox. Click whichever path you prefer; both pull the same signed, notarized build. The browser extension forwards your existing claude.ai session, so there is no cookie paste and no new login.
+            Subscribe for $5/month to unlock the install. You get the brew command, the .dmg download, and the browser extension. The browser extension forwards your existing claude.ai session so there is no cookie paste and no new login.
           </p>
           <div className="flex flex-wrap gap-3">
-            <InstallEmailGate
-              command={BREW_CMD}
-              site="claude-meter"
+            <StripeCheckoutButton
               section="install-page-hero"
-              emailOnly
-              githubUrl={GITHUB_URL}
-              modalTitle="One step before install"
-              modalDescription="Drop your email and we'll send the brew install command plus the .dmg link. No spam. Open the email to grab the brew command and the .dmg installer link."
-              submitLabel="Email me the install"
-              sentTitle="Check your inbox"
-              label="Email me the install"
+              renderTrigger={({ onClick, loading }) => (
+                <button
+                  type="button"
+                  onClick={onClick}
+                  disabled={loading}
+                  className="inline-flex items-center rounded-md bg-white px-6 py-3 font-heading text-sm font-semibold uppercase tracking-wider text-gray-900 hover:bg-gray-100 transition-colors"
+                  style={{ opacity: loading ? 0.7 : undefined }}
+                >
+                  {loading ? "Loading…" : "Get Started — $5/mo"}
+                </button>
+              )}
             />
             <TrackedCta
               href={GITHUB_URL}
@@ -302,17 +299,19 @@ export default function InstallPage() {
           </div>
 
           <div className="flex flex-wrap gap-4 pt-2">
-            <InstallEmailGate
-              command={BREW_CMD}
-              site="claude-meter"
+            <StripeCheckoutButton
               section="install-page-final"
-              emailOnly
-              githubUrl={GITHUB_URL}
-              modalTitle="One step before install"
-              modalDescription="Drop your email and we'll send the brew install command plus the .dmg link. No spam. Open the email to grab the brew command and the .dmg installer link."
-              submitLabel="Email me the install"
-              sentTitle="Check your inbox"
-              label="Email me the install"
+              renderTrigger={({ onClick, loading }) => (
+                <button
+                  type="button"
+                  onClick={onClick}
+                  disabled={loading}
+                  className="inline-flex items-center rounded-md bg-black px-6 py-3 font-heading text-sm font-semibold uppercase tracking-wider text-white hover:bg-gray-900 transition-colors"
+                  style={{ opacity: loading ? 0.7 : undefined }}
+                >
+                  {loading ? "Loading…" : "Get Started — $5/mo"}
+                </button>
+              )}
             />
             <TrackedCta
               href={GITHUB_URL}
