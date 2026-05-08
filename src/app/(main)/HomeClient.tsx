@@ -230,6 +230,20 @@ export function HomeClient() {
         datePublished="2026-05-07"
       />
 
+      {/* PRO LAUNCH STRIP — points at /pro waitlist; teal tone for "soft
+          announcement" so it reads as additive next to the amber breaking
+          news strip above. */}
+      <NewsStrip
+        href="/pro"
+        pillText="COMING SOON"
+        lead="Claude Meter Pro: a background agent that saves your usage."
+        wedge="Watches your Claude Code and Claude.ai calls, finds savings without losing quality, and (with permission) ships the fixes for you. Join the waitlist."
+        ctaLabel="Join the waitlist"
+        tone="teal"
+        site="claude-meter"
+        section="homepage-pro-strip"
+      />
+
       {/* HERO */}
       <header className="hero" ref={heroRef}>
         <div className="wrap">
