@@ -215,6 +215,19 @@ export function HomeClient() {
 
   return (
     <div className="home-root" ref={rootRef}>
+      {/* NEWS STRIP — May 6, 2026 doubling */}
+      <Link href="/t/claude-rate-limits-doubled-weekly-cap-unchanged" className="news-strip" aria-label="Read the May 6, 2026 analysis: Claude Code 5-hour rate limits doubled, the weekly cap is the new wall">
+        <span className="news-pill" aria-hidden="true">
+          <span className="news-pill-dot" />
+          NEW
+        </span>
+        <span className="news-text">
+          <strong>May 6:</strong> Anthropic doubled Claude Code 5-hour limits.
+          <span className="news-wedge"> The weekly cap did not move &mdash; here&rsquo;s why that bar still bites by Tuesday.</span>
+        </span>
+        <span className="news-arrow" aria-hidden="true">Read the breakdown &rarr;</span>
+      </Link>
+
       {/* HERO */}
       <header className="hero" ref={heroRef}>
         <div className="wrap">
