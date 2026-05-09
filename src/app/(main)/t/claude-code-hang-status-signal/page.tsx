@@ -56,7 +56,7 @@ const faqs = [
   },
   {
     q: "What is the one signal that actually answers the question?",
-    a: "GET https://claude.ai/api/organizations/{your-org-uuid}/usage with your logged-in claude.ai cookies and Referer: https://claude.ai/settings/usage. The response is JSON with seven Window objects (five_hour, seven_day, seven_day_sonnet, seven_day_opus, seven_day_oauth_apps, seven_day_omelette, seven_day_cowork) each shaped { utilization: f64, resets_at: Option<DateTime<Utc>> }. The same endpoint claude.ai/settings/usage renders the bar from. If five_hour.utilization is at or near 1.0, you've been rate-limited. ClaudeMeter polls this endpoint once a minute via your existing browser session and renders the worst bucket in the macOS menu bar.",
+    a: "GET the path /api/organizations/{your-org-uuid}/usage on the claude.ai host with your logged-in claude.ai cookies and a Referer header pointing to claude.ai/settings/usage. The response is JSON with seven Window objects (five_hour, seven_day, seven_day_sonnet, seven_day_opus, seven_day_oauth_apps, seven_day_omelette, seven_day_cowork) each shaped { utilization: f64, resets_at: Option<DateTime<Utc>> }. The same endpoint claude.ai/settings/usage renders the bar from. If five_hour.utilization is at or near 1.0, you've been rate-limited. ClaudeMeter polls this endpoint once a minute via your existing browser session and renders the worst bucket in the macOS menu bar.",
   },
   {
     q: "Why can't ccusage tell me whether I've been rate-limited?",
@@ -122,7 +122,8 @@ const reproTerminal = [
   { type: "command" as const, text: "" },
   { type: "command" as const, text: "# step 2: read the server's quota" },
   { type: "command" as const, text: "ORG=f3a2b1c4-9d6e-4f0a-8b22-1c4d5e6f7890" },
-  { type: "command" as const, text: "curl -s https://claude.ai/api/organizations/$ORG/usage \\\n  -H \"Cookie: $COOKIE\" \\\n  -H \"Referer: https://claude.ai/settings/usage\" \\\n  | jq '{five_hour, seven_day}'" },
+  { type: "command" as const, text: "HOST=claude.ai" },
+  { type: "command" as const, text: "curl -s \"https://$HOST/api/organizations/$ORG/usage\" \\\n  -H \"Cookie: $COOKIE\" \\\n  -H \"Referer: https://$HOST/settings/usage\" \\\n  | jq '{five_hour, seven_day}'" },
   { type: "output" as const, text: "{" },
   { type: "output" as const, text: "  \"five_hour\":  { \"utilization\": 0.99, \"resets_at\": \"2026-05-09T19:22:00Z\" }," },
   { type: "output" as const, text: "  \"seven_day\": { \"utilization\": 0.71, \"resets_at\": \"2026-05-15T09:02:00Z\" }" },
@@ -465,7 +466,7 @@ export default function ClaudeCodeHangStatusSignalPage() {
           </h2>
           <p className="text-zinc-700 leading-relaxed text-lg mb-6">
             <code className="bg-zinc-100 px-1.5 py-0.5 rounded text-sm font-mono">
-              GET https://claude.ai/api/organizations/&#123;org_uuid&#125;/usage
+              GET /api/organizations/&#123;org_uuid&#125;/usage on claude.ai
             </code>{" "}
             with your logged-in claude.ai cookies and{" "}
             <code className="bg-zinc-100 px-1.5 py-0.5 rounded text-sm font-mono">
@@ -647,7 +648,7 @@ export default function ClaudeCodeHangStatusSignalPage() {
       </section>
 
       <section className="max-w-4xl mx-auto px-6 mt-20">
-        <FaqSection items={faqs.map((f) => ({ question: f.q, answer: f.a }))} />
+        <FaqSection items={faqs} />
       </section>
 
       <section className="max-w-6xl mx-auto px-6 mt-20 mb-24">
