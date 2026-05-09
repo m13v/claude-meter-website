@@ -84,6 +84,11 @@ const nextConfig: NextConfig = {
         destination: "/t/claude-pro-usage-limit",
         permanent: true,
       },
+      {
+        source: "/t/claude-max-usage",
+        destination: "/t/claude-max-usage-tracker",
+        permanent: true,
+      },
     ];
   },
 };
