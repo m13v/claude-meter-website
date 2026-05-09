@@ -79,6 +79,11 @@ const nextConfig: NextConfig = {
         destination: "/t/claude-rate-limits-doubled-weekly-cap-unchanged",
         permanent: true,
       },
+      {
+        source: "/t/claude-pro-usage",
+        destination: "/t/claude-pro-usage-limit",
+        permanent: true,
+      },
     ];
   },
 };
