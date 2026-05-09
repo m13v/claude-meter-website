@@ -74,6 +74,11 @@ const nextConfig: NextConfig = {
         destination: "/t/claude-usage-meter-parallel-agents",
         permanent: true,
       },
+      {
+        source: "/t/claude-code-rate-limits-doubled-may-2026",
+        destination: "/t/claude-rate-limits-doubled-weekly-cap-unchanged",
+        permanent: true,
+      },
     ];
   },
 };
