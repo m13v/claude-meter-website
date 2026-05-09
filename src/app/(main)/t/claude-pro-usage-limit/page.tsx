@@ -152,13 +152,13 @@ const reproTerminal = [
 ];
 
 const planComparisonRows = [
-  { feature: "Monthly price", product: "$20", competitor: "$100 / $200" },
-  { feature: "5-hour window", product: "≈45 short messages", competitor: "≈225 / ≈900 short messages" },
-  { feature: "Weekly Sonnet 4 hours", product: "40 to 80", competitor: "140-280 / 240-480" },
-  { feature: "Weekly Opus 4 hours", product: "Limited (Pro is Sonnet-first)", competitor: "15-35 / 24-40" },
-  { feature: "Buckets server returns", product: "Same eight as Max", competitor: "Same eight as Pro" },
-  { feature: "Server-truth visibility", product: "Settings/Usage only", competitor: "Settings/Usage only" },
-  { feature: "Live menu bar reading", product: "ClaudeMeter", competitor: "ClaudeMeter" },
+  { feature: "Monthly price", ours: "$20", competitor: "$100 / $200" },
+  { feature: "5-hour window", ours: "≈45 short messages", competitor: "≈225 / ≈900 short messages" },
+  { feature: "Weekly Sonnet 4 hours", ours: "40 to 80", competitor: "140-280 / 240-480" },
+  { feature: "Weekly Opus 4 hours", ours: "Limited (Pro is Sonnet-first)", competitor: "15-35 / 24-40" },
+  { feature: "Buckets server returns", ours: "Same eight as Max", competitor: "Same eight as Pro" },
+  { feature: "Server-truth visibility", ours: "Settings/Usage only", competitor: "Settings/Usage only" },
+  { feature: "Live menu bar reading", ours: "ClaudeMeter", competitor: "ClaudeMeter" },
 ];
 
 const sequenceActors = ["You", "Browser", "claude.ai server", "Rate limiter"];
@@ -562,10 +562,7 @@ export default function ClaudeProUsageLimitPage() {
       </section>
 
       <section className="max-w-4xl mx-auto px-6 mt-16">
-        <FaqSection
-          title="Claude Pro usage limit, frequently asked"
-          faqs={faqs}
-        />
+        <FaqSection items={faqs} />
       </section>
 
       <section className="max-w-4xl mx-auto px-6 mt-16">
