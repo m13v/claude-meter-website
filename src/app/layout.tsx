@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
-import { HeadingAnchors } from "@m13v/seo-components";
+import { HeadingAnchors, FounderChatPanel } from "@m13v/seo-components";
 import { GuideChat } from "@/components/guide-chat";
 import { SiteSidebar } from "@/components/site-sidebar";
 import { PostHogProvider } from "@/components/posthog-provider";
@@ -113,6 +113,7 @@ export default function RootLayout({
             </main>
             <GuideChat />
           </div>
+          <FounderChatPanel project="claude-meter" />
         </PostHogProvider>
       </body>
     </html>
