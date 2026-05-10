@@ -80,6 +80,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/t/claude-code-5-hour-limit-doubled-may-2026",
+        destination: "/t/claude-rate-limits-doubled-weekly-cap-unchanged",
+        permanent: true,
+      },
+      {
         source: "/t/claude-pro-usage",
         destination: "/t/claude-pro-usage-limit",
         permanent: true,
