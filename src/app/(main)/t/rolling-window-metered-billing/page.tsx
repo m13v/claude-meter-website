@@ -338,8 +338,11 @@ export default function RollingWindowMeteredBillingPage() {
             Direct answer (verified 2026-05-05)
           </p>
           <p className="text-zinc-800 leading-relaxed text-lg">
-            Two parallel systems, not two stages. The rolling window is a
-            time-based quota: utilization floats on{" "}
+            Two parallel systems, not two stages. The plan quota (a.k.a.
+            the rolling window) is the time-based usage your subscription
+            includes; metered usage (a.k.a. extra usage, overage, or
+            pay-as-you-go) is the opt-in dollar ledger that kicks in on top.
+            Concretely: utilization floats on{" "}
             <code className="bg-white px-1.5 py-0.5 rounded text-sm font-mono">
               GET /api/organizations/&#123;org&#125;/usage
             </code>{" "}

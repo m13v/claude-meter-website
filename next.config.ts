@@ -99,6 +99,11 @@ const nextConfig: NextConfig = {
         destination: "/t/claude-pro-usage-limit",
         permanent: true,
       },
+      {
+        source: "/alternative/claude-metered-usage-vs-plan-quota",
+        destination: "/t/rolling-window-metered-billing",
+        permanent: true,
+      },
     ];
   },
 };
