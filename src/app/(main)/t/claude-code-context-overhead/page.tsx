@@ -101,7 +101,7 @@ MCP tools (deferred index)   120 tokens   // names only, schemas on demand
 Skill descriptions           450 tokens   // one line per skill
 ~/.claude/CLAUDE.md          320 tokens   // your global preferences
 Project CLAUDE.md          1,800 tokens   // project conventions
-                          ──────────
+                          ======────
 Stock overhead             7,850 tokens   // ≈ 4% of the 200,000 window
                                          // billed at cache-write rate on
                                          // every cache-miss turn`;
@@ -116,7 +116,7 @@ Stock overhead              7,850 tokens
 + postgres MCP              ~6,000 tokens
 + slack MCP                ~33,500 tokens
 + jira MCP (alone)         ~17,000 tokens
-                          ──────────
+                          ======────
 Five-server typical        ≈55,000 tokens of tool defs alone
 Five servers + jira         72,000 tokens
 Three heavy + stock        100,000+ tokens (Anthropic's own ceiling
@@ -166,7 +166,7 @@ const contextTerminal = [
   { type: "output" as const, text: "  Conversation          18,300    9.2%" },
   { type: "output" as const, text: "  File reads            22,400   11.2%" },
   { type: "output" as const, text: "  Tool outputs          14,500    7.3%" },
-  { type: "output" as const, text: "                       ──────  ──────" },
+  { type: "output" as const, text: "                       ======  ======" },
   { type: "info" as const, text: "  Used:                 63,080   31.5%" },
   { type: "info" as const, text: "  Free:                136,920   68.5%" },
   { type: "output" as const, text: "" },
