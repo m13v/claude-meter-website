@@ -45,6 +45,10 @@ const faqs = [
     a: "It is the dollar amount Anthropic has counted against your metered (pay-as-you-go) cap during the current billing month. Once your rolling 5-hour window and 7-day weekly bucket are spent, Anthropic does not stop you outright; it bills further usage against a configurable monthly credit limit, in cents, and surfaces both the spend and the limit on claude.ai/settings/usage. The 'balance' is the difference between used_credits and monthly_credit_limit. ClaudeMeter mirrors that into a single line in your menu bar.",
   },
   {
+    q: "What does 'Current balance' specifically refer to on the Settings page?",
+    a: "'Current balance' is the label Anthropic prints next to the dollar figure on claude.ai/settings/usage when metered (extra) billing is enabled. It is the running total of used_credits / 100 for the current billing cycle, the same field ClaudeMeter renders as the dollars-used number on the Extra usage line. 'Current' means 'so far this cycle', not 'in real time to the second': the value is updated each time you make a billed request and resets to $0.00 on next_charge_date. So 'current balance' = used_credits in cents / 100, for this cycle, against the monthly_credit_limit cap shown next to it.",
+  },
+  {
     q: "Where exactly does the dollar number come from?",
     a: "Two endpoints on claude.ai. The first is GET /api/organizations/{org_uuid}/usage, which carries an extra_usage block with is_enabled, monthly_limit, used_credits, utilization, currency. The second is GET /api/organizations/{org_uuid}/overage_spend_limit, which carries is_enabled, monthly_credit_limit, used_credits, currency, plus three fields the first endpoint does not have: disabled_reason, disabled_until, out_of_credits. ClaudeMeter prefers the second endpoint when present because BLOCKED is only diagnosable from those three extra fields. Both numbers are in cents and divided by 100 to render dollars.",
   },
