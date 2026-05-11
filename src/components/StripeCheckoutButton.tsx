@@ -48,9 +48,9 @@ export function StripeCheckoutButton({ section, triggerRef, renderTrigger }: Pro
       redirectOnSuccess
       remember={false}
       submitExtras={extras}
-      modalTitle="Continue to checkout"
-      modalDescription="Enter your email and we'll take you to Stripe."
-      submitLabel="Continue to checkout"
+      modalTitle="Get Started"
+      modalDescription="Drop your email to continue."
+      submitLabel="Get Started"
       renderTrigger={({ onClick }) => renderTrigger({ onClick, loading: false })}
     />
   );
