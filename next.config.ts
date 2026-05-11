@@ -114,6 +114,11 @@ const nextConfig: NextConfig = {
         destination: "/t/rolling-window-metered-billing",
         permanent: true,
       },
+      {
+        source: "/t/claude-extra-usage-current-balance-meaning",
+        destination: "/t/claude-extra-usage-balance",
+        permanent: true,
+      },
     ];
   },
 };
