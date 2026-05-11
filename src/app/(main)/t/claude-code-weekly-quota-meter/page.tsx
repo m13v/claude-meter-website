@@ -443,7 +443,7 @@ export default function Page() {
       </section>
 
       <section className="max-w-3xl mx-auto px-6 my-12">
-        <FaqSection faqs={faqs} />
+        <FaqSection items={faqs} />
       </section>
 
       <section className="max-w-3xl mx-auto px-6 my-12">
