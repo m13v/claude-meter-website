@@ -5,6 +5,7 @@ import { GuideChat } from "@/components/guide-chat";
 import { SiteSidebar } from "@/components/site-sidebar";
 import { PostHogProvider } from "@/components/posthog-provider";
 import "./globals.css";
+import { SeoEngagement } from "./seo-engagement";
 
 const geist = Geist({
   variable: "--font-geist",
@@ -110,6 +111,7 @@ export default function RootLayout({
             <main className="flex-1 min-w-0 flex flex-col">
               <HeadingAnchors />
               {children}
+              <SeoEngagement />
             </main>
             <GuideChat />
           </div>
