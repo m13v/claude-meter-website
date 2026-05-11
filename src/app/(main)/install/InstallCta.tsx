@@ -23,7 +23,7 @@ export function InstallCta({ section, variant = "dark" }: Props) {
           }
           style={{ opacity: loading ? 0.7 : undefined }}
         >
-          {loading ? "Loading…" : "Get Started — $5/mo"}
+          {loading ? "Loading…" : "Get Started"}
         </button>
       )}
     />

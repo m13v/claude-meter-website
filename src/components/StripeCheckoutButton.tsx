@@ -1,6 +1,7 @@
 "use client";
 
-import { forwardRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { InstallEmailGate } from "@m13v/seo-components";
 
 interface Props {
   section: string;
@@ -9,44 +10,76 @@ interface Props {
   renderTrigger: (opts: { onClick: () => void; loading: boolean }) => React.ReactNode;
 }
 
+/**
+ * Email gate in front of Stripe Checkout. Reuses the shared
+ * `InstallEmailGate` from `@m13v/seo-components` (redirect-on-success mode)
+ * so we don't ship a bespoke modal here. The newsletterPath is pointed at
+ * our Stripe checkout endpoint, which returns `{ url }` to redirect to.
+ *
+ * UTMs are forwarded via `submitExtras` so the checkout endpoint can stamp
+ * them on the Stripe customer + session metadata.
+ */
 export function StripeCheckoutButton({ section, triggerRef, renderTrigger }: Props) {
-  const [loading, setLoading] = useState(false);
+  // Capture UTMs once on mount and re-render so the gate's `submitExtras`
+  // prop holds the populated value at submit time. The setState-in-effect
+  // is intentional: this is a one-shot read of an external (window.location)
+  // value that cannot be supplied at SSR time, so there is no source to
+  // subscribe to. Disable the lint locally.
+  const [extras, setExtras] = useState<Record<string, unknown>>({ section });
 
-  async function handleClick() {
-    if (loading) return;
-    setLoading(true);
-    try {
-      const res = await fetch("/api/stripe/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ section }),
-      });
-      if (!res.ok) throw new Error(`checkout failed: ${res.status}`);
-      const { url } = await res.json();
-      if (url) window.location.href = url;
-    } catch (err) {
-      console.error("[StripeCheckoutButton]", err);
-      setLoading(false);
-    }
-  }
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setExtras({
+      section,
+      utm_source: params.get("utm_source") || undefined,
+      utm_medium: params.get("utm_medium") || undefined,
+      utm_campaign: params.get("utm_campaign") || undefined,
+    });
+  }, [section]);
 
-  // If triggerRef is provided, wrap in a hidden sentinel button the caller can
-  // click programmatically (e.g. the ?gate=required bounce from /api/download).
+  const gate = (
+    <InstallEmailGate
+      command=""
+      site="claude-meter"
+      section={section}
+      newsletterPath="/api/stripe/checkout"
+      redirectOnSuccess
+      remember={false}
+      submitExtras={extras}
+      modalTitle="Continue to checkout"
+      modalDescription="Enter your email and we'll take you to Stripe."
+      submitLabel="Continue to checkout"
+      renderTrigger={({ onClick }) => renderTrigger({ onClick, loading: false })}
+    />
+  );
+
+  // If a triggerRef is provided, expose a hidden sentinel button the caller
+  // can click programmatically (e.g. the ?gate=required bounce from
+  // /api/download). Clicking it dispatches a click on the real trigger
+  // rendered by InstallEmailGate.
   if (triggerRef) {
     return (
       <>
         <button
           ref={triggerRef}
           type="button"
-          onClick={handleClick}
+          onClick={(e) => {
+            const parent = (e.currentTarget as HTMLElement).parentElement;
+            const realTrigger = parent?.querySelector<HTMLButtonElement>(
+              "button:not([aria-hidden='true'])"
+            );
+            realTrigger?.click();
+          }}
           style={{ position: "absolute", left: -9999, top: -9999, width: 1, height: 1, overflow: "hidden" }}
           tabIndex={-1}
           aria-hidden="true"
         />
-        {renderTrigger({ onClick: handleClick, loading })}
+        {gate}
       </>
     );
   }
 
-  return <>{renderTrigger({ onClick: handleClick, loading })}</>;
+  return gate;
 }

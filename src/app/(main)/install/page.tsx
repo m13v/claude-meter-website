@@ -73,7 +73,7 @@ export default function InstallPage() {
             Install ClaudeMeter
           </h1>
           <p className="text-lg text-gray-300 max-w-2xl mb-8">
-            Subscribe for $5/month to unlock the install. You get the brew command, the .dmg download, and the browser extension. The browser extension forwards your existing claude.ai session so there is no cookie paste and no new login.
+            Subscribe to unlock the install. You get the brew command, the .dmg download, and the browser extension. The browser extension forwards your existing claude.ai session so there is no cookie paste and no new login.
           </p>
           <div className="flex flex-wrap gap-3">
             <InstallCta section="install-page-hero" variant="light" />

@@ -17,20 +17,45 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json().catch(() => ({}));
     const section = typeof body?.section === "string" ? body.section : "unknown";
+    const email = typeof body?.email === "string" ? body.email.trim().toLowerCase() : "";
+    const utm_source = typeof body?.utm_source === "string" ? body.utm_source : undefined;
+    const utm_medium = typeof body?.utm_medium === "string" ? body.utm_medium : undefined;
+    const utm_campaign = typeof body?.utm_campaign === "string" ? body.utm_campaign : undefined;
+
+    if (!email || !email.includes("@")) {
+      return NextResponse.json({ error: "Invalid email" }, { status: 400 });
+    }
 
     const stripe = getStripe();
     const origin = getOrigin(req);
 
+    // Reuse an existing Stripe customer if we already have one for this email,
+    // so repeat visitors are tied to the same customer record (and Stripe shows
+    // their saved payment methods on the checkout page).
+    const existing = await stripe.customers.list({ email, limit: 1 });
+    const customer =
+      existing.data[0] ??
+      (await stripe.customers.create({
+        email,
+        metadata: { app: "claude-meter", source: "website" },
+      }));
+
+    const sessionMetadata: Record<string, string> = { app: "claude-meter", section, email };
+    if (utm_source) sessionMetadata.utm_source = utm_source;
+    if (utm_medium) sessionMetadata.utm_medium = utm_medium;
+    if (utm_campaign) sessionMetadata.utm_campaign = utm_campaign;
+
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
+      customer: customer.id,
       line_items: [{ price: PRICE_ID, quantity: 1 }],
       success_url: `${origin}/api/stripe/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/`,
       allow_promotion_codes: false,
       billing_address_collection: "auto",
-      metadata: { app: "claude-meter", section },
+      metadata: sessionMetadata,
       subscription_data: {
-        metadata: { app: "claude-meter", section },
+        metadata: sessionMetadata,
       },
     });
 

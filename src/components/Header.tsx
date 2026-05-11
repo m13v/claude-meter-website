@@ -98,7 +98,7 @@ export function Header() {
                     <polyline points="7 10 12 15 17 10" />
                     <line x1="12" y1="15" x2="12" y2="3" />
                   </svg>
-                  {loading ? "Loading…" : "Get Started — $5/mo"}
+                  {loading ? "Loading…" : "Get Started"}
                 </button>
               )}
             />
@@ -155,7 +155,7 @@ export function Header() {
                     style={{ background: "var(--ink)", color: "var(--paper)", opacity: loading ? 0.7 : 1 }}
                     onClick={() => { setOpen(false); onClick(); }}
                   >
-                    {loading ? "Loading…" : "Get Started — $5/mo"}
+                    {loading ? "Loading…" : "Get Started"}
                   </button>
                 )}
               />

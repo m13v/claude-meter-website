@@ -290,7 +290,7 @@ export function HomeClient() {
                         <polyline points="7 10 12 15 17 10" />
                         <line x1="12" y1="15" x2="12" y2="3" />
                       </svg>
-                      {loading ? "Loading…" : "Get Started — $5/mo"}
+                      {loading ? "Loading…" : "Get Started"}
                     </button>
                   )}
                 />
@@ -702,7 +702,7 @@ export function HomeClient() {
                   className="btn signal"
                   style={{ opacity: loading ? 0.7 : undefined }}
                 >
-                  {loading ? "Loading…" : "Get Started — $5/mo"}
+                  {loading ? "Loading…" : "Get Started"}
                 </button>
               )}
             />
