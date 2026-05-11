@@ -29,6 +29,32 @@ export async function POST(req: NextRequest) {
     const stripe = getStripe();
     const origin = getOrigin(req);
 
+    // Fire the newsletter flow BEFORE the Stripe session is created so the
+    // submitter always lands in Resend audience and gets the welcome email
+    // (with install commands + tokenized .dmg link) regardless of whether
+    // they complete checkout. /api/newsletter is the canonical signup
+    // endpoint built on @seo/components/server's createNewsletterHandler;
+    // see src/app/api/newsletter/route.ts. Awaited so the send is in flight
+    // before we return the Stripe redirect URL; wrapped in try/catch so a
+    // newsletter outage never blocks paid checkout. ~400-600ms added latency
+    // on the modal-to-Stripe transition is acceptable.
+    try {
+      const newsletterRes = await fetch(`${origin}/api/newsletter`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (!newsletterRes.ok) {
+        console.warn(
+          "[stripe/checkout] newsletter pre-call non-OK",
+          newsletterRes.status,
+          await newsletterRes.text().catch(() => ""),
+        );
+      }
+    } catch (err) {
+      console.warn("[stripe/checkout] newsletter pre-call threw", err);
+    }
+
     // Reuse an existing Stripe customer if we already have one for this email,
     // so repeat visitors are tied to the same customer record (and Stripe shows
     // their saved payment methods on the checkout page).
