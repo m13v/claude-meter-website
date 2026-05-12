@@ -63,7 +63,7 @@ export function Footer() {
                 margin: "18px 0 0",
               }}
             >
-              Free, open-source macOS menu bar app and browser extension for live Claude Pro and Max plan usage.
+              Open-source macOS menu bar app and browser extension for live Claude Pro and Max plan usage.
             </p>
           </div>
 
