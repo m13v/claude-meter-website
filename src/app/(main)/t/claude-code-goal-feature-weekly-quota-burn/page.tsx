@@ -463,7 +463,7 @@ export default function Page() {
         <StepTimeline title="Bounding /goal in five steps" steps={guardSteps} />
       </section>
 
-      <FaqSection title="FAQ" faqs={faqs} />
+      <FaqSection heading="FAQ" items={faqs} />
 
       <section className="max-w-3xl mx-auto px-6 my-12">
         <BookCallCTA
