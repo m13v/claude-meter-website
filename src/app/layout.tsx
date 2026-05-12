@@ -34,20 +34,20 @@ export const metadata: Metadata = {
     template: "%s | ClaudeMeter",
   },
   description:
-    "Free open-source macOS menu bar app and browser extension that shows your live Anthropic Claude Pro or Max plan usage: rolling 5-hour window, weekly quota, and extra-usage balance. No telemetry, MIT licensed.",
+    "macOS menu bar app and browser extension that shows your live Anthropic Claude Pro or Max plan usage: rolling 5-hour window, weekly quota, and extra-usage balance.",
   openGraph: {
     type: "website",
     url: SITE_URL,
     siteName: SITE_NAME,
     title: "ClaudeMeter - Live Claude Pro/Max Usage in Your Menu Bar",
     description:
-      "Free open-source macOS menu bar app and browser extension that shows live Claude Pro/Max plan usage. 5-hour rolling window, weekly quota, extra-usage balance.",
+      "macOS menu bar app and browser extension that shows live Claude Pro/Max plan usage. 5-hour rolling window, weekly quota, extra-usage balance.",
   },
   twitter: {
     card: "summary_large_image",
     title: "ClaudeMeter - Live Claude Pro/Max Usage in Your Menu Bar",
     description:
-      "Free open-source macOS menu bar app and browser extension that shows live Claude Pro/Max plan usage.",
+      "macOS menu bar app and browser extension that shows live Claude Pro/Max plan usage.",
   },
 };
 
