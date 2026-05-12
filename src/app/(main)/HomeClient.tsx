@@ -251,14 +251,12 @@ export function HomeClient() {
             <div className="hero-copy">
               <div
                 className="eyebrow hero-eye reveal-up in"
-                aria-label="macOS menu bar app showing live Claude Pro and Max plan usage. Free, MIT, no telemetry."
+                aria-label="macOS menu bar app showing live Claude Pro and Max plan usage."
               >
                 <span className="dot" aria-hidden="true" />
                 <span>macOS menu bar</span>
                 <span className="sep" aria-hidden="true">·</span>
                 <span>Live Claude Pro &amp; Max plan usage</span>
-                <span className="sep" aria-hidden="true">·</span>
-                <span>Free, MIT, no telemetry</span>
               </div>
 
               <h1 className="stop-heading reveal-up in d1" aria-label={`Did you get? ${stopMessages[stopIdx]}`}>
@@ -321,7 +319,6 @@ export function HomeClient() {
                 <span>Server-truth quota</span>
                 <span>5h + 7-day windows</span>
                 <span>60s refresh</span>
-                <span>MIT · no telemetry</span>
               </div>
             </div>
 
@@ -539,9 +536,9 @@ export function HomeClient() {
                 </div>
               </div>
               <div className="idx">05 / Privacy</div>
-              <h3>No telemetry, MIT license</h3>
+              <h3>Source on GitHub</h3>
               <p>
-                Rust source on GitHub. The only network egress is claude.ai itself. No analytics, no accounts, no upsell.
+                Rust source on GitHub. The only network egress is claude.ai itself.
               </p>
               <div className="reveal">→ auditable · written in Rust</div>
             </article>
