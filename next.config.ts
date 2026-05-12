@@ -110,6 +110,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/t/claude-code-pro-plan-usage-limits",
+        destination: "/t/claude-code-pro-usage",
+        permanent: true,
+      },
+      {
         source: "/alternative/claude-metered-usage-vs-plan-quota",
         destination: "/t/rolling-window-metered-billing",
         permanent: true,
