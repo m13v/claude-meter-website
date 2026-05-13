@@ -269,7 +269,7 @@ export function HomeClient() {
               </h1>
 
               <p className="lede reveal-up in d2">
-                ClaudeMeter reads the same server quota claude.ai/settings/usage renders (not local token estimates) and puts the rolling 5-hour window, weekly quota, and pay-as-you-go balance in your macOS menu bar. One brew command. The browser extension forwards your existing claude.ai session, so no manual cookie paste.
+                See exactly how much of your Claude Pro/Max plan is left before you blow past it: the rolling 5-hour, weekly, and pay-as-you-go numbers, sitting next to your clock. Same numbers claude.ai/settings/usage shows, to the integer. One brew command; the browser extension forwards your existing claude.ai session, so no DevTools and no cookie paste.
               </p>
 
               <div className="hero-cta reveal-up in d3">
@@ -420,7 +420,7 @@ export function HomeClient() {
                 </div>
               </div>
               <div className="hero-side-note">
-                <span className="arrow">↑</span> Live preview · gauges tick every few seconds
+                <span className="arrow">↑</span> Live preview · matches claude.ai/settings/usage to the integer
               </div>
             </div>
           </div>
