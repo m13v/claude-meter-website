@@ -1,4 +1,5 @@
-import type { NextRequest } from "next/server";
+import { createDownloadHandler } from "@seo/components/server";
+import { getSql } from "@/lib/db";
 import {
   INSTALL_TOKEN_COOKIE_NAME,
   buildInstallTokenCookie,
@@ -6,9 +7,8 @@ import {
 } from "@/lib/install-gate-token";
 
 const RELEASES_FALLBACK = "https://github.com/m13v/claude-meter/releases/latest";
-const GATE_REDIRECT = "/?gate=required&from=download";
 
-async function resolveLatestDmgUrl(): Promise<string> {
+async function resolveLatestDmgUrl(): Promise<{ url: string; version: string | null }> {
   try {
     const res = await fetch(
       "https://api.github.com/repos/m13v/claude-meter/releases/latest",
@@ -17,72 +17,65 @@ async function resolveLatestDmgUrl(): Promise<string> {
         next: { revalidate: 300 },
       },
     );
-    if (!res.ok) return RELEASES_FALLBACK;
+    if (!res.ok) return { url: RELEASES_FALLBACK, version: null };
     const data = (await res.json()) as {
+      tag_name?: string;
       assets?: Array<{ name: string; browser_download_url: string }>;
     };
     const dmg = data.assets?.find((a) => a.name.toLowerCase().endsWith(".dmg"));
-    return dmg?.browser_download_url || RELEASES_FALLBACK;
+    return {
+      url: dmg?.browser_download_url || RELEASES_FALLBACK,
+      version: data.tag_name || null,
+    };
   } catch {
-    return RELEASES_FALLBACK;
+    return { url: RELEASES_FALLBACK, version: null };
   }
 }
 
 /**
- * Hard-gate the download. Visitors must hand over their email through the
- * install-gate modal before they can hit this endpoint. There are two
- * accepted token paths:
+ * Email-gated DMG download. Drives the funnel's bottom step.
  *
- *   1. `cm_install_token` cookie — set by /api/newsletter on capture in the
- *      same browser session. This is the in-app modal flow.
- *   2. `?token=...` URL param — emitted in the welcome email so the user can
- *      click the install link from their inbox on any device. On success we
- *      stamp the cookie too so subsequent /install navigations skip the modal.
+ * Both entry paths are still supported:
+ *   1. `cm_install_token` cookie — set by `/api/download` itself on the first
+ *      successful query-param hit (so subsequent installs on the same browser
+ *      skip the URL token).
+ *   2. `?token=...` URL param — emitted in the welcome email so the link works
+ *      across devices.
  *
- * Neither token? Bounce to the homepage with `?gate=required` so the modal
- * auto-opens. We do NOT redirect straight to GitHub releases.
+ * Bad/missing token still bounces to `/?gate=required&from=download`.
+ *
+ * The 2026-05-13 rewrite swapped the bespoke handler for
+ * `createDownloadHandler` from `@m13v/seo-components` v0.39+, which adds:
+ *   - server-side PostHog `download_link_clicked_server` (ground truth,
+ *     ad-blocker proof, matches the `_server` convention used by signups),
+ *   - `onClick` DB hook (rows land in `claude_meter_download_clicks`),
+ *   - bot UA detection (LinkedIn / Slack / Twitter unfurls don't pollute
+ *     the funnel).
  */
-export async function GET(req: NextRequest): Promise<Response> {
-  const cookieToken = req.cookies.get(INSTALL_TOKEN_COOKIE_NAME)?.value;
-  const queryToken = req.nextUrl.searchParams.get("token") ?? undefined;
-
-  // Try cookie first (no extra work to set it again), then fall back to URL.
-  let verdict = verifyInstallToken(cookieToken);
-  let acceptedFrom: "cookie" | "query" | null = verdict.ok ? "cookie" : null;
-  if (!verdict.ok && queryToken) {
-    const queryVerdict = verifyInstallToken(queryToken);
-    if (queryVerdict.ok) {
-      verdict = queryVerdict;
-      acceptedFrom = "query";
+export const GET = createDownloadHandler({
+  site: "claude-meter",
+  cookieName: INSTALL_TOKEN_COOKIE_NAME,
+  verifyToken: (token) => {
+    const v = verifyInstallToken(token);
+    if (v.ok && v.email) return { ok: true, email: v.email };
+    return { ok: false, reason: v.reason ?? "missing" };
+  },
+  resolveDownloadUrl: resolveLatestDmgUrl,
+  buildTokenCookie: buildInstallTokenCookie,
+  gateRedirect: "/?gate=required&from=download",
+  onClick: async (info) => {
+    try {
+      const sql = getSql();
+      await sql`
+        INSERT INTO claude_meter_download_clicks
+          (email, version, asset_url, source, user_agent, referer, ip, country)
+        VALUES
+          (${info.email}, ${info.version}, ${info.url}, ${info.source},
+           ${info.userAgent.slice(0, 500)}, ${info.referer.slice(0, 500)},
+           ${info.ip}, ${info.country})
+      `;
+    } catch (err) {
+      console.error("[download] DB log error:", err);
     }
-  }
-
-  if (!verdict.ok) {
-    // Use a relative redirect: behind Cloud Run, `req.url` resolves to the
-    // internal binding (0.0.0.0:8080), so building an absolute URL from it
-    // sends visitors to a broken hostname. Relative redirects are resolved
-    // by the browser against the request URL it actually navigated to.
-    return new Response(null, {
-      status: 302,
-      headers: {
-        Location: GATE_REDIRECT,
-        "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-        "x-install-gate": verdict.reason ?? "missing",
-      },
-    });
-  }
-
-  const url = await resolveLatestDmgUrl();
-  const headers = new Headers({
-    Location: url,
-    "Cache-Control": "private, max-age=0, s-maxage=0",
-    "x-install-gate": "ok",
-    "x-install-gate-source": acceptedFrom ?? "unknown",
-  });
-  // Promote a query-param token to a cookie so the next install attempt on
-  // this browser does not need to re-validate against the URL.
-  if (acceptedFrom === "query" && verdict.email) {
-    headers.append("Set-Cookie", buildInstallTokenCookie(verdict.email));
-  }
-  return new Response(null, { status: 302, headers });
-}
+  },
+});
