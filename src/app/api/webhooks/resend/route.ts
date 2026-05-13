@@ -8,6 +8,10 @@ export const POST = createResendInboundHandler({
   brand: "ClaudeMeter",
   forwardFrom: "ClaudeMeter Inbound <matt@claude-meter.com>",
   forwardTo: process.env.CLAUDE_METER_INBOX_FORWARD || "i@m13v.com",
+  posthog: {
+    site: "claude-meter",
+    fromDomainFilter: "claude-meter.com",
+  },
   onInbound: async (rec) => {
     const sql = getSql();
     await sql`
