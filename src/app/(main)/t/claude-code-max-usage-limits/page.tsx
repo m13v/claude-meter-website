@@ -213,8 +213,8 @@ const relatedPosts = [
     tag: "Triage",
   },
   {
-    href: "/t/claude-code-rate-limits-doubled-may-2026",
-    title: "Claude Code rate limits doubled, weekly cap unchanged",
+    href: "/t/claude-rate-limits-doubled-weekly-cap-unchanged",
+    title: "Claude rate limits doubled, weekly cap unchanged",
     excerpt:
       "What the May 6, 2026 SpaceX-compute doubling actually changed, what it did not, and how the float behind the 5-hour window moves now.",
     tag: "Changes",
