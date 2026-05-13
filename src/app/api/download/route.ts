@@ -14,7 +14,14 @@ async function resolveLatestDmgUrl(): Promise<{ url: string; version: string | n
       "https://api.github.com/repos/m13v/claude-meter/releases/latest",
       {
         headers: { Accept: "application/vnd.github+json" },
-        next: { revalidate: 300 },
+        // 30s revalidate keeps GitHub rate-limit headroom (max ~120 req/hr to
+        // GitHub) while capping the propagation lag of a new release at 30s.
+        // The `gh-latest-release` tag lets a future revalidate endpoint flip
+        // the cache instantly from scripts/release.sh; until then 30s is the
+        // worst-case staleness. Bumped down from 300s on 2026-05-13 after a
+        // user clicked an email link inside the 5-min window and got the
+        // previous release's DMG.
+        next: { revalidate: 30, tags: ["gh-latest-release"] },
       },
     );
     if (!res.ok) return { url: RELEASES_FALLBACK, version: null };
