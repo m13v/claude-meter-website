@@ -591,7 +591,7 @@ export default function ClaudeCodeRolling5hMcpOverheadPage() {
         <h2 className="text-2xl sm:text-3xl font-bold text-zinc-900 mb-6">
           FAQ
         </h2>
-        <FaqSection items={faqs.map((f) => ({ question: f.q, answer: f.a }))} />
+        <FaqSection items={faqs} />
       </section>
 
       <section className="max-w-5xl mx-auto px-6 mt-16 pb-20">
