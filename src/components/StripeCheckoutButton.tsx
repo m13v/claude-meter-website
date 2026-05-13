@@ -11,20 +11,18 @@ interface Props {
 }
 
 /**
- * Email gate in front of Stripe Checkout. Reuses the shared
- * `InstallEmailGate` from `@m13v/seo-components` (redirect-on-success mode)
- * so we don't ship a bespoke modal here. The newsletterPath is pointed at
- * our Stripe checkout endpoint, which returns `{ url }` to redirect to.
+ * Email-gated install CTA. The Stripe paywall was removed on 2026-05-13
+ * after a 3-day funnel showed 29 customers created and 0 paid; the friction
+ * was killing conversion. The button now drops users straight into the
+ * shared `/api/newsletter` flow, which writes the email to the Resend
+ * audience, sends the welcome email with the tokenized .dmg link, and
+ * fires `newsletter_subscribed_server` in PostHog. Stripe checkout
+ * (route + webhook) is left dormant so we can re-enable it later without
+ * redoing the wiring.
  *
- * UTMs are forwarded via `submitExtras` so the checkout endpoint can stamp
- * them on the Stripe customer + session metadata.
+ * The name is kept for git-blame continuity; rename when consumers settle.
  */
 export function StripeCheckoutButton({ section, triggerRef, renderTrigger }: Props) {
-  // Capture UTMs once on mount and re-render so the gate's `submitExtras`
-  // prop holds the populated value at submit time. The setState-in-effect
-  // is intentional: this is a one-shot read of an external (window.location)
-  // value that cannot be supplied at SSR time, so there is no source to
-  // subscribe to. Disable the lint locally.
   const [extras, setExtras] = useState<Record<string, unknown>>({ section });
 
   useEffect(() => {
@@ -44,13 +42,15 @@ export function StripeCheckoutButton({ section, triggerRef, renderTrigger }: Pro
       command=""
       site="claude-meter"
       section={section}
-      newsletterPath="/api/stripe/checkout"
-      redirectOnSuccess
+      newsletterPath="/api/newsletter"
+      emailOnly
       remember={false}
       submitExtras={extras}
-      modalTitle="Get Started"
-      modalDescription="Drop your email to continue."
-      submitLabel="Get Started"
+      modalTitle="Get the install link"
+      modalDescription="Drop your email and we'll send the .dmg + brew install command straight to your inbox."
+      submitLabel="Send me the link"
+      sentTitle="Check your inbox"
+      sentDescription={(email) => `We just emailed the install command and .dmg link to ${email}. Click the link to start the download.`}
       renderTrigger={({ onClick }) => renderTrigger({ onClick, loading: false })}
     />
   );
