@@ -129,6 +129,11 @@ const nextConfig: NextConfig = {
         destination: "/t/claude-extra-usage-balance",
         permanent: true,
       },
+      {
+        source: "/t/claude-max-weekly-limit-tuesday-server-quota",
+        destination: "/t/claude-weekly-limit-by-tuesday",
+        permanent: true,
+      },
     ];
   },
 };
