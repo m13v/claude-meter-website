@@ -134,6 +134,11 @@ const nextConfig: NextConfig = {
         destination: "/t/claude-weekly-limit-by-tuesday",
         permanent: true,
       },
+      {
+        source: "/t/claude-code-weekly-quota-rolling-window",
+        destination: "/t/claude-code-rolling-5h-weekly-quota",
+        permanent: true,
+      },
     ];
   },
 };
