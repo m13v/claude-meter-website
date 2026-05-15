@@ -576,11 +576,11 @@ export function HomeClient() {
                 <span className="rule" />
               </div>
               <h2 className="section-title reveal-up d1">
-                Never miss the <em>95% line</em> again.
+                At <em>95%</em>, your menu bar starts <em>flashing red</em>.
               </h2>
             </div>
             <p className="section-sub reveal-up d2">
-              When your rolling 5-hour or weekly quota crosses the red line, ClaudeMeter screams: a loud, visible alert on your Mac so you finish the prompt you&apos;re on instead of finding out by getting cut off mid-refactor.
+              The instant your 5-hour rolling window crosses 95%, the entire ClaudeMeter title in the menu bar blinks red at 500 ms, macOS fires a system notification, and Sosumi rings three times. You finish your prompt before the wall hits, not after.
             </p>
           </div>
 
@@ -590,13 +590,13 @@ export function HomeClient() {
 
           <ul className="alarm-bullets reveal-up d4">
             <li>
-              <span className="dot" /> Cross 95% and the menu bar flashes, plus an audible siren (sound on by default; one-click mute).
+              <span className="dot" /> Title flash cadence: <code>500 ms</code>, RGB <code>215,58,73</code>. Whole title flips together, not just the percent.
             </li>
             <li>
-              <span className="dot" /> Tuned to fire on the rolling 5-hour wall, the weekly quota, and the Opus weekly bucket independently.
+              <span className="dot" /> System notification: &ldquo;Claude usage at 95%&rdquo; with the 5-hour subtitle and a wrap-up prompt.
             </li>
             <li>
-              <span className="dot" /> Linked to the same server numbers Anthropic enforces, so the alert matches what claude.ai/settings/usage shows.
+              <span className="dot" /> Sosumi <code>×3</code> via <code>afplay</code>, 120 ms gap. Fires once per 5-hour window; rolls over on reset.
             </li>
           </ul>
         </div>

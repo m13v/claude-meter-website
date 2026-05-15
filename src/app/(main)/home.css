@@ -842,11 +842,12 @@
 }
 .home-root .alarm-stage {
   position: relative;
-  border: 1px solid var(--rule);
   border-radius: 18px;
-  background: color-mix(in oklab, var(--paper) 60%, white);
-  padding: 18px;
-  box-shadow: 0 24px 60px -28px rgba(0,0,0,0.22);
+  background: #14151B;
+  padding: 14px 14px 18px;
+  box-shadow:
+    0 30px 80px -28px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(232, 71, 28, 0.12);
 }
 .home-root .alarm-stage::before {
   content: "";
@@ -855,11 +856,11 @@
   border-radius: 18px;
   pointer-events: none;
   background: radial-gradient(
-    600px 200px at 80% 0%,
-    color-mix(in oklab, var(--signal) 28%, transparent),
+    800px 240px at 80% -10%,
+    rgba(215, 58, 73, 0.35),
     transparent 70%
   );
-  opacity: .65;
+  opacity: 0.7;
 }
 .home-root .alarm-player {
   position: relative;
@@ -868,17 +869,18 @@
 .home-root .alarm-frame {
   aspect-ratio: 16 / 9;
   width: 100%;
-  border-radius: 14px;
+  border-radius: 12px;
   overflow: hidden;
-  background: var(--paper);
-  border: 1px solid var(--rule);
+  background: #0E1118;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 .home-root .alarm-controls {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-top: 18px;
+  margin: 14px 4px 0;
   flex-wrap: wrap;
+  color: rgba(244, 238, 228, 0.85);
 }
 .home-root .alarm-btn {
   display: inline-flex;
@@ -901,23 +903,28 @@
   border-color: var(--signal);
   color: var(--paper);
 }
-.home-root .alarm-btn.primary:hover { background: var(--ink); border-color: var(--ink); }
+.home-root .alarm-btn.primary:hover { background: #FF5A33; border-color: #FF5A33; }
 .home-root .alarm-btn.ghost {
   background: transparent;
-  color: var(--ink);
-  border-color: var(--ink);
+  color: rgba(244, 238, 228, 0.92);
+  border-color: rgba(244, 238, 228, 0.32);
 }
-.home-root .alarm-btn.ghost:hover { background: var(--ink); color: var(--paper); }
-.home-root .alarm-btn[aria-pressed="true"] {
-  background: transparent;
-  color: var(--muted);
-  border-color: var(--rule);
+.home-root .alarm-btn.ghost:hover {
+  background: rgba(244, 238, 228, 0.08);
+  border-color: rgba(244, 238, 228, 0.55);
 }
 .home-root .alarm-hint {
-  font-size: 13px;
-  color: var(--muted);
+  font-size: 12.5px;
+  color: rgba(244, 238, 228, 0.55);
   font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
   letter-spacing: .03em;
+}
+.home-root .alarm-hint code {
+  background: rgba(244, 238, 228, 0.08);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.95em;
+  color: rgba(244, 238, 228, 0.85);
 }
 .home-root .alarm-bullets {
   list-style: none;
@@ -937,6 +944,14 @@
   display: flex;
   gap: 12px;
   align-items: flex-start;
+}
+.home-root .alarm-bullets li code {
+  background: color-mix(in oklab, var(--paper) 60%, var(--rule));
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+  color: var(--ink);
 }
 .home-root .alarm-bullets li .dot {
   flex-shrink: 0;
