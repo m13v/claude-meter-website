@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { StripeCheckoutButton } from "@/components/StripeCheckoutButton";
+import { AlarmPlayer } from "@/components/AlarmPlayer";
 import { NewsStrip } from "@seo/components";
 import "./home.css";
 
@@ -561,6 +562,43 @@ export function HomeClient() {
               <div className="reveal">→ tmux · starship · zsh prompt</div>
             </article>
           </div>
+        </div>
+      </section>
+
+      {/* ALARM DEMO — Remotion-rendered 95% quota alarm */}
+      <section className="alarm-section" id="alarm">
+        <div className="wrap">
+          <div className="alarm-head">
+            <div>
+              <div className="section-eye reveal-up">
+                <span className="num">05</span>
+                <span>The alarm</span>
+                <span className="rule" />
+              </div>
+              <h2 className="section-title reveal-up d1">
+                Never miss the <em>95% line</em> again.
+              </h2>
+            </div>
+            <p className="section-sub reveal-up d2">
+              When your rolling 5-hour or weekly quota crosses the red line, ClaudeMeter screams: a loud, visible alert on your Mac so you finish the prompt you&apos;re on instead of finding out by getting cut off mid-refactor.
+            </p>
+          </div>
+
+          <div className="alarm-stage reveal-up d3">
+            <AlarmPlayer />
+          </div>
+
+          <ul className="alarm-bullets reveal-up d4">
+            <li>
+              <span className="dot" /> Cross 95% and the menu bar flashes, plus an audible siren (sound on by default; one-click mute).
+            </li>
+            <li>
+              <span className="dot" /> Tuned to fire on the rolling 5-hour wall, the weekly quota, and the Opus weekly bucket independently.
+            </li>
+            <li>
+              <span className="dot" /> Linked to the same server numbers Anthropic enforces, so the alert matches what claude.ai/settings/usage shows.
+            </li>
+          </ul>
         </div>
       </section>
 
