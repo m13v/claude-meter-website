@@ -823,6 +823,131 @@
 }
 .home-root .viz-cli .p { color: var(--signal); }
 
+/* ——— ALARM SECTION (Remotion demo) ——— */
+.home-root section.alarm-section {
+  padding: 120px 0 110px;
+  border-top: 1px solid var(--rule);
+  position: relative;
+  z-index: 2;
+}
+.home-root .alarm-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: end;
+  margin-bottom: 44px;
+}
+@media (max-width: 900px) {
+  .home-root .alarm-head { grid-template-columns: 1fr; gap: 16px; }
+}
+.home-root .alarm-stage {
+  position: relative;
+  border: 1px solid var(--rule);
+  border-radius: 18px;
+  background: color-mix(in oklab, var(--paper) 60%, white);
+  padding: 18px;
+  box-shadow: 0 24px 60px -28px rgba(0,0,0,0.22);
+}
+.home-root .alarm-stage::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 18px;
+  pointer-events: none;
+  background: radial-gradient(
+    600px 200px at 80% 0%,
+    color-mix(in oklab, var(--signal) 28%, transparent),
+    transparent 70%
+  );
+  opacity: .65;
+}
+.home-root .alarm-player {
+  position: relative;
+  z-index: 1;
+}
+.home-root .alarm-frame {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+}
+.home-root .alarm-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.home-root .alarm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  padding: 10px 16px;
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 500;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s, transform .1s;
+}
+.home-root .alarm-btn:hover { transform: translateY(-1px); }
+.home-root .alarm-btn.primary {
+  background: var(--signal);
+  border-color: var(--signal);
+  color: var(--paper);
+}
+.home-root .alarm-btn.primary:hover { background: var(--ink); border-color: var(--ink); }
+.home-root .alarm-btn.ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--ink);
+}
+.home-root .alarm-btn.ghost:hover { background: var(--ink); color: var(--paper); }
+.home-root .alarm-btn[aria-pressed="true"] {
+  background: transparent;
+  color: var(--muted);
+  border-color: var(--rule);
+}
+.home-root .alarm-hint {
+  font-size: 13px;
+  color: var(--muted);
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .03em;
+}
+.home-root .alarm-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 36px 0 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+@media (max-width: 900px) {
+  .home-root .alarm-bullets { grid-template-columns: 1fr; }
+}
+.home-root .alarm-bullets li {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.home-root .alarm-bullets li .dot {
+  flex-shrink: 0;
+  margin-top: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--signal) 18%, transparent);
+}
+
 /* ——— COMPARISON ——— */
 .home-root section.compare { padding: 120px 0; border-top: 1px solid var(--rule); }
 .home-root .compare-head {
