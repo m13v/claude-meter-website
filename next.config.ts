@@ -139,6 +139,11 @@ const nextConfig: NextConfig = {
         destination: "/t/claude-code-rolling-5h-weekly-quota",
         permanent: true,
       },
+      {
+        source: "/t/clawd-meter",
+        destination: "/t/claudmeter",
+        permanent: true,
+      },
     ];
   },
 };

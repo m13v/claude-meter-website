@@ -17,6 +17,7 @@ import {
 
 const PAGE_URL = "https://claude-meter.com/t/claudmeter";
 const PUBLISHED = "2026-05-16";
+const MODIFIED = "2026-05-17";
 
 export const metadata: Metadata = {
   title:
@@ -106,6 +107,10 @@ const faqs = [
     a: "github.com/m13v/claude-meter. The Rust core lives in src/, the SwiftUI menu bar shell in macos/, and the browser extension in extension/. README.md has the install steps and the undocumented usage-endpoint details. Issues and pull requests are welcome.",
   },
   {
+    q: "Is it spelled 'clawd meter' or 'claude meter'?",
+    a: "It is ClaudeMeter, c-l-a-u-d-e. 'Clawd meter' is a phonetic spelling: the model name Claude is pronounced 'clawd' (rhyming with 'broad'), so people who heard the name before they read it tend to write 'clawd'. There is no product called 'clawd meter'; it is the same free, open-source macOS menu bar app and browser extension at claude-meter.com. Search for 'clawd meter', 'claudmeter', or 'claude meter' and you land on the same project either way.",
+  },
+  {
     q: "Does claudemeter need a password or my Anthropic API key?",
     a: "Neither. The browser extension calls /api/organizations/{org_uuid}/usage with credentials: 'include', meaning it reuses the same session cookie your browser already has from being logged in to claude.ai. It POSTs the parsed snapshot to a loopback bridge on 127.0.0.1:63762 that only the menu bar app on your own machine can reach. No password, no API key, no manual cookie paste.",
   },
@@ -142,6 +147,7 @@ const articleJsonLd = articleSchema({
   description:
     "Claudmeter is a common misspelling of ClaudeMeter, the free open-source macOS menu bar app that shows your live Claude Pro and Max plan usage. Same product, missing one e.",
   datePublished: PUBLISHED,
+  dateModified: MODIFIED,
   author: "Matthew Diakonov",
   authorUrl: "https://m13v.com",
   publisherName: "ClaudeMeter",
@@ -309,8 +315,9 @@ export default function Page() {
         <p className="mt-3 text-zinc-700 leading-relaxed">
           For the record, the brand has been typed as &quot;claudmeter&quot;,
           &quot;claudemeter&quot;, &quot;claude meter&quot;,
-          &quot;claude-meter&quot;, and &quot;clude meter&quot; in real Search
-          Console queries on this site. They all refer to the same project at{" "}
+          &quot;claude-meter&quot;, &quot;clude meter&quot;, and
+          &quot;clawd meter&quot; in real queries that reached this site. They
+          all refer to the same project at{" "}
           <a
             className="text-teal-600 underline underline-offset-2 hover:text-teal-700"
             href="https://claude-meter.com"
@@ -319,8 +326,19 @@ export default function Page() {
             claude-meter.com
           </a>
           . The canonical spelling is ClaudeMeter (one word, two e&#39;s); the
-          domain hyphenates because the unhyphenated one was taken. Source:
-          GitHub Search Console export, May 2026.
+          domain hyphenates because the unhyphenated one was taken.
+        </p>
+        <p className="mt-3 text-zinc-700 leading-relaxed">
+          &quot;Clawd meter&quot; is the phonetic one. Claude the model is
+          pronounced &quot;clawd&quot; (it rhymes with &quot;broad&quot;, not
+          &quot;loud&quot;), so anyone who heard the name spoken in a video or a
+          podcast before they ever saw it written tends to spell the tool
+          &quot;clawd meter&quot;. It is not a separate product. If you came
+          here searching for &quot;clawd meter&quot;, the tool you want is
+          ClaudeMeter, the menu bar app and browser extension described above:
+          brew install --cask m13v/tap/claude-meter, then load the extension.
+          Source for the spelling list: Google Search Console export for
+          claude-meter.com, May 2026.
         </p>
       </section>
 
