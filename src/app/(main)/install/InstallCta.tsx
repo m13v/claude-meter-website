@@ -5,9 +5,10 @@ import { StripeCheckoutButton } from "@/components/StripeCheckoutButton";
 interface Props {
   section: string;
   variant?: "light" | "dark";
+  label?: string;
 }
 
-export function InstallCta({ section, variant = "dark" }: Props) {
+export function InstallCta({ section, variant = "dark", label = "Get Started" }: Props) {
   return (
     <StripeCheckoutButton
       section={section}
@@ -23,7 +24,7 @@ export function InstallCta({ section, variant = "dark" }: Props) {
           }
           style={{ opacity: loading ? 0.7 : undefined }}
         >
-          {loading ? "Loading…" : "Get Started"}
+          {loading ? "Loading…" : label}
         </button>
       )}
     />

@@ -6,9 +6,9 @@ import { InstallCta } from "./InstallCta";
 const GITHUB_URL = "https://github.com/m13v/claude-meter";
 
 export const metadata: Metadata = {
-  title: "Install ClaudeMeter on macOS (60s, brew + browser extension)",
+  title: "Install ClaudeMeter on macOS — free, ~60s, brew + browser extension",
   description:
-    "Install ClaudeMeter in under a minute on macOS 12+. One brew cask, then load the unpacked extension in Chrome, Arc, Brave, or Edge. Reads your existing claude.ai session, no cookie paste.",
+    "Free install in under a minute on macOS 12+. Drop your email, we send the brew command and .dmg link. Load the unpacked extension in Chrome, Arc, Brave, or Edge. Reads your existing claude.ai session, no cookie paste. MIT licensed.",
 };
 
 const howToJsonLd = {
@@ -67,16 +67,34 @@ export default function InstallPage() {
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs uppercase tracking-wider text-gray-300 mb-5">
             <span className="size-1.5 rounded-full bg-cta" aria-hidden="true" />
-            macOS 12+ &middot; ~60 seconds &middot; install via email
+            Free &middot; macOS 12+ &middot; ~60 seconds
           </div>
           <h1 className="font-heading text-4xl md:text-5xl font-bold mb-4">
             Install ClaudeMeter
           </h1>
-          <p className="text-lg text-gray-300 max-w-2xl mb-8">
-            Subscribe to unlock the install. You get the brew command, the .dmg download, and the browser extension. The browser extension forwards your existing claude.ai session so there is no cookie paste and no new login.
+          <p className="text-lg text-gray-300 max-w-2xl mb-6">
+            Drop your email and we&rsquo;ll send the brew command, a tokenized .dmg link, and the git URL for the browser extension. Free, MIT licensed, no cookie paste. The extension forwards your existing claude.ai session, so there&rsquo;s nothing to copy.
           </p>
-          <div className="flex flex-wrap gap-3">
-            <InstallCta section="install-page-hero" variant="light" />
+          <div className="grid sm:grid-cols-2 gap-3 max-w-2xl mb-7 text-sm text-gray-300">
+            <div className="flex items-start gap-2">
+              <span className="mt-1 size-1.5 rounded-full bg-cta shrink-0" aria-hidden="true" />
+              <span>One-line <code className="font-mono text-gray-100">brew install</code> command for the menu bar app and CLI</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <span className="mt-1 size-1.5 rounded-full bg-cta shrink-0" aria-hidden="true" />
+              <span>Tokenized .dmg download link (30 days, any device)</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <span className="mt-1 size-1.5 rounded-full bg-cta shrink-0" aria-hidden="true" />
+              <span>Git URL for the unpacked Chrome / Arc / Brave / Edge extension</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <span className="mt-1 size-1.5 rounded-full bg-cta shrink-0" aria-hidden="true" />
+              <span>A reply-to inbox if you hit a snag, goes straight to me</span>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-3 items-center">
+            <InstallCta section="install-page-hero" variant="light" label="Email me the install link" />
             <TrackedCta
               href={GITHUB_URL}
               location="install_page_hero"
@@ -87,24 +105,14 @@ export default function InstallPage() {
               View source on GitHub
             </TrackedCta>
           </div>
+          <p className="text-xs text-gray-400 mt-4 max-w-2xl">
+            Free. No payment, no credit card. One welcome email with the install link; you can unsubscribe from any future update with one click.
+          </p>
         </div>
       </section>
 
       <section className="py-16 bg-white">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 space-y-14">
-          {/* WHAT YOU GET IN THE EMAIL */}
-          <div className="rounded-lg border border-rule bg-paper p-6">
-            <h2 className="font-heading text-xl font-bold text-primary mb-2">
-              What lands in your inbox
-            </h2>
-            <ul className="list-disc list-inside space-y-1 text-gray-700 text-sm">
-              <li>The one-line Homebrew command for the menu bar app and CLI.</li>
-              <li>A tokenized .dmg download link, valid for 30 days, usable on any device.</li>
-              <li>The git URL for the unpacked browser extension repo.</li>
-              <li>A short note if you ever need to reply with a question; it goes straight to me.</li>
-            </ul>
-          </div>
-
           {/* STEP 1 */}
           <div>
             <div className="flex items-baseline gap-3 mb-4">
