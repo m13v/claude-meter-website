@@ -144,6 +144,11 @@ const nextConfig: NextConfig = {
         destination: "/t/claudmeter",
         permanent: true,
       },
+      {
+        source: "/t/claude-code-codex-plugin-usage",
+        destination: "/t/claude-code-codex-token-juggling",
+        permanent: true,
+      },
     ];
   },
 };
