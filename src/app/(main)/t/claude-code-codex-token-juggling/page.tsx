@@ -88,6 +88,10 @@ const faqs = [
     q: "Is ClaudeMeter free, and what does it touch on my machine?",
     a: "Free, MIT licensed, source at github.com/m13v/claude-meter. The browser extension makes one HTTPS request per minute to claude.ai using the cookies your browser already holds, then POSTs the JSON snapshot to a localhost bridge at 127.0.0.1:63762 that the menu bar app listens on. No telemetry, no cloud account, no analytics. It does not touch Codex or your OpenAI account at all; Codex's gauge stays inside its own CLI. The juggle is a workflow, not a unified dashboard.",
   },
+  {
+    q: "What if I run Codex as a plugin or sub-agent inside Claude Code (or vice versa)?",
+    a: "Doesn't change the tracking story. However you wire the two agents together, whether as standalone CLIs in two terminals, a Codex MCP server mounted inside Claude Code, an IDE extension that calls out to both, or a plugin from the Claude Code plugin marketplace that orchestrates them, each tool call still bills against the plan of the vendor that ran it. Anthropic counts the Claude Code half in five_hour and seven_day on /api/oauth/usage. OpenAI counts the Codex half in the 5h and weekly buckets that /status surfaces. A plugin or sub-agent wrapper does NOT pool the two quotas. So the meter setup is the same: ClaudeMeter in your menu bar for the Anthropic side, /status inside the Codex session for the OpenAI side, and the 95% rule decides which side runs the next prompt.",
+  },
 ];
 
 const comparisonRows = [
