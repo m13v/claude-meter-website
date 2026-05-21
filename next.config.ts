@@ -149,11 +149,6 @@ const nextConfig: NextConfig = {
         destination: "/t/claude-code-codex-token-juggling",
         permanent: true,
       },
-      {
-        source: "/alternative/server-truth-usage-vs-local-jsonl",
-        destination: "/alternative/server-truth-vs-local-claude-logs",
-        permanent: true,
-      },
     ];
   },
 };
