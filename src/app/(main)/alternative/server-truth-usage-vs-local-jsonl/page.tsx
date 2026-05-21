@@ -267,6 +267,7 @@ export default function ServerTruthUsageVsLocalJsonlPage() {
         <BeforeAfter
           title="What you thought you were reading vs what is actually under the hood"
           before={{
+            label: "Before: tokens = quota",
             content:
               "Local JSONL is the canonical source. ccusage walks it, sums tokens, gives me a percentage. If the percentage is low, I am fine. If claude.ai 429s me anyway, something is broken.",
             highlights: [
@@ -277,6 +278,7 @@ export default function ServerTruthUsageVsLocalJsonlPage() {
             ],
           }}
           after={{
+            label: "After: two surfaces, two questions",
             content:
               "Local JSONL is a token diary on this machine. Server truth is a weighted utilization float on claude.ai. ccusage answers 'which project burned what'. Server truth answers 'will my next prompt 429'. I read both, for different reasons.",
             highlights: [
