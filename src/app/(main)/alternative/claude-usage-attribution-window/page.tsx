@@ -46,7 +46,7 @@ const breadcrumbCrumbs = breadcrumbs.map((b) => ({
   href: b.url,
 }));
 
-const rustStruct = `// claude-meter/src/models.rs — the exact shape it deserializes.
+const rustStruct = `// claude-meter/src/models.rs, the exact shape it deserializes.
 // Every field is a separate rolling window the server scores you on.
 
 pub struct Window {
@@ -83,7 +83,7 @@ const comparisonRows = [
   },
   {
     feature: "Which one rate-limits you",
-    competitor: "Cannot tell — it has no window concept",
+    competitor: "Cannot tell; it has no window concept",
     ours: "Whichever window crosses 100% first; claude-meter shows all of them",
   },
   {
@@ -93,7 +93,7 @@ const comparisonRows = [
   },
   {
     feature: "Other surfaces (browser chats, agents)",
-    competitor: "Invisible — only sees Claude Code's local files",
+    competitor: "Invisible; only sees Claude Code's local files",
     ours: "Counted by the server and surfaced; nothing hides off-machine",
   },
 ];
