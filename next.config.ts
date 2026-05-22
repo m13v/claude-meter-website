@@ -154,6 +154,11 @@ const nextConfig: NextConfig = {
         destination: "/t/claude-code-codex-token-juggling",
         permanent: true,
       },
+      {
+        source: "/t/codex-pricing",
+        destination: "/t/chatgpt-com-codex-pricing",
+        permanent: true,
+      },
     ];
   },
 };
