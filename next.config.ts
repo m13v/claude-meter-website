@@ -159,6 +159,11 @@ const nextConfig: NextConfig = {
         destination: "/t/chatgpt-com-codex-pricing",
         permanent: true,
       },
+      {
+        source: "/t/claude-max-5-hour-rolling-window-server-tracked",
+        destination: "/t/claude-max-rolling-5-hour-weekly-limit",
+        permanent: true,
+      },
     ];
   },
 };
