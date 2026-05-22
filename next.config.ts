@@ -35,6 +35,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/t/claude-code-server-truth-quota",
+        destination: "/t/claude-code-rolling-5-hour-wall",
+        permanent: true,
+      },
+      {
         source: "/t/claude-rolling-5h-window-tracker",
         destination: "/t/claude-pro-5-hour-window-tracker",
         permanent: true,
