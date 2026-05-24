@@ -252,12 +252,14 @@ export function HomeClient() {
             <div className="hero-copy">
               <div
                 className="eyebrow hero-eye reveal-up in"
-                aria-label="macOS menu bar app showing live Claude Pro and Max plan usage."
+                aria-label="Free, open-source macOS menu bar app showing live Claude Pro and Max plan usage."
               >
                 <span className="dot" aria-hidden="true" />
                 <span>macOS menu bar</span>
                 <span className="sep" aria-hidden="true">·</span>
-                <span>Live Claude Pro &amp; Max plan usage</span>
+                <span>Live Claude Pro &amp; Max usage</span>
+                <span className="sep" aria-hidden="true">·</span>
+                <span>Free &amp; open source</span>
               </div>
 
               <h1 className="stop-heading reveal-up in d1" aria-label={`Did you get? ${stopMessages[stopIdx]}`}>
@@ -289,11 +291,15 @@ export function HomeClient() {
                         <polyline points="7 10 12 15 17 10" />
                         <line x1="12" y1="15" x2="12" y2="3" />
                       </svg>
-                      {loading ? "Loading…" : "Get Started"}
+                      {loading ? "Loading…" : "Get the install link"}
                     </button>
                   )}
                 />
               </div>
+
+              <p className="cta-note reveal-up in d3">
+                No account, no card. We email the .dmg and brew install command.
+              </p>
 
               <div className="hero-trust reveal-up in d4">
                 <a
@@ -737,7 +743,7 @@ export function HomeClient() {
                   className="btn signal"
                   style={{ opacity: loading ? 0.7 : undefined }}
                 >
-                  {loading ? "Loading…" : "Get Started"}
+                  {loading ? "Loading…" : "Get the install link"}
                 </button>
               )}
             />
