@@ -231,6 +231,15 @@
   .home-root .hero-cta .install-chip.big { flex: 0 1 auto; }
 }
 
+.home-root .cta-note {
+  margin-top: 12px;
+  font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 480px;
+}
+
 .home-root .hero-trust {
   display: flex;
   align-items: center;
