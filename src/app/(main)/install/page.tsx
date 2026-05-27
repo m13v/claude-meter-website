@@ -8,7 +8,7 @@ const GITHUB_URL = "https://github.com/m13v/claude-meter";
 export const metadata: Metadata = {
   title: "Install ClaudeMeter on macOS — free, ~60s, brew + browser extension",
   description:
-    "Free install in under a minute on macOS 12+. Drop your email, we send the brew command and .dmg link. Load the unpacked extension in Chrome, Arc, Brave, or Edge. Reads your existing claude.ai session, no cookie paste. MIT licensed.",
+    "Drop your email, get the brew command and .dmg link in your inbox. Free, MIT, macOS 12+. Reads your existing claude.ai session, no cookie paste. Menu bar gauges for 5-hour, weekly, and extra usage in about a minute.",
 };
 
 const howToJsonLd = {
@@ -73,7 +73,7 @@ export default function InstallPage() {
             Install ClaudeMeter
           </h1>
           <p className="text-lg text-gray-300 max-w-2xl mb-6">
-            Drop your email and we&rsquo;ll send the brew command, a tokenized .dmg link, and the git URL for the browser extension. Free, MIT licensed, no cookie paste. The extension forwards your existing claude.ai session, so there&rsquo;s nothing to copy.
+            One email, one welcome message, three working gauges in your menu bar about a minute later. The extension forwards your existing claude.ai session, so no cookie paste.
           </p>
           <div className="grid sm:grid-cols-2 gap-3 max-w-2xl mb-7 text-sm text-gray-300">
             <div className="flex items-start gap-2">
@@ -93,6 +93,66 @@ export default function InstallPage() {
               <span>A reply-to inbox if you hit a snag, goes straight to me</span>
             </div>
           </div>
+
+          {/* What you see ~60s after install */}
+          <div className="max-w-md rounded-lg border border-white/10 bg-white/[0.04] p-4 mb-7">
+            <div className="flex items-center justify-between text-[10px] uppercase tracking-wider text-gray-400 mb-3">
+              <span className="inline-flex items-center gap-1.5">
+                <span className="size-1.5 rounded-full bg-cta" aria-hidden="true" />
+                Menu bar, ~60s after install
+              </span>
+              <span className="font-mono text-gray-300">C|</span>
+            </div>
+            <div className="space-y-2.5">
+              <div>
+                <div className="flex items-baseline justify-between text-xs text-gray-300">
+                  <span>5-hour session</span>
+                  <span className="font-mono text-gray-100">62%</span>
+                </div>
+                <div className="h-1 mt-1 rounded-full bg-white/10 overflow-hidden">
+                  <div className="h-full bg-cta" style={{ width: "62%" }} />
+                </div>
+              </div>
+              <div>
+                <div className="flex items-baseline justify-between text-xs text-gray-300">
+                  <span>Weekly quota</span>
+                  <span className="font-mono text-gray-100">41%</span>
+                </div>
+                <div className="h-1 mt-1 rounded-full bg-white/10 overflow-hidden">
+                  <div className="h-full bg-cta" style={{ width: "41%" }} />
+                </div>
+              </div>
+              <div>
+                <div className="flex items-baseline justify-between text-xs text-gray-300">
+                  <span>Extra usage</span>
+                  <span className="font-mono text-gray-100">$3.40</span>
+                </div>
+                <div className="h-1 mt-1 rounded-full bg-white/10 overflow-hidden">
+                  <div className="h-full bg-cta" style={{ width: "28%" }} />
+                </div>
+              </div>
+            </div>
+            <div className="mt-3 font-mono text-[10px] text-gray-500">
+              refreshed 12s ago · auto, every 60s · matches claude.ai/settings/usage
+            </div>
+          </div>
+
+          {/* Why you'd want this on your screen, in someone else's words */}
+          <blockquote className="max-w-2xl border-l-2 border-cta/70 pl-4 mb-7 text-sm text-gray-300">
+            <span className="block">&ldquo;I typed &lsquo;test one two three&rsquo; into Claude Code. That put me at 12%.&rdquo;</span>
+            <cite className="not-italic block mt-1 text-xs text-gray-500">
+              &mdash;{" "}
+              <a
+                href="https://news.ycombinator.com/item?id=47586176"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-gray-700 underline-offset-2 hover:text-gray-300"
+              >
+                Hacker News #47586176 &uarr;
+              </a>
+            </cite>
+          </blockquote>
+
           <div className="flex flex-wrap gap-3 items-center">
             <InstallCta section="install-page-hero" variant="light" label="Email me the install link" />
             <TrackedCta
