@@ -275,6 +275,22 @@ export function HomeClient() {
                 See exactly how much of your Claude Pro/Max plan is left before you blow past it: the rolling 5-hour, weekly, and pay-as-you-go numbers, sitting next to your clock. Same numbers claude.ai/settings/usage shows, to the integer. One brew command; the browser extension forwards your existing claude.ai session, so no DevTools and no cookie paste.
               </p>
 
+              <div
+                className="hero-mb-preview reveal-up in d2"
+                role="img"
+                aria-label={`Menu bar preview: 5-hour window at ${sessionPct} percent, extra usage ${extraFmt}, refreshed every 60 seconds.`}
+              >
+                <span className="preview-tag">Menu bar, right now</span>
+                <span className="preview-chip">
+                  <span className="preview-dot" aria-hidden="true" />
+                  <span className="preview-pct">{sessionPct}%</span>
+                  <span className="preview-sep" aria-hidden="true">·</span>
+                  <span className="preview-dollar">{extraFmt}</span>
+                </span>
+                <span className="preview-clock" aria-hidden="true">2:14</span>
+                <span className="preview-foot" aria-hidden="true">→ refreshes every 60s</span>
+              </div>
+
               <div className="hero-cta reveal-up in d3">
                 <StripeCheckoutButton
                   section="hero"
