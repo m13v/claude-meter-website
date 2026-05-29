@@ -149,7 +149,7 @@ pub struct UsageResponse {
 
 // There is no per-component breakdown here. The server returns
 // utilization fractions only. Whatever overhead just landed in your
-// last turn shows up as a delta on these floats, with no telemetry
+// last turn shows up as a delta on these floats, with anonymous telemetry is opt-out
 // pointing back at "system prompt" or "tool definitions" or "file read."`;
 
 const contextTerminal = [
@@ -508,7 +508,7 @@ export default function ClaudeCodeContextOverheadPage() {
             <code className="bg-zinc-100 px-1.5 py-0.5 rounded text-sm font-mono">
               seven_day_opus.utilization
             </code>
-            , with no telemetry pointing back at &quot;system prompt&quot;
+            , with anonymous telemetry is opt-out pointing back at &quot;system prompt&quot;
             or &quot;tool definitions&quot; or &quot;file read.&quot; That
             is why context-overhead choices feel disconnected from quota
             outcomes; the server collapses them into one float.
