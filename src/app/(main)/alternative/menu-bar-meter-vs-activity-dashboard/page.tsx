@@ -83,7 +83,7 @@ const faqs = [
   },
   {
     q: "Is ClaudeMeter open source?",
-    a: "Yes, MIT licensed, github.com/m13v/claude-meter. The Rust core, the menu bar binary at src/bin/menubar.rs, and the browser extension under extension/ are all readable. There is no telemetry: no analytics, no crash reporting, no third-party SDK. The only network call is your one-per-minute HTTPS request to claude.ai using the session cookie that is already in your browser, and the localhost POST from the extension to 127.0.0.1:63762 that never leaves the loopback interface.",
+    a: "Yes, MIT licensed, github.com/m13v/claude-meter. The Rust core, the menu bar binary at src/bin/menubar.rs, and the browser extension under extension/ are all readable. Usage data stays local; anonymous crash reporting and daily active telemetry are opt-out. The only usage-data network call is your one-per-minute HTTPS request to claude.ai using the session cookie that is already in your browser, and the localhost POST from the extension to 127.0.0.1:63762 that never leaves the loopback interface.",
   },
 ];
 
