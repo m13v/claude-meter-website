@@ -80,6 +80,7 @@ export async function POST(req: Request) {
       component: "claude-meter-menubar",
       $process_person_profile: false,
       $geoip_disable: true,
+      $ip: "0.0.0.0",
     },
   });
 
