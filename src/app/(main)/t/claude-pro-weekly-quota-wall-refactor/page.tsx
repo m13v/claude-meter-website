@@ -90,7 +90,7 @@ const faqs = [
   },
   {
     q: "Is ClaudeMeter free, and does it send my data anywhere?",
-    a: "Free and MIT licensed. Source at github.com/m13v/claude-meter. The browser extension runs one HTTPS request per minute to claude.ai using your existing session cookie (the same cookie your browser already sends to the settings page). The data goes to a localhost bridge at 127.0.0.1:63762 that the menu bar app listens on. Nothing leaves your machine. There is no cloud account, no telemetry, no analytics ping.",
+    a: "Free and MIT licensed. Source at github.com/m13v/claude-meter. The browser extension runs one HTTPS request per minute to claude.ai using your existing session cookie (the same cookie your browser already sends to the settings page). The data goes to a localhost bridge at 127.0.0.1:63762 that the menu bar app listens on. Nothing leaves your machine. There is no cloud account, anonymous telemetry is opt-out, anonymous health telemetry only.",
   },
 ];
 
