@@ -143,7 +143,7 @@ const proofChecklist = [
     text: "Open source. Rust core for the data fetch, SwiftUI for the menu bar, JavaScript for the browser extension. All three are in the same repo.",
   },
   {
-    text: "No telemetry. The only outbound network traffic is to claude.ai itself, once per minute, with your own session cookies.",
+    text: "Anonymous telemetry is opt-out. The only outbound network traffic is to claude.ai itself, once per minute, with your own session cookies.",
   },
   {
     text: "Server-truth quota numbers. The three endpoints under claude.ai/api/organizations/{org_uuid}/ are the same source the Settings page renders from, so the percents match.",
@@ -260,7 +260,7 @@ export default function ClawdmeterPage() {
           Same product, just spelled the way it sounds. ClaudeMeter is the
           free, open-source macOS menu bar app and browser extension that
           shows your live Claude Pro or Max plan usage. One brew command,
-          numbers match the Settings page, no telemetry, MIT license. Below
+          numbers match the Settings page, anonymous telemetry is opt-out, MIT license. Below
           is how to install the thing you were actually looking for, and the
           anchor facts you can use to confirm you reached the real project
           and not a typosquat.
