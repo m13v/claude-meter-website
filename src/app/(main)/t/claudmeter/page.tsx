@@ -92,7 +92,7 @@ const faqs = [
   },
   {
     q: "Is ClaudeMeter free? What is the catch?",
-    a: "Free, MIT licensed, zero telemetry. The catch is that the claude.ai usage endpoint is undocumented; Anthropic could change the response shape and the project would need a one-line patch to src/models.rs to keep up. There is no paid tier, no account to make, no email to give. The single network destination is claude.ai itself, called once per minute on a chrome.alarms tick (POLL_MINUTES = 1 in extension/background.js).",
+    a: "Free, MIT licensed, anonymous telemetry is opt-out. The catch is that the claude.ai usage endpoint is undocumented; Anthropic could change the response shape and the project would need a one-line patch to src/models.rs to keep up. There is no paid tier, no account to make, no email to give. The usage-data network destination is claude.ai itself, called once per minute on a chrome.alarms tick (POLL_MINUTES = 1 in extension/background.js).",
   },
   {
     q: "ClaudeMeter vs ccusage, which one do I want?",
@@ -233,7 +233,7 @@ export default function Page() {
                 claude-meter.com/install
               </a>
               . It runs as a menu bar app on macOS 12+ and a browser extension
-              for Chrome, Arc, Brave, and Edge. MIT licensed, no telemetry.
+              for Chrome, Arc, Brave, and Edge. MIT licensed, anonymous telemetry is opt-out.
             </p>
           </div>
         </GlowCard>
