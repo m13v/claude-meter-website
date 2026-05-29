@@ -66,7 +66,7 @@ const features = [
   {
     idx: "06",
     label: "Local-first",
-    title: "Local-first, MIT core, no telemetry",
+    title: "Local-first, MIT core, anonymous telemetry is opt-out",
     body: "The agent runs on your machine alongside the existing Claude Meter menu bar app. Pro is a paid layer on top of the same MIT codebase. Your prompts, code, and reports stay local; only billing pings the Pro server.",
   },
 ];
