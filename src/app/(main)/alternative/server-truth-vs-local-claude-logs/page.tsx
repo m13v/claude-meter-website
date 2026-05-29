@@ -437,7 +437,7 @@ export default function ServerTruthVsLocalClaudeLogsPage() {
           </code>{" "}
           so your existing claude.ai session ships the cookie. The response is
           posted to a localhost-only bridge so the macOS menu bar app can render
-          it without a second round-trip. No telemetry, no manual cookie paste,
+          it without a second round-trip. Anonymous telemetry is opt-out, no manual cookie paste,
           no token-cost approximation.
         </p>
       </section>
