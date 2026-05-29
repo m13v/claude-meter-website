@@ -132,14 +132,14 @@ const proofChecklist = [
     text: "Bridge between extension and menu bar runs on 127.0.0.1:63762. Nothing on your network can see it.",
   },
   {
-    text: "Zero telemetry. One HTTPS request per minute, only to claude.ai itself. MIT licensed.",
+    text: "Anonymous telemetry is opt-out. One HTTPS request per minute, only to claude.ai itself. MIT licensed.",
   },
 ];
 
 const faqs = [
   {
     q: "What is a Claude Code weekly quota meter?",
-    a: "A small ambient display (menu bar, status line, or CLI tile) that polls Anthropic's internal /api/organizations/{uuid}/usage endpoint every 60 seconds using your existing claude.ai browser cookie and renders the live utilization for the six weekly buckets the server returns. The meter sits outside Claude Code itself, so an agentic loop can run uninterrupted while you watch the numbers accrue. The open-source one is ClaudeMeter (github.com/m13v/claude-meter), MIT licensed, no telemetry.",
+    a: "A small ambient display (menu bar, status line, or CLI tile) that polls Anthropic's internal /api/organizations/{uuid}/usage endpoint every 60 seconds using your existing claude.ai browser cookie and renders the live utilization for the six weekly buckets the server returns. The meter sits outside Claude Code itself, so an agentic loop can run uninterrupted while you watch the numbers accrue. The open-source one is ClaudeMeter (github.com/m13v/claude-meter), MIT licensed, anonymous telemetry is opt-out.",
   },
   {
     q: "Claude Code already has /usage. Why do I need a separate meter?",
@@ -175,7 +175,7 @@ const faqs = [
   },
   {
     q: "What does the meter cost?",
-    a: "Free, MIT licensed, no account, no signup. github.com/m13v/claude-meter. The only outbound network traffic is the one HTTPS GET per minute per org to claude.ai, plus the two sibling reads (subscription_details and overage_spend_limit) that fire less often. No analytics, no telemetry, no auth server, no cloud account. The 127.0.0.1:63762 bridge between extension and menu bar is loopback-only.",
+    a: "Free, MIT licensed, no account, no signup. github.com/m13v/claude-meter. The only outbound network traffic is the one HTTPS GET per minute per org to claude.ai, plus the two sibling reads (subscription_details and overage_spend_limit) that fire less often. No analytics, anonymous telemetry is opt-out, no auth server, no cloud account. The 127.0.0.1:63762 bridge between extension and menu bar is loopback-only.",
   },
 ];
 
@@ -307,7 +307,7 @@ export default function Page() {
             >
               github.com/m13v/claude-meter
             </a>{" "}
-            (MIT, macOS menu bar plus browser extension, no telemetry).
+            (MIT, macOS menu bar plus browser extension, anonymous telemetry is opt-out).
           </p>
         </div>
       </section>
