@@ -76,7 +76,7 @@ const faqs = [
   },
   {
     q: "Where does ClaudeMeter read the wall from, exactly?",
-    a: "From the same endpoint claude.ai/settings/usage renders. The browser extension at extension/background.js polls /api/organizations/{org}/usage on claude.ai every 60 seconds with credentials: 'include' (your existing claude.ai cookie). It POSTs the JSON to the local menu bar app on 127.0.0.1:63762, which renders five_hour.utilization with its resets_at as a relative duration. The Rust UsageResponse struct that decodes the payload is at src/models.rs line 18 to 28 in github.com/m13v/claude-meter. MIT licensed. No telemetry. One HTTPS request per minute to claude.ai using your own session.",
+    a: "From the same endpoint claude.ai/settings/usage renders. The browser extension at extension/background.js polls /api/organizations/{org}/usage on claude.ai every 60 seconds with credentials: 'include' (your existing claude.ai cookie). It POSTs the JSON to the local menu bar app on 127.0.0.1:63762, which renders five_hour.utilization with its resets_at as a relative duration. The Rust UsageResponse struct that decodes the payload is at src/models.rs line 18 to 28 in github.com/m13v/claude-meter. MIT licensed. Anonymous telemetry is opt-out. One HTTPS request per minute to claude.ai using your own session.",
   },
 ];
 
