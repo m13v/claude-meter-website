@@ -561,7 +561,7 @@ export function HomeClient() {
               <div className="idx">05 / Privacy</div>
               <h3>Source on GitHub</h3>
               <p>
-                Rust source on GitHub. The only network egress is claude.ai itself.
+                Rust source on GitHub. usage-data network egress is claude.ai itself; anonymous health telemetry is opt-out.
               </p>
               <div className="reveal">→ auditable · written in Rust</div>
             </article>
