@@ -152,7 +152,7 @@ const cliVsMeterRows = [
   {
     feature: "Cost / license",
     competitor: "Free, MIT (ccusage). Some paid dashboards exist for the org-level Console.",
-    ours: "Free, MIT, no telemetry. github.com/m13v/claude-meter.",
+    ours: "Free, MIT, anonymous telemetry is opt-out. github.com/m13v/claude-meter.",
   },
   {
     feature: "What you give it",
@@ -240,7 +240,7 @@ export default function Page() {
           The Claude weekly quota server-truth meter, and why its number cannot disagree with claude.ai
         </h1>
         <p className="mt-5 text-lg text-zinc-700 leading-relaxed">
-          You are looking for a tool that puts the weekly quota number from <code className="text-sm bg-zinc-100 px-1.5 py-0.5 rounded text-zinc-800">claude.ai/settings/usage</code> on your menu bar without you clicking into the settings page every twenty minutes. That tool is <strong>ClaudeMeter</strong>. It is free, open source (MIT), no telemetry, and the reason its number cannot disagree with the settings page is that it makes the exact same HTTPS call.
+          You are looking for a tool that puts the weekly quota number from <code className="text-sm bg-zinc-100 px-1.5 py-0.5 rounded text-zinc-800">claude.ai/settings/usage</code> on your menu bar without you clicking into the settings page every twenty minutes. That tool is <strong>ClaudeMeter</strong>. It is free, open source (MIT), anonymous telemetry is opt-out, and the reason its number cannot disagree with the settings page is that it makes the exact same HTTPS call.
         </p>
       </header>
 
