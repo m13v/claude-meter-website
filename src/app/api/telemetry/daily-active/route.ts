@@ -79,6 +79,7 @@ export async function POST(req: Request) {
       telemetry_version: 1,
       component: "claude-meter-menubar",
       $process_person_profile: false,
+      $geoip_disable: true,
     },
   });
 
