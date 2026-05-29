@@ -126,7 +126,7 @@ const faqs = [
   },
   {
     q: "Does claude-meter give me one combined team dashboard?",
-    a: "No, and I want to be honest about that. claude-meter is a per-seat tool: one menu-bar app (and CLI) per developer, each reading that developer's own claude.ai session. There is no central server that aggregates everyone. The team total is something you assemble yourself: run 'claude-meter --json' on each seat and sum overage.used_credits with jq or a tiny script. That is deliberate. There is no telemetry and no central collector, so nothing about your team's usage leaves each machine unless you choose to collect it.",
+    a: "No, and I want to be honest about that. claude-meter is a per-seat tool: one menu-bar app (and CLI) per developer, each reading that developer's own claude.ai session. There is no central server that aggregates everyone. The team total is something you assemble yourself: run 'claude-meter --json' on each seat and sum overage.used_credits with jq or a tiny script. That is deliberate. Anonymous telemetry is opt-out and there is no central usage collector, so nothing about your team's usage leaves each machine unless you choose to collect it.",
   },
   {
     q: "We are a team on individual Pro/Max plans, not Team or Enterprise. Does the Console help?",
@@ -138,7 +138,7 @@ const faqs = [
   },
   {
     q: "Is this safe to run, and what does it actually touch?",
-    a: "It is MIT-licensed and open source, macOS 12+ only. With the browser extension it uses your existing claude.ai cookies to make one HTTPS request per minute to claude.ai and posts the snapshot to a localhost bridge on 127.0.0.1:63762. No telemetry, no analytics, nothing leaves your machine except the request to claude.ai itself. The --json output is read-only: it prints, it does not change anything on your account.",
+    a: "It is MIT-licensed and open source, macOS 12+ only. With the browser extension it uses your existing claude.ai cookies to make one HTTPS request per minute to claude.ai and posts the snapshot to a localhost bridge on 127.0.0.1:63762. Anonymous telemetry is opt-out, no analytics, usage data stays on your machine except the request to claude.ai itself. The --json output is read-only: it prints, it does not change anything on your account.",
   },
 ];
 
