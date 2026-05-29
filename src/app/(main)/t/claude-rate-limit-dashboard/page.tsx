@@ -737,7 +737,7 @@ pub struct UsageResponse {
           </li>
           <li>
             <strong className="text-zinc-900">No sign-in.</strong> No account,
-            no auth, no telemetry endpoint. The dashboard has nothing to log in
+            no auth, anonymous telemetry is opt-out endpoint. The dashboard has nothing to log in
             to because there is no remote service. The only network call is
             the browser extension polling claude.ai with the cookies the
             browser already has.
