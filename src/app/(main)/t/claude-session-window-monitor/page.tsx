@@ -92,7 +92,7 @@ const faqs = [
   },
   {
     q: "Does anything leave my machine besides the call to claude.ai itself?",
-    a: "No. There is no telemetry, no analytics, no third-party host. The only network egress is the GETs to claude.ai (which you are already calling when you use the product). The bridge between the extension and the menu-bar app binds to 127.0.0.1:63762 explicitly (BRIDGE constant in extension/background.js line 2), which is loopback only. The whole project is MIT-licensed; the source you can audit lives at github.com/m13v/claude-meter.",
+    a: "No usage data is sent to a third-party host. Anonymous crash reporting and daily active telemetry are opt-out. The only usage-data network egress is the GETs to claude.ai (which you are already calling when you use the product). The bridge between the extension and the menu-bar app binds to 127.0.0.1:63762 explicitly (BRIDGE constant in extension/background.js line 2), which is loopback only. The whole project is MIT-licensed; the source you can audit lives at github.com/m13v/claude-meter.",
   },
 ];
 
@@ -204,7 +204,7 @@ const monitorRows = [
     ours: "Yes. Iterates /api/account.memberships and dedupes by email.",
   },
   {
-    feature: "Free, MIT, no telemetry, no third-party host",
+    feature: "Free, MIT, anonymous telemetry is opt-out, no third-party host",
     competitor: "Mixed.",
     ours: "Yes. Only network call is to claude.ai itself.",
   },
