@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   title:
     "Claude Weekly Limit by Tuesday: It's a 168-Hour Clock, Not a Calendar Week",
   description:
-    "If your Claude weekly limit hits by Tuesday, you are not low on quota; you are deep into a rolling 168-hour window that started the moment you sent your first message of the cycle. The exact reset timestamp is in the JSON the server returns. Here is how to read it and how to plan around it.",
+    "Your Claude weekly limit hits by Tuesday because the seven-day bucket is a rolling 168-hour window keyed off your first message of the cycle, not a calendar week. The exact cliff timestamp is the seven_day.resets_at field at claude.ai/api/organizations/{org}/usage. Here is how to read your own and how to shift the next cycle.",
   alternates: { canonical: PAGE_URL },
   openGraph: {
     title:
@@ -390,6 +390,42 @@ export default function ClaudeWeeklyLimitByTuesdayPage() {
         </p>
       </header>
 
+      <section className="max-w-4xl mx-auto px-6 mt-8">
+        <div
+          className="rounded-2xl border border-zinc-200 bg-white p-6 sm:p-8"
+          style={{ borderLeft: "4px solid var(--accent)" }}
+        >
+          <div className="text-xs font-semibold uppercase tracking-wider text-accent mb-3">
+            Direct answer
+          </div>
+          <p className="text-zinc-900 text-lg leading-relaxed">
+            The Claude weekly limit hitting on Tuesday is not a quota change.
+            The seven-day bucket is a{" "}
+            <strong className="font-semibold">
+              rolling 168-hour window keyed off your first message of the
+              cycle
+            </strong>
+            , not a Sunday-midnight reset. If you opened Claude Sunday
+            afternoon, the bucket ends Sunday afternoon{" "}
+            <code className="bg-zinc-100 px-1.5 py-0.5 rounded text-base font-mono">
+              168
+            </code>{" "}
+            hours later, so by Tuesday afternoon you are roughly 48 hours
+            into a 168-hour clock. The exact cliff timestamp is the field{" "}
+            <code className="bg-zinc-100 px-1.5 py-0.5 rounded text-base font-mono">
+              seven_day.resets_at
+            </code>{" "}
+            in the JSON returned by{" "}
+            <code className="bg-zinc-100 px-1.5 py-0.5 rounded text-base font-mono">
+              GET /api/organizations/{"{org_uuid}"}/usage
+            </code>{" "}
+            on claude.ai. Two engineers on the same plan with the same
+            workload but different cycle starts will hit the wall on
+            different days.
+          </p>
+        </div>
+      </section>
+
       <div className="pt-2">
         <ArticleMeta
           author="Matthew Diakonov"
@@ -451,6 +487,98 @@ export default function ClaudeWeeklyLimitByTuesdayPage() {
           </code>{" "}
           from the server.
         </p>
+      </section>
+
+      <section className="max-w-4xl mx-auto px-6 mt-16">
+        <h2 className="text-3xl sm:text-4xl font-bold text-zinc-900 mb-4">
+          If you already hit the wall today
+        </h2>
+        <p className="text-zinc-700 leading-relaxed text-lg mb-8">
+          Three moves that buy you the rest of the week, in the order they
+          actually help. None of them require buying a bigger plan; the cliff
+          is a clock, and only one of these three moves touches the clock.
+        </p>
+        <ol className="space-y-6">
+          <li className="flex gap-5">
+            <div
+              className="shrink-0 h-10 w-10 rounded-full flex items-center justify-center font-bold text-white"
+              style={{ background: "var(--accent)" }}
+            >
+              1
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold text-zinc-900 mb-2">
+                Read{" "}
+                <code className="bg-zinc-100 px-1.5 py-0.5 rounded text-base font-mono">
+                  seven_day.resets_at
+                </code>{" "}
+                before you change anything
+              </h3>
+              <p className="text-zinc-700 leading-relaxed">
+                Decide based on the actual cliff, not how it feels. If your
+                timestamp is more than 72 hours out, the clock is going to
+                punish you again next cycle unless you also shift your
+                first-message-of-the-week later. If it is less than 24 hours,
+                you only have to limp through tonight and your fresh
+                allowance starts tomorrow. The two curl calls in the next
+                section print this number in eight seconds.
+              </p>
+            </div>
+          </li>
+          <li className="flex gap-5">
+            <div
+              className="shrink-0 h-10 w-10 rounded-full flex items-center justify-center font-bold text-white"
+              style={{ background: "var(--accent)" }}
+            >
+              2
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold text-zinc-900 mb-2">
+                Move agentic loops off Claude Code until reset
+              </h3>
+              <p className="text-zinc-700 leading-relaxed">
+                Single-prompt claude.ai web work still bills the bucket but
+                burns it slower than an agentic Claude Code loop that
+                re-grounds context every turn. The{" "}
+                <code className="bg-zinc-100 px-1.5 py-0.5 rounded text-base font-mono">
+                  seven_day_sonnet
+                </code>{" "}
+                and{" "}
+                <code className="bg-zinc-100 px-1.5 py-0.5 rounded text-base font-mono">
+                  seven_day_opus
+                </code>{" "}
+                per-model buckets each carry their own{" "}
+                <code className="bg-zinc-100 px-1.5 py-0.5 rounded text-base font-mono">
+                  resets_at
+                </code>
+                , so a swap from Opus to Sonnet can free hours on a bucket
+                that resets sooner. Check both timestamps before you swap;
+                the wrong direction speeds the cliff up.
+              </p>
+            </div>
+          </li>
+          <li className="flex gap-5">
+            <div
+              className="shrink-0 h-10 w-10 rounded-full flex items-center justify-center font-bold text-white"
+              style={{ background: "var(--accent)" }}
+            >
+              3
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold text-zinc-900 mb-2">
+                Shift the start of the next cycle, not the size
+              </h3>
+              <p className="text-zinc-700 leading-relaxed">
+                Max 20x makes the cliff taller, not later. If your goal is to
+                push the Tuesday cliff into Thursday, your first message of
+                the next cycle has to land Tuesday, not Sunday. The
+                rolling-window rule rewards starting your heavy week mid-week
+                exactly as much as it punishes starting it on the weekend.
+                Same plan, same workload, two days of breathing room.
+              </p>
+            </div>
+          </li>
+        </ol>
       </section>
 
       <section className="max-w-5xl mx-auto px-6 mt-16">
