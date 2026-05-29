@@ -90,7 +90,7 @@ const faqs = [
   },
   {
     q: "Is there a privacy cost to running this in an automation loop?",
-    a: "No outbound network egress beyond claude.ai itself. The bridge listens only on 127.0.0.1, the request fires once per minute (or once per loop iteration if you call the CLI), and there is no telemetry, no analytics endpoint, no third-party SDK in the binary. Source is MIT at github.com/m13v/claude-meter and the pieces a curious reviewer cares about are small: extension/background.js for the fetcher, src/api.rs for the parsed response, src/models.rs for the snapshot schema, src/bin/menubar.rs for the bridge.",
+    a: "No outbound network egress of usage data beyond claude.ai itself. The bridge listens only on 127.0.0.1, the request fires once per minute (or once per loop iteration if you call the CLI), and anonymous crash reporting plus daily active telemetry are opt-out. Source is MIT at github.com/m13v/claude-meter and the pieces a curious reviewer cares about are small: extension/background.js for the fetcher, src/api.rs for the parsed response, src/models.rs for the snapshot schema, src/bin/menubar.rs for the bridge.",
   },
   {
     q: "Does this fix the underlying agentic-loop quota burn?",
