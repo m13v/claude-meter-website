@@ -490,7 +490,7 @@ export default function Page() {
                 <code className="bg-zinc-100 px-1 py-0.5 rounded font-mono text-xs">
                   POLL_INTERVAL = Duration::from_secs(60)
                 </code>
-                ). MIT-licensed, no telemetry.
+                ). MIT-licensed, anonymous telemetry is opt-out.
               </li>
             </ol>
           </div>
