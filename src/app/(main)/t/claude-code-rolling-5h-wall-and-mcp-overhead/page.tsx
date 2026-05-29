@@ -79,7 +79,7 @@ const faqs = [
   },
   {
     q: "Where does ClaudeMeter watch the 5-hour bucket from?",
-    a: "From the same endpoint claude.ai/settings/usage renders. The Rust struct in src/models.rs at /Users/matthewdi/claude-meter declares UsageResponse with seven Window fields plus extra_usage; five_hour is the first one. The browser extension's extension/background.js polls https://claude.ai/api/organizations/{org_uuid}/usage every 60 seconds with credentials: 'include' (your existing claude.ai session cookie), POSTs the JSON to the menu-bar app on localhost:63762, and the SwiftUI popover renders five_hour.utilization plus its resets_at as a relative duration. No cookie paste, no telemetry, single HTTPS request per minute to claude.ai. Source: github.com/m13v/claude-meter, MIT license.",
+    a: "From the same endpoint claude.ai/settings/usage renders. The Rust struct in src/models.rs at /Users/matthewdi/claude-meter declares UsageResponse with seven Window fields plus extra_usage; five_hour is the first one. The browser extension's extension/background.js polls https://claude.ai/api/organizations/{org_uuid}/usage every 60 seconds with credentials: 'include' (your existing claude.ai session cookie), POSTs the JSON to the menu-bar app on localhost:63762, and the SwiftUI popover renders five_hour.utilization plus its resets_at as a relative duration. No cookie paste, anonymous telemetry is opt-out, single HTTPS request per minute to claude.ai. Source: github.com/m13v/claude-meter, MIT license.",
   },
   {
     q: "Why can ccusage not see this overhead-times-cache-miss tax?",
@@ -164,7 +164,7 @@ async function fetchUsage(orgUuid) {
 
 // usage.five_hour.utilization  -> 0.0..1.0; >= 1.0 means next prompt 429s
 // usage.five_hour.resets_at    -> ISO timestamp of the next decay below 1.0
-// No telemetry, no analytics, no third-party server.`;
+// Anonymous telemetry is opt-out, no analytics, no third-party server.`;
 
 const liveStatus = [
   { type: "command" as const, text: "$ claude-meter status" },
@@ -252,7 +252,7 @@ const meterRows = [
   },
   {
     feature: "Cost",
-    ours: "Free, MIT, no telemetry. macOS only.",
+    ours: "Free, MIT, anonymous telemetry is opt-out. macOS only.",
     competitor: "Free, MIT, cross-platform.",
   },
 ];
