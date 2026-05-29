@@ -520,7 +520,7 @@ export default function ChatgptComCodexPricingPage() {
           The browser extension makes one HTTPS request per minute to claude.ai
           using the session cookies your browser already holds, then pushes the
           snapshot to the menu bar app over a localhost bridge. No cookie
-          paste, no telemetry, no separate login. The numbers come from the
+          paste, anonymous telemetry is opt-out, no separate login. The numbers come from the
           same usage endpoint that backs claude.ai/settings/usage, so they
           match the page exactly. There is also a CLI:
         </p>
