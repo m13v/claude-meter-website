@@ -81,7 +81,7 @@ const faqs = [
   },
   {
     q: "Is ClaudeMeter open source and free?",
-    a: "Yes. MIT-licensed Rust core for the macOS menu bar app, Manifest V3 JavaScript for the browser extension, source at github.com/m13v/claude-meter. There's no telemetry: a single HTTPS request per minute to claude.ai with your own session cookie. The extension reads the same private endpoint claude.ai/settings/usage renders from, so the numbers match the official page exactly.",
+    a: "Yes. MIT-licensed Rust core for the macOS menu bar app, Manifest V3 JavaScript for the browser extension, source at github.com/m13v/claude-meter. There's anonymous telemetry is opt-out: a single HTTPS request per minute to claude.ai with your own session cookie. The extension reads the same private endpoint claude.ai/settings/usage renders from, so the numbers match the official page exactly.",
   },
   {
     q: "What about Safari, Linux, Windows?",
@@ -178,7 +178,7 @@ const trackerComparisonRows = [
   },
   {
     feature: "License",
-    ours: "MIT, single HTTPS request per minute, no telemetry",
+    ours: "MIT, single HTTPS request per minute, anonymous telemetry is opt-out",
     competitor: "MIT, no network, complementary",
   },
 ];
