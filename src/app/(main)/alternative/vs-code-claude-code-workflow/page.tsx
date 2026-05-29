@@ -187,7 +187,7 @@ const setupSteps = [
   {
     title: "Install the menu bar app",
     description:
-      "brew install --cask m13v/tap/claude-meter. The cask installs ClaudeMeter.app and the claude-meter CLI under /Applications/ClaudeMeter.app/Contents/MacOS/. No account creation, no sign-in screen, no telemetry. The app reads its data from your existing claude.ai browser session via the extension; nothing about VS Code changes.",
+      "brew install --cask m13v/tap/claude-meter. The cask installs ClaudeMeter.app and the claude-meter CLI under /Applications/ClaudeMeter.app/Contents/MacOS/. No account creation, no sign-in screen, anonymous telemetry is opt-out. The app reads its data from your existing claude.ai browser session via the extension; nothing about VS Code changes.",
   },
   {
     title: "Load the browser extension once",
