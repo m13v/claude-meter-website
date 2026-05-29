@@ -859,7 +859,7 @@ export default function ClaudeOpus71PercentWeeklyPage() {
         <p className="text-zinc-600 text-lg mb-6">
           ClaudeMeter sits in the macOS menu bar, polls every 60 seconds, and
           shows five_hour, seven_day, seven_day_opus, and extra_usage balance at
-          once. Free, MIT licensed, no telemetry, no cookie paste. Reads the
+          once. Free, MIT licensed, anonymous telemetry is opt-out, no cookie paste. Reads the
           same JSON{" "}
           <code className="bg-zinc-100 px-1.5 py-0.5 rounded text-sm font-mono">
             claude.ai/settings/usage
