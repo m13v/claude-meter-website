@@ -556,7 +556,7 @@ export default function ClaudeProUsageLimitPage() {
           ClaudeMeter does not estimate, does not count tokens, does not read
           your local Claude Code logs. It surfaces the server&apos;s
           utilization fractions on the eight buckets the rate limiter
-          actually checks. Free, MIT licensed, no telemetry, single HTTPS
+          actually checks. Free, MIT licensed, anonymous telemetry is opt-out, single HTTPS
           request per minute to claude.ai using your existing session.
         </p>
       </section>
