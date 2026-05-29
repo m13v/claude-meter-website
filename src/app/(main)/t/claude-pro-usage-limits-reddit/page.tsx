@@ -79,7 +79,7 @@ const faqs = [
   },
   {
     q: "Is there a Reddit-friendly tool that just shows my Pro usage?",
-    a: "ClaudeMeter is one option that reads the server number. It is open source on GitHub (m13v/claude-meter), MIT licensed, no telemetry, and the browser extension forwards the claude.ai session so you do not paste a cookie. ccusage and Claude-Code-Usage-Monitor are two other Reddit-popular projects that count tokens locally from Claude Code JSONL files. They answer different questions: local tokens vs server-truth utilization.",
+    a: "ClaudeMeter is one option that reads the server number. It is open source on GitHub (m13v/claude-meter), MIT licensed, anonymous telemetry is opt-out, and the browser extension forwards the claude.ai session so you do not paste a cookie. ccusage and Claude-Code-Usage-Monitor are two other Reddit-popular projects that count tokens locally from Claude Code JSONL files. They answer different questions: local tokens vs server-truth utilization.",
   },
 ];
 
