@@ -145,7 +145,7 @@ const faqs = [
   },
   {
     q: "Where does claude-meter get its numbers, then?",
-    a: "From the same internal endpoint claude.ai/settings/usage renders: /api/organizations/{uuid}/usage. The browser extension forwards your existing claude.ai session every 60 seconds, the menu-bar app reads the response, and the numbers match the settings page because they are the settings page's numbers. No token estimation, no cookie paste, no telemetry leaving your machine.",
+    a: "From the same internal endpoint claude.ai/settings/usage renders: /api/organizations/{uuid}/usage. The browser extension forwards your existing claude.ai session every 60 seconds, the menu-bar app reads the response, and the numbers match the settings page because they are the settings page's numbers. No token estimation, no cookie paste, anonymous telemetry is opt-out leaving your machine.",
   },
   {
     q: "Do I still need ccusage if I run claude-meter?",
@@ -153,7 +153,7 @@ const faqs = [
   },
   {
     q: "Is claude-meter free and open source?",
-    a: "Yes. MIT licensed, no telemetry, a single HTTPS request per minute to claude.ai using your own session. The macOS menu-bar app and the browser extension are both on GitHub at github.com/m13v/claude-meter. It supports Claude Pro and Max on macOS 12+, with extensions for Chrome, Arc, Brave, and Edge.",
+    a: "Yes. MIT licensed, anonymous telemetry is opt-out, a single HTTPS request per minute to claude.ai using your own session. The macOS menu-bar app and the browser extension are both on GitHub at github.com/m13v/claude-meter. It supports Claude Pro and Max on macOS 12+, with extensions for Chrome, Arc, Brave, and Edge.",
   },
 ];
 
