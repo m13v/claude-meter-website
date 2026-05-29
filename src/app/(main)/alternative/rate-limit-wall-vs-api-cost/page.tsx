@@ -165,7 +165,7 @@ const faqs = [
   },
   {
     q: "Can I do both, plan plus API fallback?",
-    a: "Yes, and the operative metric is the same one ClaudeMeter prints. When five_hour.utilization passes ~85% you swing over to the API for the next 5h, then back to the plan after reset. The hard part is knowing the threshold lived without keeping claude.ai/settings/usage open in a tab. That's the gap ClaudeMeter fills: a menu bar percent that's accurate to within 60 seconds of the server, no manual cookie paste, no telemetry, MIT licensed.",
+    a: "Yes, and the operative metric is the same one ClaudeMeter prints. When five_hour.utilization passes ~85% you swing over to the API for the next 5h, then back to the plan after reset. The hard part is knowing the threshold lived without keeping claude.ai/settings/usage open in a tab. That's the gap ClaudeMeter fills: a menu bar percent that's accurate to within 60 seconds of the server, no manual cookie paste, anonymous telemetry is opt-out, MIT licensed.",
   },
 ];
 
