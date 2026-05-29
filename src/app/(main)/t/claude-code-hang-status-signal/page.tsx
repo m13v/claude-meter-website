@@ -632,7 +632,7 @@ export default function ClaudeCodeHangStatusSignalPage() {
           <code className="bg-zinc-100 px-1.5 py-0.5 rounded text-sm font-mono">
             127.0.0.1:63762
           </code>{" "}
-          for snapshots. No telemetry, MIT licensed, single HTTPS request
+          for snapshots. Anonymous telemetry is opt-out, MIT licensed, single HTTPS request
           per minute to claude.ai.
         </p>
       </section>
