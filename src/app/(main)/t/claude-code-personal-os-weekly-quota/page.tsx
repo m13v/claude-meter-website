@@ -155,7 +155,7 @@ const comparisonRows = [
   {
     feature: "Cost",
     competitor: "Free, open source",
-    ours: "Free, open source, MIT, no telemetry",
+    ours: "Free, open source, MIT, anonymous telemetry is opt-out",
   },
 ];
 
