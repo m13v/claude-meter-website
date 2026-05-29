@@ -160,7 +160,7 @@ const faqs = [
   },
   {
     q: "Is it safe to run a Rust binary that reads my claude.ai cookies?",
-    a: "ClaudeMeter is MIT-licensed open source; the entire data path is in /Users/<you>/claude-meter/src/. Two routes exist: the browser-extension route never touches your cookie jar (the extension calls the API with credentials: 'include' and posts the parsed snapshot to localhost), and the keychain route shells out to security find-generic-password to read Chrome Safe Storage on your own machine. No telemetry, no analytics, no network egress beyond claude.ai itself. The bridge listens on 127.0.0.1:63762 (loopback only), so nothing on your LAN can reach it.",
+    a: "ClaudeMeter is MIT-licensed open source; the entire data path is in /Users/<you>/claude-meter/src/. Two routes exist: the browser-extension route never touches your cookie jar (the extension calls the API with credentials: 'include' and posts the parsed snapshot to localhost), and the keychain route shells out to security find-generic-password to read Chrome Safe Storage on your own machine. Anonymous telemetry is opt-out, no analytics, no network egress of usage data beyond claude.ai itself. The bridge listens on 127.0.0.1:63762 (loopback only), so nothing on your LAN can reach it.",
   },
   {
     q: "Will Anthropic change the endpoint or block third-party readers?",
