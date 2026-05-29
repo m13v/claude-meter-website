@@ -72,7 +72,7 @@ const faqs = [
   },
   {
     q: "Is there a way to see my actual utilization without DevTools?",
-    a: "Yes. claude-meter runs as a macOS menu bar app and a browser extension. The Rust core in src/api.rs (lines 8 to 30) calls GET /api/organizations/{org}/usage and GET /api/organizations/{org}/overage_spend_limit once per minute using the cookies the browser already holds. It deserializes into UsageResponse (models.rs lines 18 to 28), and renders each bucket's utilization as a row in the popover. No cookie paste, no token, no telemetry. Read-only against endpoints the Settings page already calls. The CLI version prints the same rows for tmux and Starship status lines.",
+    a: "Yes. claude-meter runs as a macOS menu bar app and a browser extension. The Rust core in src/api.rs (lines 8 to 30) calls GET /api/organizations/{org}/usage and GET /api/organizations/{org}/overage_spend_limit once per minute using the cookies the browser already holds. It deserializes into UsageResponse (models.rs lines 18 to 28), and renders each bucket's utilization as a row in the popover. No cookie paste, no token, anonymous telemetry is opt-out. Read-only against endpoints the Settings page already calls. The CLI version prints the same rows for tmux and Starship status lines.",
   },
   {
     q: "Why does ccusage say I have plenty of room when Claude Code 429s?",
