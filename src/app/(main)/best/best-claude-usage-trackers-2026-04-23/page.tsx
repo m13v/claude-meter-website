@@ -77,7 +77,7 @@ const faqs = [
   },
   {
     q: "What does a tracker like this cost, and why are most of the list free?",
-    a: "Every Claude usage tracker on the first page today is free and open source. The base expense is zero because none of them store or sync data server-side; they read your session and render in-process. ClaudeMeter ships through brew (brew install --cask m13v/tap/claude-meter), no account, no telemetry. ccusage and Claude-Code-Usage-Monitor are npm packages. The paid tools in this space are observability platforms (Helicone, OpenRouter dashboards) aimed at teams with API traffic, not individuals watching their Pro window.",
+    a: "Every Claude usage tracker on the first page today is free and open source. The base expense is zero because none of them store or sync data server-side; they read your session and render in-process. ClaudeMeter ships through brew (brew install --cask m13v/tap/claude-meter), no account, anonymous telemetry is opt-out. ccusage and Claude-Code-Usage-Monitor are npm packages. The paid tools in this space are observability platforms (Helicone, OpenRouter dashboards) aimed at teams with API traffic, not individuals watching their Pro window.",
   },
   {
     q: "What happens when my claude.ai session expires?",
@@ -236,7 +236,7 @@ const comparisonRows = [
   { feature: "Sees API calls made outside Claude Code", ours: "Yes, counted server-side", competitor: "No, local log only" },
   { feature: "Sees Team/Enterprise shared quota", ours: "Yes, one snapshot per org", competitor: "Personal transcripts only" },
   { feature: "Native desktop UI with live state", ours: "Menu bar on macOS", competitor: "Terminal output / web widget" },
-  { feature: "License and telemetry", ours: "MIT, zero telemetry", competitor: "Varies" },
+  { feature: "License and telemetry", ours: "MIT, anonymous telemetry is opt-out", competitor: "Varies" },
   { feature: "Price", ours: "$0", competitor: "$0" },
 ];
 
@@ -265,7 +265,7 @@ const verifySteps = [
 
 const marqueeChips = [
   "claude-meter", "fazm", "terminator", "macos-mcp", "assrt", "mk0r",
-  "vipassana.cool", "cyrano", "free + MIT", "no telemetry", "brew install",
+  "vipassana.cool", "cyrano", "free + MIT", "anonymous telemetry is opt-out", "brew install",
   "60s poll", "port 63762", "three endpoints",
 ];
 
@@ -423,7 +423,7 @@ export default function BestClaudeUsageTrackers2026Page() {
                 <code className="bg-zinc-100 px-1.5 py-0.5 rounded text-xs font-mono">
                   127.0.0.1:63762
                 </code>
-                . No cookie paste, no API key, no telemetry. The number in the
+                . No cookie paste, no API key, anonymous telemetry is opt-out. The number in the
                 menu bar matches claude.ai/settings/usage exactly because it is
                 the same JSON.
               </p>
