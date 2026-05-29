@@ -86,7 +86,7 @@ const faqs = [
   },
   {
     q: "Is ClaudeMeter free, and what does it touch on my machine?",
-    a: "Free, MIT licensed, source at github.com/m13v/claude-meter. The browser extension makes one HTTPS request per minute to claude.ai using the cookies your browser already holds, then POSTs the JSON snapshot to a localhost bridge at 127.0.0.1:63762 that the menu bar app listens on. No telemetry, no cloud account, no analytics. It does not touch Codex or your OpenAI account at all; Codex's gauge stays inside its own CLI. The juggle is a workflow, not a unified dashboard.",
+    a: "Free, MIT licensed, source at github.com/m13v/claude-meter. The browser extension makes one HTTPS request per minute to claude.ai using the cookies your browser already holds, then POSTs the JSON snapshot to a localhost bridge at 127.0.0.1:63762 that the menu bar app listens on. Anonymous telemetry is opt-out, no cloud account, no analytics. It does not touch Codex or your OpenAI account at all; Codex's gauge stays inside its own CLI. The juggle is a workflow, not a unified dashboard.",
   },
   {
     q: "What if I run Codex as a plugin or sub-agent inside Claude Code (or vice versa)?",
