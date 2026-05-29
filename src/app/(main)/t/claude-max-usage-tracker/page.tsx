@@ -267,7 +267,7 @@ const ourClaim = [
   { text: "Deserializes all seven utilization windows into typed Rust fields, no buckets dropped." },
   { text: "Pulls /overage_spend_limit and /subscription_details on the same poll for full plan picture." },
   { text: "Browser extension forwards your live session via localhost bridge on port 63762, no paste." },
-  { text: "Free, MIT licensed, single HTTPS request per minute, zero telemetry." },
+  { text: "Free, MIT licensed, single HTTPS request per minute, anonymous telemetry is opt-out." },
 ];
 
 const terminalLines = [
