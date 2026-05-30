@@ -554,6 +554,90 @@ export default function ClaudeProVatBillingEuUkPage() {
 
       <section className="max-w-4xl mx-auto px-6 mt-16">
         <h2 className="text-3xl sm:text-4xl font-bold text-zinc-900 mb-4">
+          How to actually change what you are charged (the official levers)
+        </h2>
+        <p className="text-zinc-700 leading-relaxed text-lg mb-6">
+          Reading the field tells you what Anthropic has on file. Changing it
+          happens in Settings, not in the JSON. There are three official
+          levers, all documented in Anthropic&rsquo;s help center, and all
+          prospective: they apply to your next invoice, never the last one.
+        </p>
+        <ol className="space-y-5 list-none">
+          <li className="border-l-2 border-teal-300 pl-5">
+            <span className="font-semibold text-zinc-900">
+              Billing address.
+            </span>{" "}
+            <span className="text-zinc-700 leading-relaxed text-lg">
+              This is what Anthropic uses to compute tax:{" "}
+              <span className="italic">
+                &ldquo;your billing address determines how taxes are calculated
+                on your Claude purchases.&rdquo;
+              </span>{" "}
+              Update it at Settings &gt; Billing &gt; Billing Addresses; it
+              takes effect on future invoices. If you need an address that
+              differs from your card, Anthropic asks you to contact support
+              with documentation (a VAT registration certificate, for non-US
+              customers) verifying your location.
+            </span>
+          </li>
+          <li className="border-l-2 border-teal-300 pl-5">
+            <span className="font-semibold text-zinc-900">
+              Tax / VAT ID (reverse-charge).
+            </span>{" "}
+            <span className="text-zinc-700 leading-relaxed text-lg">
+              Business customers on Pro, Max, Team, and Console can enter a Tax
+              or VAT ID at Settings &gt; Billing &gt; Update, where the region
+              supports it. A valid ID for a reverse-charge jurisdiction drops
+              VAT to 0% on future invoices.
+            </span>
+          </li>
+          <li className="border-l-2 border-teal-300 pl-5">
+            <span className="font-semibold text-zinc-900">
+              Payment method country.
+            </span>{" "}
+            <span className="text-zinc-700 leading-relaxed text-lg">
+              Because the billing address is captured from your card by
+              default, switching to a card issued in another country moves{" "}
+              <code className="bg-zinc-100 px-1.5 py-0.5 rounded text-sm font-mono">
+                payment_method.country
+              </code>{" "}
+              and, with it, the jurisdiction on the next charge.
+            </span>
+          </li>
+        </ol>
+        <p className="text-zinc-700 leading-relaxed text-lg mt-6">
+          None of the three touches an invoice that has already been drafted.
+          Anthropic&rsquo;s documentation is explicit: updates apply to future
+          billing cycles only, and previously completed invoices cannot be
+          updated retroactively. To fix a charge that already went through,
+          email support@anthropic.com with your VAT ID and invoice numbers and
+          ask for a credit or amended invoice.
+        </p>
+        <p className="text-zinc-500 text-sm mt-4">
+          Sources: Anthropic Help Center,{" "}
+          <a
+            href="https://support.claude.com/en/articles/12997130-understanding-your-billing-address-and-tax-calculation"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-teal-700 underline underline-offset-2"
+          >
+            Understanding your billing address and tax calculation
+          </a>{" "}
+          and{" "}
+          <a
+            href="https://support.claude.com/en/articles/9889408-add-or-update-your-paid-claude-account-s-tax-or-vat-id"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-teal-700 underline underline-offset-2"
+          >
+            Add or update your paid Claude account&rsquo;s tax or VAT ID
+          </a>
+          .
+        </p>
+      </section>
+
+      <section className="max-w-4xl mx-auto px-6 mt-16">
+        <h2 className="text-3xl sm:text-4xl font-bold text-zinc-900 mb-4">
           Why the invoice number does not match the pricing page
         </h2>
         <GlowCard>
@@ -613,14 +697,17 @@ export default function ClaudeProVatBillingEuUkPage() {
           The one case where it stops being about VAT
         </h2>
         <p className="text-zinc-700 leading-relaxed text-lg">
-          Team and Enterprise plans expose a VAT ID field. Filling it in with
-          a valid registration number, for a jurisdiction that supports
-          reverse-charge on B2B digital services, moves the subscription
-          into net billing: Anthropic stops adding VAT and your finance team
-          self-accounts the tax on their end. Individual Pro does not expose
-          this field in most regions, so a consultant who wants to reclaim
-          VAT should either upgrade to Team or run the subscription through
-          a company card on a Team account.
+          You can drop the VAT line entirely with a VAT ID. Per Anthropic's
+          help center, Pro and Max subscribers may have the option to enter a
+          Tax or VAT ID at signup depending on location, and the same field is
+          available on Team and Console organizations; you add or update it at
+          Settings &gt; Billing &gt; Update next to your payment method.
+          Filling it in with a valid registration number, for a jurisdiction
+          that supports reverse-charge on B2B digital services, moves the
+          subscription into net billing: Anthropic stops adding VAT and your
+          finance team self-accounts the tax on their end. The field is gated
+          by region, so a subscriber in a non-supporting country still will
+          not see it.
         </p>
         <p className="text-zinc-700 leading-relaxed text-lg mt-4">
           Two things to know about the mechanic. First, the VAT ID switch is
