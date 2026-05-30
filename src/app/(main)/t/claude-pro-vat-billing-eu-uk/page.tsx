@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   title:
     "Claude Pro VAT charges explained: the two fields that decide what you are billed in the EU and UK",
   description:
-    "Claude Pro's VAT is not computed from your IP, your account email, or what country you typed into Stripe. It is computed from two fields on Anthropic's subscription_details endpoint: payment_method.country and currency. Here is how to read them, and what each country code turns $20 into.",
+    "Anthropic computes Claude Pro VAT from your billing address, and the country it has on file surfaces in two fields on the internal subscription_details endpoint: payment_method.country and currency. Here is how to read them, how to change your billing address or add a VAT ID, and what each country code turns $20 into.",
   alternates: { canonical: PAGE_URL },
   openGraph: {
     title:
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
 const faqs = [
   {
     q: "Where does Anthropic actually store the country that decides my VAT rate?",
-    a: "On the subscription object, in one field: subscription.payment_method.country. It is an ISO-3166 two-letter code (GB, DE, FR, HU, US, and so on). The field is declared in claude-meter/src/models.rs at line 45, inside the PaymentMethod struct (lines 42 to 49). It is populated by the response from GET https://claude.ai/api/organizations/{your_org_uuid}/subscription_details, which is the same endpoint the Settings billing page calls. If that field returns GB, Anthropic applies 20% UK VAT on top of the $20 Pro base. If it returns DE, Anthropic applies 19% German VAT. If it returns US, no VAT is applied. Your account email, your IP, and what country flag your browser shows do not enter into the calculation; only payment_method.country does.",
+    a: "Two layers. The authoritative input is your billing address: Anthropic's help center states 'your billing address determines how taxes are calculated on your Claude purchases.' The observable layer is one field on the subscription object, subscription.payment_method.country, an ISO-3166 two-letter code (GB, DE, FR, HU, US, and so on). That field is declared in claude-meter/src/models.rs at line 45, inside the PaymentMethod struct (lines 42 to 49), and it is populated by GET https://claude.ai/api/organizations/{your_org_uuid}/subscription_details, the same endpoint the Settings billing page calls. By default Anthropic captures your billing address from your payment card, so for most individuals the billing-address country and payment_method.country are the same value, which makes the field a fast proxy for the rate you will be charged. If it reads GB, Anthropic applies 20% UK VAT on top of the $20 Pro base; DE applies 19%; US applies none. Your account email and your IP do not enter into it; the billing address (and the card that usually sets it) does.",
   },
   {
     q: "Why is VAT invisible in claude.ai's Settings page but visible on my card statement?",
@@ -60,7 +60,7 @@ const faqs = [
   },
   {
     q: "Does typing a VAT ID into Settings actually remove the tax?",
-    a: "Only for business accounts, only on Team/Enterprise, only prospectively. Anthropic's VAT ID field appears conditionally at Settings > Billing and only when the billing country is in a jurisdiction that supports reverse-charge (most EU member states, the UK, and a handful of others). Entering a valid VAT ID flips the subscription into reverse-charge mode, which removes VAT from future invoices. It does not refund past VAT automatically. Past invoices need to be reissued by Anthropic support. The individual Pro plan does not expose the VAT ID field in most regions, so individual subscribers cannot self-serve reverse-charge at all.",
+    a: "For business customers, yes, on future invoices. Per Anthropic's help center, when you sign up for Pro or Max you may have the option to enter a Tax or VAT ID depending on your location, and you can add or update it later at Settings > Billing > Update (next to your payment method); Team and Console organizations have the same field. So this is not Team/Enterprise-only anymore; individual Pro and Max can self-serve where the region supports it. A valid VAT ID for a jurisdiction that supports reverse-charge on B2B digital services removes VAT from future invoices, but it does not refund past VAT. Anthropic is explicit that updates apply to future billing cycles only and previously completed invoices cannot be updated retroactively, so to recover VAT already charged you email support@anthropic.com with your VAT ID and the invoice numbers and ask for a credit or amended invoice. The field's availability still depends on your billing country, so not every region exposes it.",
   },
   {
     q: "What exact endpoint returns the country code, and do I need a special token?",
@@ -68,7 +68,7 @@ const faqs = [
   },
   {
     q: "Why does Anthropic sometimes get the country wrong?",
-    a: "Because payment_method.country comes from the card issuer, not from your address. If you are a UK resident paying with a US-issued corporate card (common for consultants billed through a foreign parent company), the field returns US and no VAT is applied. If you are a US resident paying with a UK-issued card because you moved, it returns GB and you get charged 20% VAT. This is standard Stripe Tax behavior, but it is invisible until you read the field. The fix is to update the payment method to one issued in the country you want treated as your tax residence.",
+    a: "Because the country on file is set from your billing address, and by default that address is captured from your card rather than re-confirmed per charge. If you are a UK resident paying with a US-issued corporate card (common for consultants billed through a foreign parent company), the field returns US and no VAT is applied. If you are a US resident paying with a UK-issued card because you moved, it returns GB and you get charged 20% VAT. This is standard Stripe Tax behavior, but it is invisible until you read the field. The fix is to correct what Anthropic has on file: update the billing address at Settings > Billing > Billing Addresses (it takes effect on future invoices), or switch to a payment method issued in the country you want treated as your tax residence. If you need a billing address that differs from your card, Anthropic asks you to contact support with documentation, a VAT registration certificate for non-US customers, verifying your location.",
   },
   {
     q: "Does the $20 Pro price include VAT or is VAT added on top?",
@@ -76,7 +76,7 @@ const faqs = [
   },
   {
     q: "How do I get a proper VAT invoice with my company name on it?",
-    a: "The automated monthly invoice from Stripe (emailed to the address on your Anthropic account) already contains the VAT line and Anthropic's VAT registration number for your region. To add a company name and a VAT ID (for reverse-charge on Team/Enterprise), go to Settings > Billing on claude.ai and add them there before the next charge cycle. Invoices issued before you added the company details will not be backdated; you have to email support@anthropic.com and ask for a reissue, which they will process manually. The per-month cadence of the charge is billing_interval on the same subscription_details response (field at models.rs line 54).",
+    a: "The automated monthly invoice from Stripe (emailed to the address on your Anthropic account) already contains the VAT line and the tax amount for your region. To add a company name and a VAT ID (for reverse-charge, available on Pro and Max depending on your location, and on Team and Console organizations), go to Settings > Billing on claude.ai and add them there before the next charge cycle. Invoices issued before you added the company details will not be backdated; you have to email support@anthropic.com and ask for a reissue, which they will process manually. The per-month cadence of the charge is billing_interval on the same subscription_details response (field at models.rs line 54).",
   },
   {
     q: "Does ClaudeMeter itself show my country code and tax currency?",
@@ -184,7 +184,7 @@ const reproSteps = [
 
 const matterChecklist = [
   {
-    text: "The one observable Anthropic uses to assign your VAT rate is subscription.payment_method.country, an ISO-3166 code populated from the card issuer, not from your account email or typed address.",
+    text: "Anthropic assigns your VAT rate from your billing address; the country it has on file is observable as subscription.payment_method.country, an ISO-3166 code captured from your card by default, not from your account email or IP.",
   },
   {
     text: "The Settings > Billing page does not render the VAT line. The Stripe PDF invoice does. The gap means UK and EU users routinely see a larger card charge than what the UI quoted.",
@@ -374,10 +374,12 @@ export default function ClaudeProVatBillingEuUkPage() {
           Anthropic lists Claude Pro at $20.00 a month and keeps the sticker
           price identical everywhere in the world. What changes between
           countries is the tax line Stripe adds on top at charge time. That
-          tax line is computed from one ISO-3166 country code Anthropic stores
-          on your subscription, and that code is populated from the issuing
-          country of your payment card, not from your IP address, your
-          account email, or any billing address you typed in a form.
+          tax line is computed from your billing address, which Anthropic
+          stores as a single ISO-3166 country code on your subscription. By
+          default that address is captured from the issuing country of your
+          payment card, so the card usually sets it, but the billing address
+          is the lever, and you can change it. What never enters in is your IP
+          address, your account email, or the country flag your browser shows.
         </p>
         <p className="text-zinc-700 leading-relaxed text-lg mt-4">
           Every other guide on this topic describes that rule in the abstract.
