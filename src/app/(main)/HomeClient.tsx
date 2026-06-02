@@ -314,7 +314,7 @@ export function HomeClient() {
               </div>
 
               <p className="cta-note reveal-up in d3">
-                No account, no card. We email the .dmg and brew install command.
+                Free, open source, MIT licensed. No account or card: we email the .dmg plus one brew command, and your menu bar lights up within a minute.
               </p>
 
               <div className="hero-trust reveal-up in d4">
