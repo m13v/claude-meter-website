@@ -166,7 +166,7 @@ export default function InstallPage() {
             </TrackedCta>
           </div>
           <p className="text-xs text-gray-400 mt-4 max-w-2xl">
-            Free. No payment, no credit card. One welcome email with the install link; you can unsubscribe from any future update with one click.
+            Free, MIT, no card. The email carries your tokenized .dmg link and a reply-to thread straight to me if the install fights you. Unsubscribe in one click; the only follow-up I ever send is a heads-up when Anthropic shifts the usage endpoint and you need a quick <code className="font-mono text-gray-300">brew upgrade</code>.
           </p>
         </div>
       </section>
@@ -353,8 +353,15 @@ export default function InstallPage() {
             </p>
           </div>
 
+          <div className="border-t border-rule pt-10">
+            <h2 className="font-heading text-2xl font-bold text-primary mb-2">
+              Four steps, about a minute, one email
+            </h2>
+            <p className="text-gray-700 max-w-2xl mb-6">
+              Drop your email and the brew command, .dmg link, and extension git URL land in your inbox. Run the brew line, load the extension, open claude.ai once, and the menu bar fills in with your 5-hour, weekly, and extra-usage gauges. No card, no cookie paste, nothing to cancel.
+            </p>
           <div className="flex flex-wrap gap-4 pt-2">
-            <InstallCta section="install-page-final" variant="dark" />
+            <InstallCta section="install-page-final" variant="dark" label="Email me the install link" />
             <TrackedCta
               href={GITHUB_URL}
               location="install_page"
@@ -370,6 +377,7 @@ export default function InstallPage() {
             >
               Full FAQ
             </Link>
+          </div>
           </div>
         </div>
       </section>
