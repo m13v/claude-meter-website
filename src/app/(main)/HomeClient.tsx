@@ -317,6 +317,11 @@ export function HomeClient() {
                 Free, open source, MIT licensed. No account or card: we email the .dmg plus one brew command, and your menu bar lights up within a minute.
               </p>
 
+              <p className="hero-vs reveal-up in d3">
+                <span className="dot" aria-hidden="true" />
+                Most menu-bar Claude trackers estimate from your local Claude Code logs. ClaudeMeter reads the same server quota <code>claude.ai/settings/usage</code> shows, so the number <strong>matches to the integer</strong>, not a guess that reads 5% while Claude rate-limits you.
+              </p>
+
               <div className="hero-trust reveal-up in d4">
                 <a
                   href={GITHUB_URL}
