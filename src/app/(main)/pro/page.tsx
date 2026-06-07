@@ -42,7 +42,7 @@ const features = [
   {
     idx: "02",
     label: "Suggests",
-    title: "Real-time, in-context savings suggestions",
+    title: "Savings suggestions the moment a leak shows up",
     body: "When the agent spots a fix, e.g. trim a 40k-token system prompt to 6k, swap a model class, cache a recurring file read, batch tool calls, it surfaces the suggestion right in the menu bar with the projected percentage saved on your 5-hour and weekly buckets.",
   },
   {
@@ -133,11 +133,11 @@ export default function ProPage() {
           </div>
 
           <h1 className="mt-6 max-w-3xl font-heading text-4xl font-bold leading-tight md:text-6xl">
-            A background agent that quietly cuts your Claude usage.
+            Stop hitting the Claude wall mid-refactor.
           </h1>
 
           <p className="mt-5 max-w-2xl text-lg text-white/70">
-            Claude Meter Pro is a proactive AI agent that runs alongside Claude Code and Claude.ai, watches what your sessions actually spend, finds the leaks, and patches them for you (with your permission) so you keep shipping after everyone else hits the wall.
+            Claude Meter Pro is a background agent that watches what your Claude Code and Claude.ai sessions actually burn, finds the leaks (40k-token preambles, Opus running where Sonnet wins, the same file re-read into 12 sub-agents) and patches them with your permission. Same plan, more shipped before you hit the 5-hour or weekly wall.
           </p>
 
           <p className="mt-4 max-w-2xl text-xl font-semibold text-teal-300">
@@ -147,6 +147,17 @@ export default function ProPage() {
           <div className="mt-10 max-w-xl">
             <WaitlistForm variant="light" section="pro-hero" />
           </div>
+
+          <p className="mt-5 max-w-2xl text-sm text-white/55">
+            From the people who build the free, open-source{" "}
+            <Link
+              href="/install"
+              className="text-teal-300 underline-offset-4 hover:underline"
+            >
+              Claude Meter menu bar app
+            </Link>
+            {" "}&mdash; the one that reads the server-truth 5-hour and weekly quota straight from claude.ai, not local-log estimates.
+          </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs uppercase tracking-wider text-white/50">
             <span className="inline-flex items-center gap-2">
@@ -177,7 +188,7 @@ export default function ProPage() {
               Watch. Suggest. Verify. Ship.
             </h2>
             <p className="mt-3 text-ink-2">
-              Pro is a four-step loop that runs in the background. You stay in flow, the agent does the cleanup.
+              Pro is a four-step loop that runs in the background. You keep shipping, the agent does the cleanup.
             </p>
           </div>
 
