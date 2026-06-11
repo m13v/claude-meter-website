@@ -262,12 +262,15 @@ export function HomeClient() {
                 <span>Free &amp; open source</span>
               </div>
 
-              <h1 className="stop-heading reveal-up in d1" aria-label={`Did you get? ${stopMessages[stopIdx]}`}>
+              <h1 className="stop-heading reveal-up in d1" aria-label={`Did you get ${stopMessages[stopIdx]}? Now you see the 5-hour, weekly, and extra-usage numbers before the next one hits.`}>
                 <span className="stop-prefix">Did you get?</span>
                 <span className="stop-rotator" aria-hidden="true">
                   {stopMessages.map((m, i) => (
                     <span key={m} className={`stop-word${i === stopIdx ? " on" : ""}`}>{m}</span>
                   ))}
+                </span>
+                <span className="stop-resolve" aria-hidden="true">
+                  Now you see the 5-hour, weekly, and extra-usage numbers before the next one hits.
                 </span>
               </h1>
 
