@@ -75,6 +75,23 @@ export default function InstallPage() {
           <p className="text-lg text-gray-300 max-w-2xl mb-6">
             One email, one welcome message, three working gauges in your menu bar about a minute later. The extension forwards your existing claude.ai session, so no cookie paste.
           </p>
+          <div className="flex flex-wrap gap-3 items-center">
+            <InstallCta section="install-page-hero" variant="light" label="Email me the install link" />
+            <TrackedCta
+              href={GITHUB_URL}
+              location="install_page_hero"
+              label="view_source_github"
+              external
+              className="inline-flex items-center rounded-md border border-white/15 px-6 py-3 font-heading text-sm font-semibold uppercase tracking-wider text-white hover:bg-white/5 transition-colors"
+            >
+              View source on GitHub
+            </TrackedCta>
+          </div>
+          <p className="text-xs text-gray-400 mt-4 mb-10 max-w-2xl">
+            Free, MIT, no card. The email carries your tokenized .dmg link and a reply-to thread straight to me if the install fights you. Unsubscribe in one click; the only follow-up I ever send is a heads-up when Anthropic shifts the usage endpoint and you need a quick <code className="font-mono text-gray-300">brew upgrade</code>.
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-gray-500 mb-3">What lands in your inbox</p>
           <div className="grid sm:grid-cols-2 gap-3 max-w-2xl mb-7 text-sm text-gray-300">
             <div className="flex items-start gap-2">
               <span className="mt-1 size-1.5 rounded-full bg-cta shrink-0" aria-hidden="true" />
@@ -152,22 +169,6 @@ export default function InstallPage() {
               </a>
             </cite>
           </blockquote>
-
-          <div className="flex flex-wrap gap-3 items-center">
-            <InstallCta section="install-page-hero" variant="light" label="Email me the install link" />
-            <TrackedCta
-              href={GITHUB_URL}
-              location="install_page_hero"
-              label="view_source_github"
-              external
-              className="inline-flex items-center rounded-md border border-white/15 px-6 py-3 font-heading text-sm font-semibold uppercase tracking-wider text-white hover:bg-white/5 transition-colors"
-            >
-              View source on GitHub
-            </TrackedCta>
-          </div>
-          <p className="text-xs text-gray-400 mt-4 max-w-2xl">
-            Free, MIT, no card. The email carries your tokenized .dmg link and a reply-to thread straight to me if the install fights you. Unsubscribe in one click; the only follow-up I ever send is a heads-up when Anthropic shifts the usage endpoint and you need a quick <code className="font-mono text-gray-300">brew upgrade</code>.
-          </p>
         </div>
       </section>
 
