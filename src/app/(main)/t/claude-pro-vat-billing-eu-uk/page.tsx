@@ -330,6 +330,65 @@ export default function ClaudeProVatBillingEuUkPage() {
         </p>
       </header>
 
+      <section className="max-w-4xl mx-auto px-6 mt-8">
+        <div className="rounded-2xl border border-teal-200 bg-teal-50/60 p-6 sm:p-8">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-teal-700 mb-4">
+            Quick answer
+          </h2>
+          <dl className="space-y-5">
+            <div>
+              <dt className="font-semibold text-zinc-900">
+                Does Claude Pro charge VAT in the UK and EU?
+              </dt>
+              <dd className="mt-1 text-zinc-700 leading-relaxed">
+                Yes. The $20.00/month is the pre-tax base and is identical
+                worldwide. In the UK and EU, VAT is added on top at your
+                country&rsquo;s standard rate, so the amount that hits your card
+                is higher than the $20 you see in Settings.
+              </dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-zinc-900">
+                How much extra is it?
+              </dt>
+              <dd className="mt-1 text-zinc-700 leading-relaxed">
+                UK (20%) bills $24.00. Germany (19%) bills $23.80. France (20%)
+                bills $24.00. Netherlands (21%) bills $24.20. Hungary, the
+                highest EU rate at 27%, bills $25.40. A US card pays $20.00 flat.
+                The full per-country table is below.
+              </dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-zinc-900">
+                Can I avoid the VAT?
+              </dt>
+              <dd className="mt-1 text-zinc-700 leading-relaxed">
+                Business customers can. Add a valid Tax or VAT ID at
+                Settings &gt; Billing on claude.ai (available on Pro, Max, Team,
+                and Console where your region supports it). A valid ID for a
+                reverse-charge jurisdiction drops VAT to 0% on future invoices.
+                It does not refund VAT already charged.
+              </dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-zinc-900">
+                Why is the charge bigger than the price shown?
+              </dt>
+              <dd className="mt-1 text-zinc-700 leading-relaxed">
+                Anthropic computes the rate from your billing address, stored as
+                an ISO-3166 country code on{" "}
+                <code className="bg-white px-1.5 py-0.5 rounded text-sm font-mono border border-zinc-200">
+                  payment_method.country
+                </code>
+                . The Settings page never shows the tax line; only the Stripe
+                PDF invoice does. Below is exactly where that field lives and how
+                to read yours in 30 seconds.
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
       <div className="pt-2">
         <ArticleMeta
           author="Matthew Diakonov"
