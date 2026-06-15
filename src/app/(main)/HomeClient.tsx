@@ -275,7 +275,7 @@ export function HomeClient() {
               </h1>
 
               <p className="lede reveal-up in d2">
-                See exactly how much of your Claude Pro/Max plan is left before you blow past it: the rolling 5-hour, weekly, and pay-as-you-go numbers, sitting next to your clock. Same numbers claude.ai/settings/usage shows, to the integer. One brew command; the browser extension forwards your existing claude.ai session, so no DevTools and no cookie paste.
+                Your Claude Pro/Max plan usage, live next to the clock: the rolling 5-hour window, the weekly quota, and the pay-as-you-go balance. Watch the bar tick down instead of slamming into &ldquo;message limit reached&rdquo; mid-prompt.
               </p>
 
               <div
