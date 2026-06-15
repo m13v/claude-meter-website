@@ -30,6 +30,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/t/clawedmeter",
+        destination: "/t/clawdmeter",
+        permanent: true,
+      },
+      {
         source: "/t/claude-code-5h-window-server-truth",
         destination: "/t/claude-code-rolling-5-hour-wall",
         permanent: true,
