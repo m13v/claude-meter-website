@@ -19,6 +19,7 @@ import {
 
 const PAGE_URL = "https://claude-meter.com/t/clawdmeter";
 const PUBLISHED = "2026-05-13";
+const MODIFIED = "2026-06-15";
 
 export const metadata: Metadata = {
   title:
@@ -45,7 +46,7 @@ const breadcrumbs = [
 const faqs = [
   {
     q: "Is 'clawdmeter' the real product name?",
-    a: "No. The product is ClaudeMeter, written as one word with a capital C and a capital M, and spelled like the model name 'Claude'. The 'clawd' spelling is what people type when they sound the name out and skip the silent letters; it shows up in real Google Search Console impressions for claude-meter.com. The repo on GitHub is m13v/claude-meter; the brew cask is m13v/tap/claude-meter; the website is claude-meter.com. If a result, a tweet, or a README spells it 'clawdmeter', 'clauwdmeter', 'cloudmeter', or 'clauwmeter', it is almost certainly pointing at the same project.",
+    a: "No. The product is ClaudeMeter, written as one word with a capital C and a capital M, and spelled like the model name 'Claude'. The 'clawd' spelling is what people type when they sound the name out and skip the silent letters; it shows up in real Google Search Console impressions for claude-meter.com. The repo on GitHub is m13v/claude-meter; the brew cask is m13v/tap/claude-meter; the website is claude-meter.com. If a result, a tweet, or a README spells it 'clawdmeter', 'clawedmeter', 'clauwdmeter', 'cloudmeter', or 'clauwmeter', it is almost certainly pointing at the same project.",
   },
   {
     q: "What does ClaudeMeter actually do?",
@@ -61,7 +62,7 @@ const faqs = [
   },
   {
     q: "Is this the same project as 'claude meter' (with a space), 'claude-meter' (with a hyphen), and 'claudemeter' (one word)?",
-    a: "Yes. All four are the same project. The GitHub repo is m13v/claude-meter, the npm-like brew cask name is claude-meter, the website is claude-meter.com, and the in-product display name with no space and capital letters is ClaudeMeter. The hyphen exists because Cargo, Homebrew, and DNS prefer lowercase-with-hyphens; the camel-case 'ClaudeMeter' exists because that is how the macOS .app bundle is labeled in the Dock. The misspellings ('clawdmeter', 'cloudmeter', 'clauwdmeter') are not separate forks.",
+    a: "Yes. All four are the same project. The GitHub repo is m13v/claude-meter, the npm-like brew cask name is claude-meter, the website is claude-meter.com, and the in-product display name with no space and capital letters is ClaudeMeter. The hyphen exists because Cargo, Homebrew, and DNS prefer lowercase-with-hyphens; the camel-case 'ClaudeMeter' exists because that is how the macOS .app bundle is labeled in the Dock. The misspellings ('clawdmeter', 'clawedmeter', 'cloudmeter', 'clauwdmeter') are not separate forks.",
   },
   {
     q: "How can I verify on the install that I got the real ClaudeMeter and not a typosquat?",
@@ -178,8 +179,8 @@ const spellingRows = [
     competitor: "Same product",
   },
   {
-    feature: "clawdmeter, cloudmeter, clauwdmeter",
-    ours: "Phonetic misspellings. Real impressions in Search Console. Same product, just misspelled.",
+    feature: "clawdmeter, clawedmeter, cloudmeter, clauwdmeter",
+    ours: "Phonetic misspellings (Claude sounds like 'clawd'). Real impressions in Search Console, including the 'clawedmeter' spelling with the extra e. Same product, just misspelled.",
     competitor: "Same product, misspelled",
   },
   {
@@ -220,6 +221,7 @@ const articleJsonLd = articleSchema({
     "'Clawdmeter' is a misspelling of ClaudeMeter, a free open-source macOS menu bar app and browser extension that shows live Claude Pro and Max plan usage. One brew command installs it. The repo is at github.com/m13v/claude-meter.",
   url: PAGE_URL,
   datePublished: PUBLISHED,
+  dateModified: MODIFIED,
   author: "Matthew Diakonov",
   authorUrl: "https://m13v.com",
   publisherName: "ClaudeMeter",
@@ -272,6 +274,7 @@ export default function ClawdmeterPage() {
           author="Matthew Diakonov"
           authorRole="Written with AI"
           datePublished={PUBLISHED}
+          dateModified={MODIFIED}
           readingTime="6 min read"
         />
       </div>
