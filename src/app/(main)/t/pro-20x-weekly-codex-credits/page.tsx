@@ -134,25 +134,25 @@ const usageJson = `// GET https://api.anthropic.com/api/oauth/usage
 
 const relatedPosts = [
   {
-    title: "Claude weekly quota vs the 5-hour window",
-    href: "https://claude-meter.com/t/weekly-quota-vs-5-hour-claude-limit",
+    title: "Claude weekly limit and metered extra usage",
+    href: "https://claude-meter.com/t/claude-weekly-limit-extra-usage",
     excerpt:
-      "Two separate streams cap you. Which one is actually stopping your work, and how to tell them apart.",
-    tag: "Limits",
-  },
-  {
-    title: "Claude plan quota vs metered extra usage",
-    href: "https://claude-meter.com/t/claude-plan-quota-vs-metered-credits",
-    excerpt:
-      "When your usage rolls from the included plan window into pay-as-you-go dollars, and how to see the handoff.",
+      "When your usage rolls from the included weekly window into pay-as-you-go dollars, and how to see the handoff.",
     tag: "Billing",
   },
   {
-    title: "Why your local token count is not the server quota",
-    href: "https://claude-meter.com/t/claude-pro-rate-limit-local-counter-vs-server-quota",
+    title: "Claude weekly quota, read from server truth",
+    href: "https://claude-meter.com/t/claude-weekly-quota-server-truth-meter",
     excerpt:
-      "ccusage sums local JSONL tokens. Anthropic enforces server utilization. The gap is why you get rate-limited at 5%.",
+      "ccusage sums local JSONL tokens. Anthropic enforces server utilization. The gap is why you get capped at 5%.",
     tag: "ccusage",
+  },
+  {
+    title: "Claude Max weekly limit tracker",
+    href: "https://claude-meter.com/t/claude-max-weekly-limit-tracker",
+    excerpt:
+      "Watch the Max weekly bar tick instead of guessing where the wall is on a $200 plan.",
+    tag: "Max 20x",
   },
 ];
 
